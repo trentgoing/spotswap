@@ -4,15 +4,13 @@ const schema = require('./schema/schema');
 
 const app = express();
 
-// app.use('/graphql', graphqlHTTP({
-//   schema,
-//   graphiql: true
-// }));
-
-app.get('/', (req, res) => res.send('Hello World!'));
+app.use('/graphql', graphqlHTTP({
+  schema,
+  graphiql: true
+}));
 
 var port = process.env.PORT;
 
-app.listen(port, function() {
+app.listen(port, () => {
   console.log(`spot server listening on port ${port}!`);
 });
