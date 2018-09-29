@@ -12,4 +12,7 @@ const User = mainDB.define('user', {
   password: Sequelize.STRING
 });
 
+mainDB.sync();
+
+
 module.exports = User;

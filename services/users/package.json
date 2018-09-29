@@ -25,6 +25,9 @@
     "graphql": "^14.0.2",
     "lodash": "^4.17.11",
     "nodemon": "^1.18.4",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "pg-promise": "^8.4.6",
     "sequelize": "^4.39.0"
   },
   "devDependencies": {
@@ -72,6 +75,10 @@
       "semi": [
         "error",
         "always"
+      ],
+      "no-console": [
+        "error",
+         { "allow": ["warn", "log"] }
       ]
     }
   }
