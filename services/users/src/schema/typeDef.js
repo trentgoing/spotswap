@@ -10,7 +10,8 @@ const {
   GraphQLScalarType,
   GraphQLString, 
   GraphQLID,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLEnumType
 } = graphql;
 
 const UserType = new GraphQLObjectType({
@@ -20,7 +21,7 @@ const UserType = new GraphQLObjectType({
     default_car: {
       type: CarType,
       resolve(parent, args) {
-        return Car.find({ _id: parent.default_car_id });
+        return Car.find({ id: parent.default_car_id });
       }
     },
     user_name: {type:GraphQLString},
@@ -29,14 +30,30 @@ const UserType = new GraphQLObjectType({
     last_name: {type:GraphQLString},
     email: {type:GraphQLString},
     phone_number: {type:GraphQLString},
-    password: {type:GraphQLString}
+    password: {type:GraphQLString},
+    locations: { // findAll is not working
+      type: LocationType,
+      resolve(parent, args) {
+        return Location.findAll({where: {user_id: parent.id}});
+      }
+    }
   })
 });
+
+// var SizeType = new GraphQLEnumType({
+//   name: 'Size',
+//   values: {
+//     small: { value: 1 },
+//     medium: { value: 2},
+//     large: { value: 3 }
+//   }
+// });
 
 const CarType = new GraphQLObjectType({
   name: 'Car',
   fields: () => ({
     id: {type:GraphQLID},
+    user_id: {type:GraphQLID},
     size: {type:GraphQLInt},
     make: {type:GraphQLString},
     model: {type:GraphQLString},
@@ -64,7 +81,13 @@ const LocationType = new GraphQLObjectType({
     state: {type:GraphQLString},
     zip: {type:GraphQLInt},
     lat: {type:GraphQLString},
-    lng: {type:GraphQLString}
+    lng: {type:GraphQLString},
+    user: {
+      type: UserType,
+      resolve(parent, args) {
+        return UserModel.find({ id: parent.user_id });
+      }
+    }
   })
 });
 
@@ -86,7 +109,7 @@ const ListingType = new GraphQLObjectType({
     spot_id: {type:GraphQLID},
     type: {type:GraphQLString},
     status: {type:GraphQLInt},
-    time_complete: Date
+    // time_complete: Date
   })
 });
 
@@ -106,7 +129,7 @@ const resolverMap = {
       }
       return null;
     },
-  }),
+  })
 };
 
 module.exports = {

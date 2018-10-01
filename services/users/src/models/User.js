@@ -14,5 +14,4 @@ const User = mainDB.define('user', {
 
 mainDB.sync();
 
-
 module.exports = User;
