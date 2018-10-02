@@ -126,7 +126,8 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(LocationType),
       args: {user_id: {type: GraphQLID}},
       resolve(parent, args) {
-        return Location.findAll({});
+        console.log(args.user_id);
+        return Location.findAll({where: {user_id: args.user_id}});
       }
     },
     user: {
