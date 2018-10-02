@@ -9,10 +9,11 @@ class Car extends Component {
   }
 
   render() {
+    console.log('hiiii', this.props.car.id);
     return (
       <div>
         <p>
-          <b>{this.props.car.make}</b><button onClick={() => {this.props.deleteCar()}}>-</button><br/>
+          <b>{this.props.car.make}</b><button onClick={() => {this.props.deleteCar(this.props.car.id)}}>-</button><br/>
           {this.props.car.model + ', ' + this.props.car.color}
         </p>
       </div>
