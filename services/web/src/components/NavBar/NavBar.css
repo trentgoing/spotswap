@@ -1,0 +1,13 @@
+nav.navbar {
+  position: fixed;
+  width: 80vw;
+  top: 15px;
+}
+
+a.navbar-signin {
+  color: white;
+}
+
+.form-control {
+  width: 80%;
+}

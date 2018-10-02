@@ -5,7 +5,8 @@ class Spot extends Component {
   render() {
     return (
       <div>
-        Spot
+        {this.props.spot.street1}
+        {this.props.spot.type === "spotted" ? ": Spotted" : ": Reserved"}
       </div>
     );
   }
