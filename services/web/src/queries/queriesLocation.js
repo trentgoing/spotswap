@@ -22,19 +22,12 @@ const getLocationsQuery = gql`
 //   }
 // `;
 
-const getCarsQuery = gql`
-  {
-    cars {
-      name
-    }
-  }
-`;
 
 const addLocationMutation = gql`
   mutation(
       $name: String!,
       $street1: String!,
-      $street2: String,
+      $street2: String!,
       $city: String!,
       $state: String!,
       $zip: Int!,
@@ -55,4 +48,4 @@ const addLocationMutation = gql`
   }
 `;
 
-export {getLocationsQuery, getCarsQuery, addLocationMutation};
+export { getLocationsQuery, addLocationMutation };

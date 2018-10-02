@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './LocationList.css';
 import { graphql } from 'react-apollo';
 
-import { getLocationsQuery } from '../../queries/queries';
+import { getLocationsQuery } from '../../queries/queriesLocation';
 import Location from '../Location/Location.js'
 import AddLocation from '../AddLocation/AddLocation';
 
