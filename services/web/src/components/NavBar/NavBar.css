@@ -11,3 +11,8 @@ a.navbar-signin {
 .form-control {
   width: 80%;
 }
+
+.navbar-collapse {
+  position: absolute;
+  right: 20vw;
+}

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './NavBar.css';
 
-import AddLocation from '../AddLocation/AddLocation';
-
 
 
 class NavBar extends Component {
@@ -14,17 +12,19 @@ class NavBar extends Component {
 
 
   render() {
-    console.log(this.props);
     return (
       <div className="container">
         <nav className="navbar navbar-dark bg-dark navbar-expand-xl ">
           <a className="navbar-brand">
             <img src="/favicon-256.png" width="30" height="30" alt="" />
           </a>
-          
-          <span class="navbar-text">
+          <span className="navbar-text">
             Sign In
           </span>
+          <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>

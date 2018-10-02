@@ -13,7 +13,7 @@ class Location extends Component {
     return (
       <div>
         <p>
-          <b>{this.props.location.name}</b><button onClick={() => {this.props.deleteLocation()}}>-</button><br/>
+          <b>{this.props.location.name}</b><button onClick={() => {this.props.deleteLocation(this.props.location.id)}}>-</button><br/>
           {this.props.location.street1 + ', ' + this.props.location.city}
         </p>
       </div>
