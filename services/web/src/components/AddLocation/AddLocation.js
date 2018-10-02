@@ -30,7 +30,7 @@ class AddLocation extends Component {
 
   submitForm(event) {
     event.preventDefault();
-    console.log(this.props);
+    console.log('props in addLocation', this.props);
     this.props.addLocationMutation({
       variables: {
         name: this.state.name,
