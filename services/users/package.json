@@ -8,7 +8,7 @@
     "lint": "eslint src",
     "test": "jest",
     "watch-tests": "jest --watchAll",
-    "dev": "nodemon --watch ./src --ignore ./src/__tests__ -x \"npm start\"",
+    "dev": "nodemon --inspect --watch ./src --ignore ./src/__tests__ -x \"npm start\"",
     "coverage": "jest --coverage"
   },
   "author": "",
@@ -22,9 +22,12 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
+    "express-session": "^1.15.6",
     "graphql": "^14.0.2",
     "lodash": "^4.17.11",
     "nodemon": "^1.18.4",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "pg-promise": "^8.4.6",
@@ -78,7 +81,12 @@
       ],
       "no-console": [
         "error",
-         { "allow": ["warn", "log"] }
+        {
+          "allow": [
+            "warn",
+            "log"
+          ]
+        }
       ]
     }
   }
