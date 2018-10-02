@@ -3,6 +3,7 @@ const UserModel = require('../models/User');
 const Listings = require('../models/Listings');
 const Location = require('../models/Locations');
 const Car = require('../models/Car');
+const Spot = require('../models/Spot');
 const Kind = require('graphql/language');
 
 const { 
@@ -20,7 +21,8 @@ const {
   UserType,
   CarType,
   LocationType,
-  ListingType
+  ListingType,
+  SpotType
 } = require('./typeDef.js');
 
 
@@ -70,7 +72,7 @@ const RootQuery = new GraphQLObjectType({
       type: CarType,
       args: {id: {type: GraphQLID}},
       resolve(parent, args) {
-        return Car.find({where: {id: args.id}})
+        return Car.find({where: {id: args.id}});
       }
     },
     cars: {
@@ -78,6 +80,23 @@ const RootQuery = new GraphQLObjectType({
       args: {user_id: {type: GraphQLID}},
       resolve(parent, args) {
         return Car.findAll({where: {user_id: args.user_id}});
+      }
+    },
+    spot: {
+      type: SpotType,
+      args: {id: {type: GraphQLID}},
+      resolve(parent, args) {
+        return Spot.find({where: {id: args.id}});
+      }
+    },
+    spots: {
+      type: new GraphQLList(SpotType),
+      args: {
+        lat: {type:GraphQLString},
+        lng: {type:GraphQLString}
+      },
+      resolve(parent, args) {
+        return Spot.findAll({});
       }
     },
     listing: {

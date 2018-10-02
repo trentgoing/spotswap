@@ -40,7 +40,7 @@ class AddLocation extends Component {
         city: this.state.city,
         state: this.state.state,
         zip: parseInt(this.state.zip, 10),
-        user_id: "1"
+        user_id: this.props.user_id
       },
       refetchQueries: [{query: getLocationsQuery, variables: {user_id: this.props.user_id}}]
     })
