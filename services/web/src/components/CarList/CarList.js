@@ -55,7 +55,7 @@ class CarList extends Component {
     this.props.deleteCarMutation({
       variables: {
         user_id: this.props.user_id,
-        id: 1
+        id: carId
       },
       refetchQueries: [{query: getCarsQuery, variables: {user_id: this.props.user_id}}]
     })

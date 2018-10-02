@@ -9,7 +9,6 @@ class Car extends Component {
   }
 
   render() {
-    console.log('hiiii', this.props.car.id);
     return (
       <div>
         <p>

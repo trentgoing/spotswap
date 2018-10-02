@@ -54,7 +54,7 @@ class LocationList extends Component {
     this.props.deleteLocationMutation({
       variables: {
         user_id: this.props.user_id,
-        id: parseInt(locationId, 10)
+        id: locationId
       },
       refetchQueries: [{query: getLocationsQuery, variables: {user_id: this.props.user_id}}]
     })

@@ -15,48 +15,5 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "eslint": "^5.6.1",
-    "eslint-watch": "^4.0.2"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 8,
-      "sourceType": "module"
-    },
-    "env": {
-      "node": true,
-      "es6": true,
-      "jest": true
-    },
-    "extends": "eslint:recommended",
-    "rules": {
-      "indent": [
-        "error",
-        2
-      ],
-      "linebreak-style": [
-        "error",
-        "unix"
-      ],
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "semi": [
-        "error",
-        "always"
-      ],
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "log"
-          ]
-        }
-      ]
-    }
   }
 }
