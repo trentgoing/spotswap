@@ -42,7 +42,7 @@ class AddSpot extends Component {
 
   submitForm(event) {
     event.preventDefault();
-    console.log(this.props);
+    console.log('props in addSpot', this.props);
     this.props.addSpotMutation({
       variables: {
         user_id: this.props.user_id,
