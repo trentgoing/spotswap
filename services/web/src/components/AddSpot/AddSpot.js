@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { graphql, compose } from 'react-apollo';
 
-import { addSpotMutation, getSpotsQuery } from '../../queries/queries';
+import { addSpotMutation, getSpotsQuery } from '../../queries/queriesSpot';
 
 // THIS IS THE FORM TO ADD A SPOT
 class AddSpot extends Component {

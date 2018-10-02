@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import './AddLocation.css';
-
 import { graphql, compose } from 'react-apollo';
+import './AddLocation.css';
+import { addLocationMutation, getLocationsQuery } from '../../queries/queriesLocation';
 
-import { addLocationMutation, getLocationsQuery } from '../../queries/queries';
 
 class AddLocation extends Component {
   constructor(props) {

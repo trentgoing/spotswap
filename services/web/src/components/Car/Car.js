@@ -1,0 +1,25 @@
+import React, { Component } from 'react';
+import './Car.css';
+
+class Car extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      
+    }
+  }
+
+
+  render() {
+    return (
+      <div>
+        <p>
+          <b>{this.props.car.make}</b><br/>
+          {this.props.car.size + ', ' + this.props.car.model + ', ' + this.props.car.color}
+        </p>
+      </div>
+    );
+  }
+}
+
+export default Car;

@@ -3,6 +3,7 @@ import './App.css';
 import Login from '../Login/Login.js';
 import AddSpot from '../AddSpot/AddSpot.js';
 import LocationList from '../LocationList/LocationList.js';
+import CarList from '../CarList/CarList.js';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
 
@@ -28,6 +29,7 @@ class App extends Component {
           <Login />
           <AddSpot user_id={this.state.user_id}/>
           <LocationList user_id={this.state.user_id}/>
+          <CarList user_id={this.state.user_id}/>
         </div>
       </ApolloProvider>
     );
