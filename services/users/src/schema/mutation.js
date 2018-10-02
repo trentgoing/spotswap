@@ -49,74 +49,186 @@ const Mutation = new GraphQLObjectType({
           password: args.password
         })
           .catch((err) => {
-            console.log(err);
+            console.log('Error caught on addUser in mutation.js', err);
+          });
+      }
+    },
+    editUser: {
+      type: UserType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        user_name: {type: GraphQLString},
+        first_name: {type: GraphQLString},
+        last_name: {type: GraphQLString},
+        email: {type: GraphQLString},
+        phone_number: {type: GraphQLString},
+        password: {type: GraphQLString}
+      },
+      resolve(parent, args) {
+        return UserModel.update({
+          user_name: args.user_name,
+          first_name: args.first_name,
+          last_name: args.last_name,
+          email: args.email,
+          phone_number: args.phone_number,
+          password: args.password
+        }, {
+          where: {id: args.id}
+        })
+          .then(() => {
+            return UserModel.find({where: {id: args.id}});
+          })
+          .catch((err) => {
+            console.log('Error caught on editUser in mutation.js', err);
           });
       }
     },
     addLocation: {
       type: LocationType,
       args: {
+        user_id: {type: new GraphQLNonNull(GraphQLID)},
         name: {type: new GraphQLNonNull(GraphQLString)},
         street1: {type: new GraphQLNonNull(GraphQLString)},
         street2: {type: GraphQLString},
         city: {type: new GraphQLNonNull(GraphQLString)},
         state: {type: new GraphQLNonNull(GraphQLString)},
-        zip: {type: new GraphQLNonNull(GraphQLInt)},
-        user_id: {type: new GraphQLNonNull(GraphQLID)}
+        zip: {type: new GraphQLNonNull(GraphQLInt)}
       },
       resolve(parent, args) {
         return Location.create({
+          user_id: args.user_id,
           name: args.name,
           street1: args.street1,
           street2: args.street2,
           city: args.city,
           state: args.state,
-          zip: args.zip,
-          user_id: args.user_id
+          zip: args.zip
         })
           .catch((err) => {
-            console.log(err);
+            console.log('Error caught on addLocation in mutation.js', err);
+          });
+      }
+    },
+    editLocation: {
+      type: LocationType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        name: {type: GraphQLString},
+        street1: {type: GraphQLString},
+        street2: {type: GraphQLString},
+        city: {type: GraphQLString},
+        state: {type: GraphQLString},
+        zip: {type: GraphQLInt}
+      },
+      resolve(parent, args) {
+        return Location.update({
+          name: args.name,
+          street1: args.street1,
+          street2: args.street2,
+          city: args.city,
+          state: args.state,
+          zip: args.zip
+        }, {
+          where: {id: args.id}
+        })
+          .then(() => {
+            return Location.find({where: {id: args.id}});
+          })
+          .catch((err) => {
+            console.log('Error caught on editLocation in mutation.js', err);
+          });
+      }
+    },
+    deleteLocation:{
+      type: LocationType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLInt)},
+        user_id: {type: new GraphQLNonNull(GraphQLInt)}
+      },
+      resolve(parent, args){
+        return Location.destroy({where: {id: args.id}})
+          .then(() => {
+            return Location.findAll({where: {user_id: args.user_id}});
+          })
+          .catch((err) => {
+            console.log('Error caught on deleteLocation in mutation.js', err);
+          });
+      }
+    },
+    addCar: {
+      type: CarType,
+      args: {
+        size: {type: new GraphQLNonNull(GraphQLInt)},
+        make: {type: new GraphQLNonNull(GraphQLString)},
+        model: {type: GraphQLString},
+        color: {type: new GraphQLNonNull(GraphQLString)},
+        plate: {type: GraphQLString},
+        state: {type: GraphQLString},
+        user_id: {type: new GraphQLNonNull(GraphQLID)} 
+      },
+      resolve(parent, args) {
+        return Car.create({
+          size: args.size,
+          make: args.make,
+          model: args.model,
+          color: args.color,
+          plate: args.plate,
+          state: args.state,
+          user_id: args.user_id 
+        })
+          .catch((err) => {
+            console.log('Error caught on addCar in mutation.js', err);
+          });
+      }
+    },
+    editCar: {
+      type: CarType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        size: {type: GraphQLInt},
+        make: {type: GraphQLString},
+        model: {type: GraphQLString},
+        color: {type: GraphQLString},
+        plate: {type: GraphQLString},
+        state: {type: GraphQLString},
+        user_id: {type: GraphQLID} 
+      },
+      resolve(parent, args) {
+        return Car.update({
+          size: args.size,
+          make: args.make,
+          model: args.model,
+          color: args.model,
+          plate: args.plate,
+          state: args.state,
+        }, {
+          where: {id: args.id}
+        })
+          .then(() => {
+            return Car.find({where: {id: args.id}});
+          })
+          .catch((err) => {
+            console.log('Error caught on editCar in mutation.js', err);
+          });
+      }
+    },
+    deleteCar: {
+      type: CarType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        user_id: {type: new GraphQLNonNull(GraphQLID)}
+      },
+      resolve(parent, args) {
+        return Car.destroy({where: {id: args.id}})
+          .then(() => {
+            return Car.findAll({where: {user_id: args.user_id}});
+          })
+          .catch((err) => {
+            console.log('Error caught on deleteCar in mutation.js', err);
           });
       }
     }
-    // addListing: {
-    //   type: ListingType,
-    //   args: {
-    //     listing_user: {type: new GraphQLNonNull(GraphQLID)},
-    //     claiming_user: {type: new GraphQLNonNull(GraphQLID)},
-    //     spot_id: {type: new GraphQLNonNull(GraphQLID)},
-    //     type: {type: new GraphQLNonNull(GraphQLString)},
-    //     status: {type: new GraphQLNonNull(GraphQLInt)},
-    //     time_complete: Date
-    //   },
-    //   resolve(parent, args) {
-    //     return Listings.create({
-    //       listing_user: args.listing_user,
-    //       claiming_user: args.claiming_user,
-    //       spot_id: args.spot_id,
-    //       type: args.type,
-    //       status: args.status,
-    //       time_complete: Date.now()
-    //     });
-    //   }
-    // }
-
-    // addBook: {
-    //   type: BookType,
-    //   args: {
-    //     name: {type: GraphQLString},
-    //     genre: {type: GraphQLString},
-    //     authorId: {type: GraphQLID}
-    //   },
-    //   resolve(parent, args) {
-    //     let book = new Book({
-    //       name: args.name,
-    //       genre: args.genre,
-    //       authorId: args.authorId
-    //     });
-    //     return Book.save();
-    //   }
-    // }
+    //add listing, edit listing
   }
 });
 
