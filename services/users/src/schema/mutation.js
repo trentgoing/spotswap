@@ -3,6 +3,7 @@ const UserModel = require('../models/User');
 const Listings = require('../models/Listings');
 const Location = require('../models/Locations');
 const Car = require('../models/Car');
+const Spot = require('../models/Spot');
 const Kind = require('graphql/language');
 
 const { 
@@ -20,7 +21,9 @@ const {
   UserType,
   CarType,
   LocationType,
-  ListingType
+  ListingType,
+  SpotType,
+  resolverMap
 } = require('./typeDef.js');
 
 
@@ -227,8 +230,102 @@ const Mutation = new GraphQLObjectType({
             console.log('Error caught on deleteCar in mutation.js', err);
           });
       }
-    }
+    },
     //add listing, edit listing
+
+
+    addSpot: {
+      type: SpotType,
+      args: {
+        user_id: {type: new GraphQLNonNull(GraphQLID)},
+        lat: {type:GraphQLString},
+        lng: {type:GraphQLString},
+        street1: {type:GraphQLString},
+        street2: {type:GraphQLString},
+        city: {type:GraphQLString},
+        state: {type:GraphQLString},
+        zip: {type:GraphQLInt},
+        type: {type: new GraphQLNonNull(GraphQLString)},
+        start_time: {type: new GraphQLNonNull(resolverMap.Date)},
+        end_time: {type:resolverMap.Date}
+      },
+      resolve(parent, args) {
+        return Spot.create({
+          user_id: args.user_id,
+          lat: args.lat,
+          lng: args.lng,
+          street1: args.street1,
+          street2: args.street2,
+          city: args.city,
+          state: args.state,
+          zip: args.zip,
+          is_available: true,
+          type: args.type,
+          start_time: args.start_time,
+          end_time: args.end_time
+        })
+          .catch((err) => {
+            console.log('Error caught on addSpot in mutation.js', err);
+          });
+      }
+    },
+    editSpot: {
+      type: SpotType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        user_id: {type: GraphQLID},
+        lat: {type:GraphQLString},
+        lng: {type:GraphQLString},
+        street1: {type:GraphQLString},
+        street2: {type:GraphQLString},
+        city: {type:GraphQLString},
+        state: {type:GraphQLString},
+        zip: {type:GraphQLInt},
+        type: {type: GraphQLString},
+        start_time: {type: GraphQLString},
+        end_time: {type:GraphQLString}
+      },
+      resolve(parent, args) {
+        return Spot.update({
+          user_id: args.user_id,
+          lat: args.lat,
+          lng: args.lng,
+          street1: args.street1,
+          street2: args.street2,
+          city: args.city,
+          state: args.state,
+          zip: args.zip,
+          is_available: true,
+          type: args.type,
+          start_time: args.start_time,
+          end_time: args.end_time
+        }, {
+          where: {id: args.id}
+        })
+          .then(() => {
+            return Spot.find({where: {id: args.id}});
+          })
+          .catch((err) => {
+            console.log('Error caught on editSpot in mutation.js', err);
+          });
+      }
+    },
+    deleteSpot: {
+      type: SpotType,
+      args: {
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        user_id: {type: new GraphQLNonNull(GraphQLID)}
+      },
+      resolve(parent, args) {
+        return Spot.destroy({where: {id: args.id}})
+          .then(() => {
+            return Spot.findAll({where: {user_id: args.user_id}});
+          })
+          .catch((err) => {
+            console.log('Error caught on deleteSpot in mutation.js', err);
+          });
+      }
+    }
   }
 });
 

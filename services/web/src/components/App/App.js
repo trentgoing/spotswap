@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Login from '../Login/Login.js';
+import AddSpot from '../AddSpot/AddSpot.js';
 import LocationList from '../LocationList/LocationList.js';
 import CarList from '../CarList/CarList.js';
 import ApolloClient from 'apollo-boost';
@@ -16,7 +17,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user_id: "1"
+      user_id: "1",
+      
     }
   }
 
@@ -25,6 +27,7 @@ class App extends Component {
       <ApolloProvider client={client} >
         <div className="App">
           <Login />
+          <AddSpot user_id={this.state.user_id}/>
           <LocationList user_id={this.state.user_id}/>
           <CarList user_id={this.state.user_id}/>
         </div>
