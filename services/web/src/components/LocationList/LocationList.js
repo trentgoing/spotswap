@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import './LocationList.css';
 import { getLocationsQuery, deleteLocationMutation } from '../../queries/queriesLocation';
 import Location from '../Location/Location.js'
@@ -50,11 +50,11 @@ class LocationList extends Component {
     }
   }
 
-  deleteLocation() {
+  deleteLocation(locationId) {
     this.props.deleteLocationMutation({
       variables: {
         user_id: this.props.user_id,
-        id: this.props.location.id
+        id: parseInt(locationId, 10)
       },
       refetchQueries: [{query: getLocationsQuery, variables: {user_id: this.props.user_id}}]
     })

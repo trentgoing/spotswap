@@ -313,13 +313,12 @@ const Mutation = new GraphQLObjectType({
     deleteSpot: {
       type: SpotType,
       args: {
-        id: {type: new GraphQLNonNull(GraphQLID)},
-        user_id: {type: new GraphQLNonNull(GraphQLID)}
+        id: {type: new GraphQLNonNull(GraphQLID)}
       },
       resolve(parent, args) {
         return Spot.destroy({where: {id: args.id}})
           .then(() => {
-            return Spot.findAll({where: {user_id: args.user_id}});
+            console.log('Success');
           })
           .catch((err) => {
             console.log('Error caught on deleteSpot in mutation.js', err);

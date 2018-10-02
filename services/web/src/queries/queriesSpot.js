@@ -4,6 +4,10 @@ const getSpotsQuery = gql`
   {
     spots {
       id
+      street1
+      city
+      type
+      is_available
     }
   }
 `;
