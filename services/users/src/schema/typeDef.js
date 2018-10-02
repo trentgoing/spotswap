@@ -3,6 +3,7 @@ const UserModel = require('../models/User');
 const Listings = require('../models/Listings');
 const Location = require('../models/Locations');
 const Car = require('../models/Car');
+const Spot = require('../models/Spot');
 const Kind = require('graphql/language');
 
 const { 
@@ -11,6 +12,7 @@ const {
   GraphQLString, 
   GraphQLID,
   GraphQLInt,
+  GraphQLBoolean,
   GraphQLEnumType
 } = graphql;
 
@@ -106,10 +108,40 @@ const ListingType = new GraphQLObjectType({
         return UserModel.find({ id: parent.claiming_user_id });
       }
     },
-    spot_id: {type:GraphQLID},
+    spot_id: {
+      type: SpotType,
+      resolve(parent, args) {
+        return Spot.find({ id: parent.spot_id });
+      }
+    },
     type: {type:GraphQLString},
     status: {type:GraphQLInt},
     // time_complete: Date
+  })
+});
+
+const SpotType = new GraphQLObjectType({
+  name: 'Spot',
+  fields: () => ({
+    id: {type:GraphQLID},
+    user_id: {type:GraphQLID},
+    lat: {type:GraphQLString},
+    lng: {type:GraphQLString},
+    street1: {type:GraphQLString},
+    street2: {type:GraphQLString},
+    city: {type:GraphQLString},
+    state: {type:GraphQLString},
+    zip: {type:GraphQLInt},
+    is_available: {type:GraphQLBoolean},
+    type: {type:GraphQLString},
+    start_time: {type: resolverMap.Date},
+    end_time: {type: resolverMap.Date},
+    user: {
+      type: UserType,
+      resolve(parent, args) {
+        return UserModel.find({ id: parent.user_id });
+      }
+    }
   })
 });
 
@@ -136,5 +168,7 @@ module.exports = {
   UserType,
   CarType,
   LocationType,
-  ListingType
+  ListingType,
+  SpotType,
+  resolverMap
 };
