@@ -145,8 +145,8 @@ const Mutation = new GraphQLObjectType({
     deleteLocation:{
       type: LocationType,
       args: {
-        id: {type: new GraphQLNonNull(GraphQLInt)},
-        user_id: {type: new GraphQLNonNull(GraphQLInt)}
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        user_id: {type: new GraphQLNonNull(GraphQLID)}
       },
       resolve(parent, args){
         return Location.destroy({where: {id: args.id}})
