@@ -5,6 +5,8 @@ query($user_id: ID){
   cars(user_id: $user_id){
     id
     make
+    model
+    color
   }
 }
 `;
@@ -42,5 +44,19 @@ const addCarMutation = gql`
   }
 `;
 
+const deleteCarMutation = gql`
+  mutation(
+    $id: ID!,
+    $user_id: ID!
+  ) {
+    deleteCar(
+      id: $id,
+      user_id: $user_id
+    ) {
+      id
+    }
+  }
+`;
 
-export { getCarsQuery, addCarMutation };
+
+export { getCarsQuery, addCarMutation, deleteCarMutation };

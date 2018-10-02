@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import './CarList.css';
-import { getCarsQuery } from '../../queries/queriesCar';
+import { getCarsQuery, deleteCarMutation } from '../../queries/queriesCar';
 import Car from '../Car/Car'
 import AddCar from '../AddCar/AddCar';
 
@@ -13,6 +13,7 @@ class CarList extends Component {
     }
     this.displayCars = this.displayCars.bind(this);
     this.displayCarList = this.displayCarList.bind(this);
+    this.deleteCar = this.deleteCar.bind(this);
   }
 
   displayCars() {
@@ -25,7 +26,7 @@ class CarList extends Component {
       return data.cars.map((car) => {
         return (
           <div key={car.id}>
-            <Car car={car} />
+            <Car car={car} deleteCar={this.deleteCar}/>
           </div>
         );
       })
@@ -49,8 +50,24 @@ class CarList extends Component {
     }
   }
 
+  deleteCar() {
+    this.props.deleteCarMutation({
+      variables: {
+        user_id: this.props.user_id,
+        id: this.props.car.id
+      },
+      refetchQueries: [{query: getCarsQuery, variables: {user_id: this.props.user_id}}]
+    })
+    .then(() => {
+      console.log('Car deleted!');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
-    console.log(this.props);
+    console.log('props in CarList', this.props);
     return (
       <div className="Cars">
         <header className="Login-header">
@@ -63,12 +80,15 @@ class CarList extends Component {
   }
 }
 
-export default graphql(getCarsQuery, {
-  options: (props) => {
-    return {
-      variables: {
-        user_id: props.user_id
+export default compose(
+  graphql(getCarsQuery, {
+    options: (props) => {
+      return {
+        variables: {
+          user_id: props.user_id
+        }
       }
     }
-  }
-})(CarList);
+  }),
+  graphql(deleteCarMutation, {name: "deleteCarMutation"})
+)(CarList);

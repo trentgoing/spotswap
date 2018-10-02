@@ -22,7 +22,6 @@ const getLocationsQuery = gql`
 //   }
 // `;
 
-
 const addLocationMutation = gql`
   mutation(
       $name: String!,
@@ -48,4 +47,18 @@ const addLocationMutation = gql`
   }
 `;
 
-export { getLocationsQuery, addLocationMutation };
+const deleteLocationMutation = gql`
+  mutation(
+    $id: ID!,
+    $user_id: ID!
+  ) {
+    deleteLocation(
+      id: $id,
+      user_id: $user_id
+    ) {
+      id
+    }
+  }
+`;
+
+export { getLocationsQuery, addLocationMutation, deleteLocationMutation };

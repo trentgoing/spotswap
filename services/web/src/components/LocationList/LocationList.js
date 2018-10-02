@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import './LocationList.css';
 import { graphql } from 'react-apollo';
-
-import { getLocationsQuery } from '../../queries/queriesLocation';
+import './LocationList.css';
+import { getLocationsQuery, deleteLocationMutation } from '../../queries/queriesLocation';
 import Location from '../Location/Location.js'
 import AddLocation from '../AddLocation/AddLocation';
-
 
 
 class LocationList extends Component {
@@ -15,6 +13,7 @@ class LocationList extends Component {
     }
     this.displayLocations = this.displayLocations.bind(this);
     this.displayLocationList = this.displayLocationList.bind(this);
+    this.deleteLocation = this.deleteLocation.bind(this);
   }
 
   displayLocations() {
@@ -27,7 +26,7 @@ class LocationList extends Component {
       return data.locations.map((location) => {
         return (
           <div key={location.id}>
-            <Location location={location} />
+            <Location location={location} deleteLocation={this.deleteLocation}/>
           </div>
         );
       })
@@ -51,8 +50,24 @@ class LocationList extends Component {
     }
   }
 
+  deleteLocation() {
+    this.props.deleteLocationMutation({
+      variables: {
+        user_id: this.props.user_id,
+        id: this.props.location.id
+      },
+      refetchQueries: [{query: getLocationsQuery, variables: {user_id: this.props.user_id}}]
+    })
+    .then(() => {
+      console.log('Location deleted!');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   render() {
-    console.log(this.props);
+    console.log('props in LocationList', this.props);
     return (
       <div className="Locations">
         <header className="Login-header">
@@ -65,12 +80,15 @@ class LocationList extends Component {
   }
 }
 
-export default graphql(getLocationsQuery, {
-  options: (props) => {
-    return {
-      variables: {
-        user_id: props.user_id
+export default compose(
+  graphql(getLocationsQuery, {
+    options: (props) => {
+      return {
+        variables: {
+          user_id: props.user_id
+        }
       }
     }
-  }
-})(LocationList);
+  }),
+  graphql(deleteLocationMutation, {name: "deleteLocationMutation"})
+)(LocationList);

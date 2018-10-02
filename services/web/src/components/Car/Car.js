@@ -4,18 +4,16 @@ import './Car.css';
 class Car extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
+    this.state = {  
     }
   }
-
 
   render() {
     return (
       <div>
         <p>
-          <b>{this.props.car.make}</b><br/>
-          {this.props.car.size + ', ' + this.props.car.model + ', ' + this.props.car.color}
+          <b>{this.props.car.make}</b><button onClick={() => {this.props.deleteCar()}}>-</button><br/>
+          {this.props.car.model + ', ' + this.props.car.color}
         </p>
       </div>
     );
