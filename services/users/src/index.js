@@ -1,32 +1,26 @@
-const express = require('express');
-const graphqlHTTP = require('express-graphql');
-const schema = require('./schema/schema');
-const cors = require('cors');
-// const session = require('express-session');
-// const passport = require('passport');
+const {GraphQLServer} = require('graphql-yoga');
+const { Prisma} = require('prisma-binding');
 
-const app = express();
+const Query = require('./resolvers/Query');
+const Mutation = require('./resolvers/Mutation');
 
-//allow cross-origin
+const resolvers = {
+  Query,
+  Mutation
+}
 
-app.use(cors());
+const server = new GraphQLServer({
+  typeDefs : 'app/src/schema.graphql',
+  resolvers,
+  context: req => ({
+    ...req,
+    db: new Prisma({
+      typeDefs: 'app/src/generated/prisma.graphql',
+      endpoint: 'https://us1.prisma.sh/milton-lopez/spotswap/dev',
+      secret: 'spotswap',
+      debug: true,
+    })
+  })
+})
 
-// app.use(session({
-//   resave: true,
-//   saveUninitialized: true,
-//   secret: 'aaabbbccc',
-// }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-app.use('/graphql', graphqlHTTP({
-  schema,
-  graphiql: true
-}));
-
-var port = process.env.PORT;
-
-app.listen(port, () => {
-  console.log(`spot server listening on port ${port}!`);
-});
+server.start(() => console.log(`Server is running on http://localhost:${process.env.PORT}`));

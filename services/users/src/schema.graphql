@@ -1,0 +1,27 @@
+# import Car from "./generated/prisma.graphql"
+
+type Query {
+  users: [User]
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+    id: ID!
+    default_car: Car
+    user_name: String!
+    rating: Int
+    first_name: String
+    last_name: String
+    email: String!
+    phone_number: String
+}
+
+
+type Mutation {
+  signup(email: String!, password: String!, user_name: String!) : AuthPayload
+  login(email: String!, password: String!) : AuthPayload
+}
