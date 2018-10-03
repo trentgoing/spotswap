@@ -16,3 +16,15 @@ a.navbar-signin {
   position: absolute;
   right: 20vw;
 }
+
+/* .searchbar {
+  width: stretch;
+} */
+
+#searchInput {
+  width: 100%;
+}
+
+.navbar-toggler {
+  display: inline-block;
+}

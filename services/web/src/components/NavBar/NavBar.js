@@ -1,31 +1,56 @@
 import React, { Component } from 'react';
 import './NavBar.css';
+import { graphql, compose } from 'react-apollo';
+import { getCurrentSearch, updateSearch } from '../../queries/queriesClient';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
     }
+    this.displayLogin = this.displayLogin.bind(this);
   }
 
+  displayLogin() {
+    if (this.props.user_id) {
+      return (
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+      );
+    } else {
+      return (
+        <button className="btn btn-outline-secondary" type="submit">Sign In</button>
+      );
+    }
+  }
 
   render() {
     return (
       <div className="container">
-        <nav className="navbar navbar-dark bg-dark navbar-expand-xl ">
+        <nav className="navbar navbar-dark bg-dark navbar-expand-xs ">
           <a className="navbar-brand">
             <img src="/favicon-256.png" width="30" height="30" alt="" />
           </a>
-          <span className="navbar-text">
-            Sign In
-          </span>
-          <form className="form-inline">
-            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <form className="form-inline searchbar w-50">
+            <input 
+              className="form-control" 
+              id="searchInput" 
+              type="search" 
+              value={this.props.currentSearch.searchInput} 
+              aria-label="Search" 
+              onChange={e =>
+                this.props.updateSearch({
+                  variables: {
+                    index: 'searchInput',
+                    value: e.target.value
+                  },
+                  refetchQueries: []
+                })
+              }
+            />
           </form>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
+          {this.displayLogin()}
         </nav>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
@@ -45,4 +70,14 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default compose (
+  graphql(updateSearch, {name: 'updateSearch'}),
+  graphql(getCurrentSearch, {
+    props: ({ data: { currentSearch, loading } }) => {
+      return ({
+        currentSearch,
+        loading
+      })
+    }
+  })
+)(NavBar);
