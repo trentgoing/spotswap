@@ -145,6 +145,19 @@ const SpotType = new GraphQLObjectType({
   })
 });
 
+const AuthPayload = new GraphQLObjectType({
+  name: 'AuthPayload',
+  fields:() => ({
+    token: {type:GraphQLString},
+    user: {
+      type: UserType,
+      resolve(parent, args) {
+        return UserModel.find({ id: parent.user_id});
+      }
+    }
+  })
+});
+
 const resolverMap = {
   Date: new GraphQLScalarType({
     name: 'Date',
@@ -170,5 +183,6 @@ module.exports = {
   LocationType,
   ListingType,
   SpotType,
+  AuthPayload,
   resolverMap
 };

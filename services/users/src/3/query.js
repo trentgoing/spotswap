@@ -5,6 +5,7 @@ const Location = require('../models/Locations');
 const Car = require('../models/Car');
 const Spot = require('../models/Spot');
 const Kind = require('graphql/language');
+const { getUserId } = require('../utils');
 
 const { 
   GraphQLObjectType, 
@@ -50,7 +51,8 @@ const RootQuery = new GraphQLObjectType({
     },
     users: {
       type: new GraphQLList(UserType),
-      resolve(parent, args) {
+      resolve(parent, args, context) {
+        const userId = getUserId(context);
         return UserModel.findAll({});
       }
     },
