@@ -74,7 +74,7 @@ services:
       - './services/web:/usr/src/app'
       - '/usr/src/app/node_modules'
     ports:
-      - '3007:3006' # expose ports - HOST:CONTAINER
+      - '8080:8080' # expose ports - HOST:CONTAINER
     environment:
       - NODE_ENV=${NODE_ENV}
     depends_on:
