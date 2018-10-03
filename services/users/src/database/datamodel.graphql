@@ -1,0 +1,36 @@
+type User {
+    id: ID! @unique
+    default_car: Car
+    user_name: String!
+    rating: Int
+    first_name: String
+    last_name: String
+    email: String!
+    phone_number: String
+    password: String!
+    locations: [Location!]!
+}
+
+type Car {
+    id: ID! @unique
+    size: Int
+    make: String
+    model: String
+    color: String
+    plate: String
+    state: String
+    user: User
+}
+
+type Location {
+    id: ID! @unique
+    name: String
+    street1: String
+    street2: String
+    city: String
+    state: String
+    zip: Int
+    lat: String
+    lng: String
+    user: User
+}

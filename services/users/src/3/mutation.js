@@ -61,8 +61,6 @@ const Mutation = new GraphQLObjectType({
         
         const token = jwt.sign( { userId: user.user_id}, APP_SECRET);
 
-        console.log(token);
-
         return {
           token,
           user
@@ -178,8 +176,7 @@ const Mutation = new GraphQLObjectType({
         model: {type: GraphQLString},
         color: {type: new GraphQLNonNull(GraphQLString)},
         plate: {type: GraphQLString},
-        state: {type: GraphQLString},
-        user_id: {type: new GraphQLNonNull(GraphQLID)} 
+        state: {type: GraphQLString}
       },
       resolve(parent, args, context) {
         const userId = getUserId(context);
@@ -190,7 +187,7 @@ const Mutation = new GraphQLObjectType({
           color: args.color,
           plate: args.plate,
           state: args.state,
-          user_id: args.user_id 
+          user_id: userId 
         })
           .catch((err) => {
             console.log('Error caught on addCar in mutation.js', err);
