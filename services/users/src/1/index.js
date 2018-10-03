@@ -13,5 +13,4 @@ const mainDB = new Sequelize(conString, {
   }
 });
 
-
 module.exports = mainDB;
