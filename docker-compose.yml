@@ -55,6 +55,7 @@ services:
       - './services/users/package.json:/usr/src/package.json'
     ports:
       - '3000:3000' # expose ports - HOST:CONTAINER
+      - '5000:5000'
     environment:
       # - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       # - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
