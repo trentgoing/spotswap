@@ -47,7 +47,7 @@ type Listing {
 
 type Spot {
   id: ID! @unique
-  user_id: ID!
+  user: User
   lat: String
   lng: String
   street1: String
@@ -55,7 +55,7 @@ type Spot {
   city: String
   state: String
   zip: Int,
-  is_available: Boolean,
+  is_available: Boolean! @default(value: "true")
   type: Int
   start_time: DateTime!
   end_time: DateTime
