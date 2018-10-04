@@ -72,12 +72,13 @@ services:
     container_name: web-service
     build: ./services/web/
     volumes:
-      - './services/web:/usr/src/app'
-      - '/usr/src/app/node_modules'
+      - './services/web:/opt/app'
+      - '/opt/app/node_modules'
     ports:
       - '8080:8080' # expose ports - HOST:CONTAINER
     environment:
       - NODE_ENV=${NODE_ENV}
+      - REACT_APP_MAPBOX_API_KEY=pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag
     depends_on:
       users-service:
         condition: service_started

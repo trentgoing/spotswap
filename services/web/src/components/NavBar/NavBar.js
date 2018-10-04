@@ -13,6 +13,10 @@ class NavBar extends Component {
     this.displayLogin = this.displayLogin.bind(this);
   }
 
+  componentDidMount() {
+
+  }
+
   displayLogin() {
     if (this.props.user_id) {
       return (
@@ -34,24 +38,9 @@ class NavBar extends Component {
           <a className="navbar-brand">
             <img src="/favicon-256.png" width="30" height="30" alt="" />
           </a>
-          <form className="form-inline searchbar w-50">
-            <input 
-              className="form-control" 
-              id="searchInput" 
-              type="search" 
-              value={this.props.currentSearch.searchInput} 
-              aria-label="Search" 
-              onChange={e =>
-                this.props.updateSearch({
-                  variables: {
-                    index: 'searchInput',
-                    value: e.target.value
-                  },
-                  refetchQueries: []
-                })
-              }
-            />
-          </form>
+          
+          <div id='searchInput' className='geocoder'></div>
+            
           {this.displayLogin()}
         </nav>
         <div className="collapse navbar-collapse" id="navbarNav">
