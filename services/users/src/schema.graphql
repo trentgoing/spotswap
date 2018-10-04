@@ -35,6 +35,13 @@ type User {
 
 
 type Mutation {
-  signup(email: String!, password: String!, user_name: String!) : AuthPayload
-  login(email: String!, password: String!) : AuthPayload
+  signup (email: String!, password: String!, user_name: String!) : AuthPayload
+  login (email: String!, password: String!) : AuthPayload
+  editUser (user_name: String, first_name: String, last_name: String,
+            email: String, phone_number: String, password: String) : User
+  addLocation (name: String, street1: String, street2: String, city: String,
+               state: String, zip: Int) : Location
+  editLocation (name: String, street1: String, street2: String, city: String, 
+                state: String, zip: Int) : Location
+  
 }
