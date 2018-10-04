@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Thu Oct 04 2018 15:45:02 GMT-0400 (EDT)
+# timestamp: Thu Oct 04 2018 18:35:08 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -467,7 +467,7 @@ type Listing implements Node {
   id: ID!
   listing_user: User
   claiming_user: User
-  spot_id: Spot!
+  spot: Spot
   type: Int
   status: Int
   time_complete: DateTime
@@ -489,7 +489,7 @@ input ListingCreateInput {
   time_complete: DateTime
   listing_user: UserCreateOneInput
   claiming_user: UserCreateOneInput
-  spot_id: SpotCreateOneInput!
+  spot: SpotCreateOneInput
 }
 
 """An edge in a connection."""
@@ -568,7 +568,7 @@ input ListingUpdateInput {
   time_complete: DateTime
   listing_user: UserUpdateOneInput
   claiming_user: UserUpdateOneInput
-  spot_id: SpotUpdateOneRequiredInput
+  spot: SpotUpdateOneInput
 }
 
 input ListingWhereInput {
@@ -688,7 +688,7 @@ input ListingWhereInput {
   time_complete_gte: DateTime
   listing_user: UserWhereInput
   claiming_user: UserWhereInput
-  spot_id: SpotWhereInput
+  spot: SpotWhereInput
 }
 
 input ListingWhereUniqueInput {
@@ -1334,7 +1334,7 @@ type Spot implements Node {
   zip: Int
   is_available: Boolean!
   type: Int
-  start_time: DateTime!
+  start_time: DateTime
   end_time: DateTime
 }
 
@@ -1358,7 +1358,7 @@ input SpotCreateInput {
   zip: Int
   is_available: Boolean
   type: Int
-  start_time: DateTime!
+  start_time: DateTime
   end_time: DateTime
   user: UserCreateOneInput
 }
@@ -1419,7 +1419,7 @@ type SpotPreviousValues {
   zip: Int
   is_available: Boolean!
   type: Int
-  start_time: DateTime!
+  start_time: DateTime
   end_time: DateTime
 }
 
@@ -1492,9 +1492,11 @@ input SpotUpdateInput {
   user: UserUpdateOneInput
 }
 
-input SpotUpdateOneRequiredInput {
+input SpotUpdateOneInput {
   create: SpotCreateInput
   connect: SpotWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
   update: SpotUpdateDataInput
   upsert: SpotUpsertNestedInput
 }
