@@ -1,7 +1,20 @@
 # import Car from "./generated/prisma.graphql"
+# import Spot from "./generated/prisma.graphql"
+# import Location from "./generated/prisma.graphql"
+# import Listing from "./generated/prisma.graphql"
 
 type Query {
+  user: User
   users: [User]
+  location: Location
+  locations: [Location]
+  car: Car
+  cars: [Car]
+  spot: Spot
+  spots: [Spot]
+  listing: Listing
+  listings: [Listing]
+  openListings: [Listing]
 }
 
 type AuthPayload {

@@ -1,36 +1,62 @@
 type User {
-    id: ID! @unique
-    default_car: Car
-    user_name: String!
-    rating: Int
-    first_name: String
-    last_name: String
-    email: String!
-    phone_number: String
-    password: String!
-    locations: [Location!]!
+  id: ID! @unique
+  default_car: Car
+  user_name: String!
+  rating: Int
+  first_name: String
+  last_name: String
+  email: String!
+  phone_number: String
+  password: String!
+  locations: [Location!]!
 }
 
 type Car {
-    id: ID! @unique
-    size: Int
-    make: String
-    model: String
-    color: String
-    plate: String
-    state: String
-    user: User
+  id: ID! @unique
+  size: Int
+  make: String
+  model: String
+  color: String
+  plate: String
+  state: String
+  user: User
 }
 
 type Location {
-    id: ID! @unique
-    name: String
-    street1: String
-    street2: String
-    city: String
-    state: String
-    zip: Int
-    lat: String
-    lng: String
-    user: User
+  id: ID! @unique
+  name: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  lat: String
+  lng: String
+  user: User
+}
+
+type Listing {
+  id: ID! @unique
+  listing_user: User @relation(name: "Lister")
+  claiming_user: User @relation(name: "Claimer")
+  spot_id: Spot!
+  type: Int
+  status: Int
+  time_complete: DateTime
+}
+
+type Spot {
+  id: ID! @unique
+  user_id: ID!
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int,
+  is_available: Boolean,
+  type: Int
+  start_time: DateTime!
+  end_time: DateTime
 }

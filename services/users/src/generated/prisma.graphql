@@ -1,11 +1,19 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Wed Oct 03 2018 16:55:38 GMT-0400 (EDT)
+# timestamp: Wed Oct 03 2018 19:58:43 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
 }
 
+type AggregateListing {
+  count: Int!
+}
+
 type AggregateLocation {
+  count: Int!
+}
+
+type AggregateSpot {
   count: Int!
 }
 
@@ -450,6 +458,240 @@ input CarWhereInput {
 }
 
 input CarWhereUniqueInput {
+  id: ID
+}
+
+scalar DateTime
+
+type Listing implements Node {
+  id: ID!
+  listing_user: User
+  claiming_user: User
+  spot_id: Spot!
+  type: Int
+  status: Int
+  time_complete: DateTime
+}
+
+"""A connection to a list of items."""
+type ListingConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ListingEdge]!
+  aggregate: AggregateListing!
+}
+
+input ListingCreateInput {
+  type: Int
+  status: Int
+  time_complete: DateTime
+  listing_user: UserCreateOneInput
+  claiming_user: UserCreateOneInput
+  spot_id: SpotCreateOneInput!
+}
+
+"""An edge in a connection."""
+type ListingEdge {
+  """The item at the end of the edge."""
+  node: Listing!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ListingOrderByInput {
+  id_ASC
+  id_DESC
+  type_ASC
+  type_DESC
+  status_ASC
+  status_DESC
+  time_complete_ASC
+  time_complete_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ListingPreviousValues {
+  id: ID!
+  type: Int
+  status: Int
+  time_complete: DateTime
+}
+
+type ListingSubscriptionPayload {
+  mutation: MutationType!
+  node: Listing
+  updatedFields: [String!]
+  previousValues: ListingPreviousValues
+}
+
+input ListingSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ListingSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ListingSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ListingSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ListingWhereInput
+}
+
+input ListingUpdateInput {
+  type: Int
+  status: Int
+  time_complete: DateTime
+  listing_user: UserUpdateOneInput
+  claiming_user: UserUpdateOneInput
+  spot_id: SpotUpdateOneRequiredInput
+}
+
+input ListingWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ListingWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ListingWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ListingWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  type: Int
+
+  """All values that are not equal to given value."""
+  type_not: Int
+
+  """All values that are contained in given list."""
+  type_in: [Int!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [Int!]
+
+  """All values less than the given value."""
+  type_lt: Int
+
+  """All values less than or equal the given value."""
+  type_lte: Int
+
+  """All values greater than the given value."""
+  type_gt: Int
+
+  """All values greater than or equal the given value."""
+  type_gte: Int
+  status: Int
+
+  """All values that are not equal to given value."""
+  status_not: Int
+
+  """All values that are contained in given list."""
+  status_in: [Int!]
+
+  """All values that are not contained in given list."""
+  status_not_in: [Int!]
+
+  """All values less than the given value."""
+  status_lt: Int
+
+  """All values less than or equal the given value."""
+  status_lte: Int
+
+  """All values greater than the given value."""
+  status_gt: Int
+
+  """All values greater than or equal the given value."""
+  status_gte: Int
+  time_complete: DateTime
+
+  """All values that are not equal to given value."""
+  time_complete_not: DateTime
+
+  """All values that are contained in given list."""
+  time_complete_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  time_complete_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  time_complete_lt: DateTime
+
+  """All values less than or equal the given value."""
+  time_complete_lte: DateTime
+
+  """All values greater than the given value."""
+  time_complete_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  time_complete_gte: DateTime
+  listing_user: UserWhereInput
+  claiming_user: UserWhereInput
+  spot_id: SpotWhereInput
+}
+
+input ListingWhereUniqueInput {
   id: ID
 }
 
@@ -997,24 +1239,36 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createCar(data: CarCreateInput!): Car!
   createLocation(data: LocationCreateInput!): Location!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  createListing(data: ListingCreateInput!): Listing!
+  createSpot(data: SpotCreateInput!): Spot!
+  createUser(data: UserCreateInput!): User!
   updateCar(data: CarUpdateInput!, where: CarWhereUniqueInput!): Car
   updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
-  deleteUser(where: UserWhereUniqueInput!): User
+  updateListing(data: ListingUpdateInput!, where: ListingWhereUniqueInput!): Listing
+  updateSpot(data: SpotUpdateInput!, where: SpotWhereUniqueInput!): Spot
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteCar(where: CarWhereUniqueInput!): Car
   deleteLocation(where: LocationWhereUniqueInput!): Location
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteListing(where: ListingWhereUniqueInput!): Listing
+  deleteSpot(where: SpotWhereUniqueInput!): Spot
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertCar(where: CarWhereUniqueInput!, create: CarCreateInput!, update: CarUpdateInput!): Car!
   upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  upsertListing(where: ListingWhereUniqueInput!, create: ListingCreateInput!, update: ListingUpdateInput!): Listing!
+  upsertSpot(where: SpotWhereUniqueInput!, create: SpotCreateInput!, update: SpotUpdateInput!): Spot!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyCars(data: CarUpdateInput!, where: CarWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  updateManyListings(data: ListingUpdateInput!, where: ListingWhereInput): BatchPayload!
+  updateManySpots(data: SpotUpdateInput!, where: SpotWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   deleteManyCars(where: CarWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
+  deleteManyListings(where: ListingWhereInput): BatchPayload!
+  deleteManySpots(where: SpotWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1045,15 +1299,21 @@ type PageInfo {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
-  user(where: UserWhereUniqueInput!): User
+  listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing]!
+  spots(where: SpotWhereInput, orderBy: SpotOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Spot]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   car(where: CarWhereUniqueInput!): Car
   location(where: LocationWhereUniqueInput!): Location
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  listing(where: ListingWhereUniqueInput!): Listing
+  spot(where: SpotWhereUniqueInput!): Spot
+  user(where: UserWhereUniqueInput!): User
   carsConnection(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CarConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
+  listingsConnection(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ListingConnection!
+  spotsConnection(where: SpotWhereInput, orderBy: SpotOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SpotConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -1062,10 +1322,624 @@ type Query {
   ): Node
 }
 
+type Spot implements Node {
+  id: ID!
+  user_id: ID!
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime!
+  end_time: DateTime
+}
+
+"""A connection to a list of items."""
+type SpotConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SpotEdge]!
+  aggregate: AggregateSpot!
+}
+
+input SpotCreateInput {
+  user_id: ID!
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime!
+  end_time: DateTime
+}
+
+input SpotCreateOneInput {
+  create: SpotCreateInput
+  connect: SpotWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type SpotEdge {
+  """The item at the end of the edge."""
+  node: Spot!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum SpotOrderByInput {
+  id_ASC
+  id_DESC
+  user_id_ASC
+  user_id_DESC
+  lat_ASC
+  lat_DESC
+  lng_ASC
+  lng_DESC
+  street1_ASC
+  street1_DESC
+  street2_ASC
+  street2_DESC
+  city_ASC
+  city_DESC
+  state_ASC
+  state_DESC
+  zip_ASC
+  zip_DESC
+  is_available_ASC
+  is_available_DESC
+  type_ASC
+  type_DESC
+  start_time_ASC
+  start_time_DESC
+  end_time_ASC
+  end_time_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type SpotPreviousValues {
+  id: ID!
+  user_id: ID!
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime!
+  end_time: DateTime
+}
+
+type SpotSubscriptionPayload {
+  mutation: MutationType!
+  node: Spot
+  updatedFields: [String!]
+  previousValues: SpotPreviousValues
+}
+
+input SpotSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SpotSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SpotSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SpotSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SpotWhereInput
+}
+
+input SpotUpdateDataInput {
+  user_id: ID
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime
+  end_time: DateTime
+}
+
+input SpotUpdateInput {
+  user_id: ID
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime
+  end_time: DateTime
+}
+
+input SpotUpdateOneRequiredInput {
+  create: SpotCreateInput
+  connect: SpotWhereUniqueInput
+  update: SpotUpdateDataInput
+  upsert: SpotUpsertNestedInput
+}
+
+input SpotUpsertNestedInput {
+  update: SpotUpdateDataInput!
+  create: SpotCreateInput!
+}
+
+input SpotWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SpotWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SpotWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SpotWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  user_id: ID
+
+  """All values that are not equal to given value."""
+  user_id_not: ID
+
+  """All values that are contained in given list."""
+  user_id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  user_id_not_in: [ID!]
+
+  """All values less than the given value."""
+  user_id_lt: ID
+
+  """All values less than or equal the given value."""
+  user_id_lte: ID
+
+  """All values greater than the given value."""
+  user_id_gt: ID
+
+  """All values greater than or equal the given value."""
+  user_id_gte: ID
+
+  """All values containing the given string."""
+  user_id_contains: ID
+
+  """All values not containing the given string."""
+  user_id_not_contains: ID
+
+  """All values starting with the given string."""
+  user_id_starts_with: ID
+
+  """All values not starting with the given string."""
+  user_id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  user_id_ends_with: ID
+
+  """All values not ending with the given string."""
+  user_id_not_ends_with: ID
+  lat: String
+
+  """All values that are not equal to given value."""
+  lat_not: String
+
+  """All values that are contained in given list."""
+  lat_in: [String!]
+
+  """All values that are not contained in given list."""
+  lat_not_in: [String!]
+
+  """All values less than the given value."""
+  lat_lt: String
+
+  """All values less than or equal the given value."""
+  lat_lte: String
+
+  """All values greater than the given value."""
+  lat_gt: String
+
+  """All values greater than or equal the given value."""
+  lat_gte: String
+
+  """All values containing the given string."""
+  lat_contains: String
+
+  """All values not containing the given string."""
+  lat_not_contains: String
+
+  """All values starting with the given string."""
+  lat_starts_with: String
+
+  """All values not starting with the given string."""
+  lat_not_starts_with: String
+
+  """All values ending with the given string."""
+  lat_ends_with: String
+
+  """All values not ending with the given string."""
+  lat_not_ends_with: String
+  lng: String
+
+  """All values that are not equal to given value."""
+  lng_not: String
+
+  """All values that are contained in given list."""
+  lng_in: [String!]
+
+  """All values that are not contained in given list."""
+  lng_not_in: [String!]
+
+  """All values less than the given value."""
+  lng_lt: String
+
+  """All values less than or equal the given value."""
+  lng_lte: String
+
+  """All values greater than the given value."""
+  lng_gt: String
+
+  """All values greater than or equal the given value."""
+  lng_gte: String
+
+  """All values containing the given string."""
+  lng_contains: String
+
+  """All values not containing the given string."""
+  lng_not_contains: String
+
+  """All values starting with the given string."""
+  lng_starts_with: String
+
+  """All values not starting with the given string."""
+  lng_not_starts_with: String
+
+  """All values ending with the given string."""
+  lng_ends_with: String
+
+  """All values not ending with the given string."""
+  lng_not_ends_with: String
+  street1: String
+
+  """All values that are not equal to given value."""
+  street1_not: String
+
+  """All values that are contained in given list."""
+  street1_in: [String!]
+
+  """All values that are not contained in given list."""
+  street1_not_in: [String!]
+
+  """All values less than the given value."""
+  street1_lt: String
+
+  """All values less than or equal the given value."""
+  street1_lte: String
+
+  """All values greater than the given value."""
+  street1_gt: String
+
+  """All values greater than or equal the given value."""
+  street1_gte: String
+
+  """All values containing the given string."""
+  street1_contains: String
+
+  """All values not containing the given string."""
+  street1_not_contains: String
+
+  """All values starting with the given string."""
+  street1_starts_with: String
+
+  """All values not starting with the given string."""
+  street1_not_starts_with: String
+
+  """All values ending with the given string."""
+  street1_ends_with: String
+
+  """All values not ending with the given string."""
+  street1_not_ends_with: String
+  street2: String
+
+  """All values that are not equal to given value."""
+  street2_not: String
+
+  """All values that are contained in given list."""
+  street2_in: [String!]
+
+  """All values that are not contained in given list."""
+  street2_not_in: [String!]
+
+  """All values less than the given value."""
+  street2_lt: String
+
+  """All values less than or equal the given value."""
+  street2_lte: String
+
+  """All values greater than the given value."""
+  street2_gt: String
+
+  """All values greater than or equal the given value."""
+  street2_gte: String
+
+  """All values containing the given string."""
+  street2_contains: String
+
+  """All values not containing the given string."""
+  street2_not_contains: String
+
+  """All values starting with the given string."""
+  street2_starts_with: String
+
+  """All values not starting with the given string."""
+  street2_not_starts_with: String
+
+  """All values ending with the given string."""
+  street2_ends_with: String
+
+  """All values not ending with the given string."""
+  street2_not_ends_with: String
+  city: String
+
+  """All values that are not equal to given value."""
+  city_not: String
+
+  """All values that are contained in given list."""
+  city_in: [String!]
+
+  """All values that are not contained in given list."""
+  city_not_in: [String!]
+
+  """All values less than the given value."""
+  city_lt: String
+
+  """All values less than or equal the given value."""
+  city_lte: String
+
+  """All values greater than the given value."""
+  city_gt: String
+
+  """All values greater than or equal the given value."""
+  city_gte: String
+
+  """All values containing the given string."""
+  city_contains: String
+
+  """All values not containing the given string."""
+  city_not_contains: String
+
+  """All values starting with the given string."""
+  city_starts_with: String
+
+  """All values not starting with the given string."""
+  city_not_starts_with: String
+
+  """All values ending with the given string."""
+  city_ends_with: String
+
+  """All values not ending with the given string."""
+  city_not_ends_with: String
+  state: String
+
+  """All values that are not equal to given value."""
+  state_not: String
+
+  """All values that are contained in given list."""
+  state_in: [String!]
+
+  """All values that are not contained in given list."""
+  state_not_in: [String!]
+
+  """All values less than the given value."""
+  state_lt: String
+
+  """All values less than or equal the given value."""
+  state_lte: String
+
+  """All values greater than the given value."""
+  state_gt: String
+
+  """All values greater than or equal the given value."""
+  state_gte: String
+
+  """All values containing the given string."""
+  state_contains: String
+
+  """All values not containing the given string."""
+  state_not_contains: String
+
+  """All values starting with the given string."""
+  state_starts_with: String
+
+  """All values not starting with the given string."""
+  state_not_starts_with: String
+
+  """All values ending with the given string."""
+  state_ends_with: String
+
+  """All values not ending with the given string."""
+  state_not_ends_with: String
+  zip: Int
+
+  """All values that are not equal to given value."""
+  zip_not: Int
+
+  """All values that are contained in given list."""
+  zip_in: [Int!]
+
+  """All values that are not contained in given list."""
+  zip_not_in: [Int!]
+
+  """All values less than the given value."""
+  zip_lt: Int
+
+  """All values less than or equal the given value."""
+  zip_lte: Int
+
+  """All values greater than the given value."""
+  zip_gt: Int
+
+  """All values greater than or equal the given value."""
+  zip_gte: Int
+  is_available: Boolean
+
+  """All values that are not equal to given value."""
+  is_available_not: Boolean
+  type: Int
+
+  """All values that are not equal to given value."""
+  type_not: Int
+
+  """All values that are contained in given list."""
+  type_in: [Int!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [Int!]
+
+  """All values less than the given value."""
+  type_lt: Int
+
+  """All values less than or equal the given value."""
+  type_lte: Int
+
+  """All values greater than the given value."""
+  type_gt: Int
+
+  """All values greater than or equal the given value."""
+  type_gte: Int
+  start_time: DateTime
+
+  """All values that are not equal to given value."""
+  start_time_not: DateTime
+
+  """All values that are contained in given list."""
+  start_time_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_time_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_time_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_time_lte: DateTime
+
+  """All values greater than the given value."""
+  start_time_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_time_gte: DateTime
+  end_time: DateTime
+
+  """All values that are not equal to given value."""
+  end_time_not: DateTime
+
+  """All values that are contained in given list."""
+  end_time_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_time_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_time_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_time_lte: DateTime
+
+  """All values greater than the given value."""
+  end_time_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_time_gte: DateTime
+}
+
+input SpotWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   car(where: CarSubscriptionWhereInput): CarSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+  listing(where: ListingSubscriptionWhereInput): ListingSubscriptionPayload
+  spot(where: SpotSubscriptionWhereInput): SpotSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
@@ -1101,6 +1975,11 @@ input UserCreateInput {
   password: String!
   default_car: CarCreateOneWithoutUserInput
   locations: LocationCreateManyWithoutUserInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutDefault_carInput {
@@ -1217,6 +2096,18 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  user_name: String
+  rating: Int
+  first_name: String
+  last_name: String
+  email: String
+  phone_number: String
+  password: String
+  default_car: CarUpdateOneWithoutUserInput
+  locations: LocationUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   user_name: String
   rating: Int
@@ -1227,6 +2118,15 @@ input UserUpdateInput {
   password: String
   default_car: CarUpdateOneWithoutUserInput
   locations: LocationUpdateManyWithoutUserInput
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
 }
 
 input UserUpdateOneWithoutDefault_carInput {
@@ -1267,6 +2167,11 @@ input UserUpdateWithoutLocationsDataInput {
   phone_number: String
   password: String
   default_car: CarUpdateOneWithoutUserInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutDefault_carInput {
