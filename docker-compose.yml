@@ -71,8 +71,8 @@ services:
     container_name: web-service
     build: ./services/web/
     volumes:
-      - './services/web:/usr/src/app'
-      - '/usr/src/app/node_modules'
+      - './services/web:/opt/app'
+      - '/opt/app/node_modules'
     ports:
       - '8080:8080' # expose ports - HOST:CONTAINER
     environment:
