@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Wed Oct 03 2018 19:58:43 GMT-0400 (EDT)
+# timestamp: Thu Oct 04 2018 15:45:02 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -1324,7 +1324,7 @@ type Query {
 
 type Spot implements Node {
   id: ID!
-  user_id: ID!
+  user: User
   lat: String
   lng: String
   street1: String
@@ -1332,7 +1332,7 @@ type Spot implements Node {
   city: String
   state: String
   zip: Int
-  is_available: Boolean
+  is_available: Boolean!
   type: Int
   start_time: DateTime!
   end_time: DateTime
@@ -1349,7 +1349,6 @@ type SpotConnection {
 }
 
 input SpotCreateInput {
-  user_id: ID!
   lat: String
   lng: String
   street1: String
@@ -1361,6 +1360,7 @@ input SpotCreateInput {
   type: Int
   start_time: DateTime!
   end_time: DateTime
+  user: UserCreateOneInput
 }
 
 input SpotCreateOneInput {
@@ -1380,8 +1380,6 @@ type SpotEdge {
 enum SpotOrderByInput {
   id_ASC
   id_DESC
-  user_id_ASC
-  user_id_DESC
   lat_ASC
   lat_DESC
   lng_ASC
@@ -1412,7 +1410,6 @@ enum SpotOrderByInput {
 
 type SpotPreviousValues {
   id: ID!
-  user_id: ID!
   lat: String
   lng: String
   street1: String
@@ -1420,7 +1417,7 @@ type SpotPreviousValues {
   city: String
   state: String
   zip: Int
-  is_available: Boolean
+  is_available: Boolean!
   type: Int
   start_time: DateTime!
   end_time: DateTime
@@ -1466,7 +1463,6 @@ input SpotSubscriptionWhereInput {
 }
 
 input SpotUpdateDataInput {
-  user_id: ID
   lat: String
   lng: String
   street1: String
@@ -1478,10 +1474,10 @@ input SpotUpdateDataInput {
   type: Int
   start_time: DateTime
   end_time: DateTime
+  user: UserUpdateOneInput
 }
 
 input SpotUpdateInput {
-  user_id: ID
   lat: String
   lng: String
   street1: String
@@ -1493,6 +1489,7 @@ input SpotUpdateInput {
   type: Int
   start_time: DateTime
   end_time: DateTime
+  user: UserUpdateOneInput
 }
 
 input SpotUpdateOneRequiredInput {
@@ -1556,46 +1553,6 @@ input SpotWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  user_id: ID
-
-  """All values that are not equal to given value."""
-  user_id_not: ID
-
-  """All values that are contained in given list."""
-  user_id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  user_id_not_in: [ID!]
-
-  """All values less than the given value."""
-  user_id_lt: ID
-
-  """All values less than or equal the given value."""
-  user_id_lte: ID
-
-  """All values greater than the given value."""
-  user_id_gt: ID
-
-  """All values greater than or equal the given value."""
-  user_id_gte: ID
-
-  """All values containing the given string."""
-  user_id_contains: ID
-
-  """All values not containing the given string."""
-  user_id_not_contains: ID
-
-  """All values starting with the given string."""
-  user_id_starts_with: ID
-
-  """All values not starting with the given string."""
-  user_id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  user_id_ends_with: ID
-
-  """All values not ending with the given string."""
-  user_id_not_ends_with: ID
   lat: String
 
   """All values that are not equal to given value."""
@@ -1928,6 +1885,7 @@ input SpotWhereInput {
 
   """All values greater than or equal the given value."""
   end_time_gte: DateTime
+  user: UserWhereInput
 }
 
 input SpotWhereUniqueInput {

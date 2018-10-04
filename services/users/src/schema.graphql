@@ -4,17 +4,17 @@
 # import Listing from "./generated/prisma.graphql"
 
 type Query {
-  user: User
-  users: [User]
-  location: Location
-  locations: [Location]
-  car: Car
-  cars: [Car]
-  spot: Spot
-  spots: [Spot]
-  listing: Listing
-  listings: [Listing]
-  openListings: [Listing]
+  user : User
+  users : [User]
+  location (id: ID!) : Location
+  locations : [Location]
+  car (id: ID!) : Car
+  cars (user_id: ID!) : [Car]
+  spot (id: ID!) : Spot
+  spots : [Spot]
+  listing (id: ID!, listing_user_id: ID, claiming_user_id: ID, spot_id:ID) : Listing
+  listings (listing_user_id: ID, claiming_user_id: ID, type: Int, status: Int) : [Listing]
+  openListings : [Listing]
 }
 
 type AuthPayload {
@@ -33,15 +33,19 @@ type User {
     phone_number: String
 }
 
-
 type Mutation {
   signup (email: String!, password: String!, user_name: String!) : AuthPayload
   login (email: String!, password: String!) : AuthPayload
-  editUser (user_name: String, first_name: String, last_name: String,
-            email: String, phone_number: String, password: String) : User
-  addLocation (name: String, street1: String, street2: String, city: String,
-               state: String, zip: Int) : Location
-  editLocation (name: String, street1: String, street2: String, city: String, 
-                state: String, zip: Int) : Location
-  
+  editUser (user_name: String, first_name: String, last_name: String, email: String, phone_number: String, password: String) : User
+  addLocation (name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
+  editLocation (id: ID!, name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
+  deleteLocation (id: ID) : Location
+  addCar (size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
+  editCar (id: ID!, size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
+  deleteCar (id: ID) : Car
+  addSpot (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
+  editSpot (id: ID, lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
+  deleteSpot (id: ID) : Spot
+  addListing (spot_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
+  editListing (spot_id: ID, claiming_user_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
 }

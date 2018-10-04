@@ -47,7 +47,7 @@ type Listing {
 
 type Spot {
   id: ID! @unique
-  user_id: ID!
+  user: User
   lat: String
   lng: String
   street1: String
