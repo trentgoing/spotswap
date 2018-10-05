@@ -5,11 +5,11 @@ class Spot extends Component {
   render() {
     return (
       <div>
-        {JSON.stringify(this.props.spot)}
-        {this.props.spot.type === "spotted" ? ": Spotted" : ": Reserved"}
+        {this.props.spot.street1}
+        {this.props.spot.type === 1 ? ": Reserved" : ": Spotted"}
       </div>
     );
-  }
-}
+  };
+};
 
 export default Spot;

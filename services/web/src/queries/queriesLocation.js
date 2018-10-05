@@ -24,13 +24,12 @@ const getLocationsQuery = gql`
 
 const addLocationMutation = gql`
   mutation(
-      $name: String!,
-      $street1: String!,
-      $street2: String!,
-      $city: String!,
-      $state: String!,
-      $zip: Int!,
-      $user_id: ID!
+      $name: String,
+      $street1: String,
+      $street2: String,
+      $city: String,
+      $state: String,
+      $zip: Int
     ) {
     addLocation(
       name: $name,
@@ -38,8 +37,7 @@ const addLocationMutation = gql`
       street2: $street2,
       city: $city,
       state: $state,
-      zip: $zip,
-      user_id: $user_id
+      zip: $zip
     ){
       id
       name
@@ -49,12 +47,10 @@ const addLocationMutation = gql`
 
 const deleteLocationMutation = gql`
   mutation(
-    $id: ID!,
-    $user_id: ID!
+    $id: ID!
   ) {
     deleteLocation(
-      id: $id,
-      user_id: $user_id
+      id: $id
     ) {
       id
     }

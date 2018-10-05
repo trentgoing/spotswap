@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import Login from '../Login/Login.js';
 import AddSpot from '../AddSpot/AddSpot.js';
@@ -12,7 +12,7 @@ import Map from '../Map/Map';
 class App extends Component {
   constructor(props){
     super(props);
-  }
+  };
 
   render() {
     return (
@@ -36,7 +36,7 @@ class App extends Component {
           <CarList user_id={this.state.user_id}/> */}
         </div>
     );
-  }
-}
+  };
+};
 
 export default App;
