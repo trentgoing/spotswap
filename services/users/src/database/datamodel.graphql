@@ -39,7 +39,7 @@ type Listing {
   id: ID! @unique
   listing_user: User @relation(name: "Lister")
   claiming_user: User @relation(name: "Claimer")
-  spot_id: Spot!
+  spot: Spot
   type: Int
   status: Int
   time_complete: DateTime
@@ -57,6 +57,6 @@ type Spot {
   zip: Int,
   is_available: Boolean! @default(value: "true")
   type: Int
-  start_time: DateTime!
+  start_time: DateTime
   end_time: DateTime
 }
