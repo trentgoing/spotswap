@@ -16,12 +16,23 @@ class Map extends Component {
       lng: -73.9824,
       lat: 40.7426,
       zoom: 11.39,
-      redirect: false,
+      listRedirect: false,
+      claimRedirect: false,
       listSpotLng: 0,
       listSpotLat: 0,
+      claimedSpot: {},
       map: {}
     };
+
+    this.claimSpot = this.claimSpot.bind(this);
   };
+
+  claimSpot(spot) {
+    this.setState({
+      claimRedirect: true,
+      claimedSpot: spot
+    });
+  }
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
@@ -59,9 +70,8 @@ class Map extends Component {
     });
 
     map.on('click', 'point', (e) => {
-      console.log("YO YOU WANNA ADD THIS SPOT?" + e.lngLat);
       this.setState({
-        redirect: true,
+        listRedirect: true,
         listSpotLat: e.lngLat.lat,
         listSpotLng: e.lngLat.lng
       });
@@ -171,20 +181,24 @@ class Map extends Component {
   };
 
   render() {
-    if (this.state.redirect) {return <Redirect to={{
+    if (this.state.listRedirect) {return <Redirect to={{
       pathname: '/addSpot',
       state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
+    }} />;};
+    if (this.state.claimRedirect) {return <Redirect to={{
+      pathname: '/claimSpot',
+      state: { spot: this.state.claimedSpot }
     }} />;};
     const { lng, lat, zoom } = this.state;
     return (
       <div id="map">
-        <div id="location-describe" className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
+        {/* <div id="location-describe" className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
           <div>{`Longitude: ${lng} Latitude: ${lat} Zoom: ${zoom}`}</div>
-        </div>
+        </div> */}
         <div ref={el => this.mapContainer = el} id="map-container" />
         <div id='geocoder' className='geocoder'></div>
         <NavBar map={this.state.map} user_id={this.props.user_id} />
-        <SpotsList map={this.state.map} />
+        <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
       </div>
     ); 
   };
