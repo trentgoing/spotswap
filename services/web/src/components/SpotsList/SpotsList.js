@@ -15,7 +15,6 @@ class SpotList extends Component {
 
   displaySpots() {
     var data = this.props.data;
-    console.log
     if (data.loading || data.spots === undefined) {
       return (
         <div> Loading... </div>
@@ -26,12 +25,14 @@ class SpotList extends Component {
       );
     } else {
       data.spots.forEach((spot) => {
-        console.log(this.props);
         if(!(this.props.map.getSource(`${spot.id}`))) {
           let geojson = {
             "type": "FeatureCollection",
             "features": [{
                 "type": "Feature",
+                "properties": {
+                  "spot_id": spot.id,
+                },
                 "geometry": {
                     "type": "Point",
                     "coordinates": [spot.lng, spot.lat]
@@ -48,9 +49,25 @@ class SpotList extends Component {
             "source": `${spot.id}`,
             "paint": {
                 "circle-radius": 10,
-                "circle-color": "#f44242"
+                "circle-color": `${spot.type === 1 ? '#f4f142' : '#f44242'}`
             }
           });
+
+          this.props.map.on('mouseenter', `${spot.id}`, () => {
+            this.props.map.getCanvas().style.cursor = 'pointer';
+          });
+      
+          // Change it back to a pointer when it leaves.
+          this.props.map.on('mouseleave', `${spot.id}`, () => {
+            this.props.map.getCanvas().style.cursor = '';
+          });
+
+          this.props.map.on('click', `${spot.id}`, (e) => {
+            console.log("YO YOU WANNA CLAIM THIS SPOT?" + e.features[0].properties.spot_id);
+            let spot = e.features[0].properties.spot_id;
+            this.props.claimSpot(spot);
+          });
+
         }
       });
     }
