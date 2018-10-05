@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Thu Oct 04 2018 15:45:02 GMT-0400 (EDT)
+# timestamp: Thu Oct 04 2018 22:22:44 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -1334,7 +1334,7 @@ type Spot implements Node {
   zip: Int
   is_available: Boolean!
   type: Int
-  start_time: DateTime!
+  start_time: DateTime
   end_time: DateTime
 }
 
@@ -1358,7 +1358,7 @@ input SpotCreateInput {
   zip: Int
   is_available: Boolean
   type: Int
-  start_time: DateTime!
+  start_time: DateTime
   end_time: DateTime
   user: UserCreateOneInput
 }
@@ -1419,7 +1419,7 @@ type SpotPreviousValues {
   zip: Int
   is_available: Boolean!
   type: Int
-  start_time: DateTime!
+  start_time: DateTime
   end_time: DateTime
 }
 
@@ -2461,4 +2461,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
