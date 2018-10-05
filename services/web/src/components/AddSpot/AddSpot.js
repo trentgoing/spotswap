@@ -87,6 +87,9 @@ class AddSpot extends Component {
     return (
       <div>
         <h1 className="Locations-title">List a Spot</h1>
+        <div>
+          List a Spot for {this.props.location.state.lng} , {this.props.location.state.lat}
+        </div>
         <div className="btn-group" role="group" aria-label="Basic example">
           <button 
             type="button" 

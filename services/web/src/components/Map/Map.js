@@ -3,6 +3,7 @@ import './Map.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import NavBar from '../NavBar/NavBar.js';
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 // console.log(process.env.REACT_APP_MAPBOX_API_KEY);
@@ -13,9 +14,14 @@ class Map extends Component {
     this.state = {
       lng: -73.9824,
       lat: 40.7426,
-      zoom: 11.39
+      zoom: 11.39,
+      redirect: false,
+      listSpotLng: 0,
+      listSpotLat: 0
     };
   }
+
+  
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
@@ -37,8 +43,102 @@ class Map extends Component {
       });
     });
 
-    map.on('click', function (e) {
-      console.log(e.lngLat);
+    map.on('click', 'places', function (e) {
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      var description = e.features[0].properties.description;
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(description)
+          .addTo(map);
+    });
+
+    map.on('click', 'point', (e) => {
+      console.log("YO YOU WANNA ADD THIS SPOT?" + e.lngLat);
+      this.setState({
+        redirect: true,
+        listSpotLat: e.lngLat.lat,
+        listSpotLng: e.lngLat.lng
+      });
+    });
+
+    // Change the cursor to a pointer when the mouse is over the places layer.
+    map.on('mouseenter', 'places', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'places', function () {
+        map.getCanvas().style.cursor = '';
+    });
+
+    map.on('mouseenter', 'point', function() {
+      map.setPaintProperty('point', 'circle-color', '#3bb2d0');
+      map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'point', function() {
+      map.setPaintProperty('point', 'circle-color', '#3887be');
+      map.getCanvas().style.cursor = '';
+    });
+
+    map.on('click', (e) =>  {
+      if (this.state.zoom < 17) {
+        let newZoom = parseInt(this.state.zoom, 10) + 2;
+        map.flyTo({center: e.lngLat, zoom: newZoom});
+        this.setState({
+          zoom: newZoom
+        })
+      } else {
+        console.log("Need to place a marker on: " + e.lngLat);
+        if(map.getSource('point')) {
+          let geojson = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.lngLat.lng, e.lngLat.lat]
+                }
+            }]
+          };
+          map.getSource('point').setData(geojson);
+        } else {
+          let geojson = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.lngLat.lng, e.lngLat.lat]
+                }
+            }]
+          };
+  
+          map.addSource('point', {
+            "type": "geojson",
+            "data": geojson
+          });
+  
+          map.addLayer({
+            "id": "point",
+            "type": "circle",
+            "source": "point",
+            "paint": {
+                "circle-radius": 10,
+                "circle-color": "#3887be"
+            }
+          });
+        }
+  
+      }
       // map.flyTo({center: e.lngLat});
     });
 
@@ -69,6 +169,10 @@ class Map extends Component {
   }
 
   render() {
+    if (this.state.redirect) {return <Redirect to={{
+      pathname: '/addSpot',
+      state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
+    }} />;};
     const { lng, lat, zoom } = this.state;
     return (
       <div id="map">
