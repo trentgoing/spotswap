@@ -6,10 +6,10 @@ class Spot extends Component {
     return (
       <div>
         {this.props.spot.street1}
-        {this.props.spot.type === "spotted" ? ": Spotted" : ": Reserved"}
+        {this.props.spot.type === 1 ? ": Reserved" : ": Spotted"}
       </div>
     );
-  }
-}
+  };
+};
 
 export default Spot;

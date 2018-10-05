@@ -5,14 +5,13 @@ import { getSpotsQuery } from '../../queries/queriesSpot';
 import Spot from '../Spot/Spot.js'
 
 
-
 class SpotList extends Component {
   constructor(props) {
     super(props);
     this.state = {
     }
     this.displaySpots = this.displaySpots.bind(this);
-  }
+  };
 
   displaySpots() {
     var data = this.props.data;
@@ -22,7 +21,7 @@ class SpotList extends Component {
       );
     } else if (data.spots.length === 0) {
       return (
-        <div> No Spots Currently Available!</div>
+        <div> No Spots Currently Available! </div>
       );
     } else {
       return data.spots.map((spot) => {
@@ -31,9 +30,9 @@ class SpotList extends Component {
             <Spot spot={spot} />
           </div>
         );
-      })
+      });
     }
-  }
+  };
 
   render() {
     console.log(this.props);
@@ -46,7 +45,7 @@ class SpotList extends Component {
       </div>
     );
   }
-}
+};
 
 export default graphql(getSpotsQuery, {
   options: (props) => {

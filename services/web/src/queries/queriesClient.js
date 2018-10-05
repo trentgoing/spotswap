@@ -19,4 +19,4 @@ const updateSearch = gql`
   }
 `;
 
-export { getCurrentSearch, updateSearch }
+export { getCurrentSearch, updateSearch };

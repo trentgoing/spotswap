@@ -3,7 +3,6 @@ import { graphql, compose } from 'react-apollo';
 import './AddCar.css';
 import { getCarsQuery, addCarMutation } from '../../queries/queriesCar';
 
-
 class AddCar extends Component {
   constructor(props) {
     super(props);
@@ -14,10 +13,10 @@ class AddCar extends Component {
       color: '',
       plate: '',
       state: ''
-    }
+    };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
-  }
+  };
 
   handleInputChange(event) {
     const target = event.target;
@@ -26,7 +25,7 @@ class AddCar extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   submitForm(event) {
     event.preventDefault();
@@ -49,7 +48,7 @@ class AddCar extends Component {
       .catch((err) => {
         console.log(err);
       })
-  }
+  };
 
   render() {
     return (
@@ -84,8 +83,8 @@ class AddCar extends Component {
           <button>+</button>
       </form>
     );
-  }
-}
+  };
+};
 
 export default compose(
   graphql(addCarMutation, { name: "addCarMutation" })

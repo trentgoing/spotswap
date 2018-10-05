@@ -3,25 +3,9 @@ import { withRouter } from 'react-router';
 import { AUTH_TOKEN } from '../../constants';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { signup, login } from '../../queries/queriesUser';
+import { signupQuery, loginQuery } from '../../queries/queriesUser';
 
 import './Login.css';
-
-const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($email: String!, $password: String!, $user_name: String!) {
-    signup(email: $email, password: $password, user_name: $user_name) {
-      token
-    }
-  }
-`
-
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
-  }
-`
 
 class Login extends Component {
   state = {
@@ -29,10 +13,10 @@ class Login extends Component {
     email: '',
     password: '',
     user_name: '',
-  }
+  };
 
   render() {
-    const { login, email, password, user_name} = this.state
+    const { login, email, password, user_name } = this.state
     return (
       <div className="Login">
         <h4 className="mv3">{login ? 'Login' : 'Sign Up'}</h4>
@@ -60,7 +44,7 @@ class Login extends Component {
         </div>
         <div className="flex mt3">
           <Mutation
-            mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
+            mutation={login ? loginQuery : signupQuery}
             variables={{ email, password, user_name }}
             onCompleted={data => this._confirm(data)}
           >
@@ -79,17 +63,17 @@ class Login extends Component {
         </div>
       </div>
     );
-  }
+  };
 
   _confirm = async data => {
     const { token } = this.state.login ? data.login : data.signup;
     this._saveUserData(token);
     this.props.history.push(`/`);
-  }
+  };
 
   _saveUserData = token => {
     localStorage.setItem(AUTH_TOKEN, token);
-  }
-}
+  };
+};
 
 export default withRouter(Login);

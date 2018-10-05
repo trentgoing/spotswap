@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-
 import { graphql, compose } from 'react-apollo';
-
 import { addSpotMutation, getSpotsQuery } from '../../queries/queriesSpot';
 
 // THIS IS THE FORM TO ADD A SPOT
@@ -23,13 +21,13 @@ class AddSpot extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.displayTypeOfSpotToList = this.displayTypeOfSpotToList.bind(this);
-  }
+  };
 
   changeView(arg) {
     this.setState({
       reservedToggle: arg
     })
-  }
+  };
 
   handleInputChange(event) {
     const target = event.target;
@@ -38,7 +36,7 @@ class AddSpot extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   submitForm(event) {
     event.preventDefault();
@@ -56,8 +54,8 @@ class AddSpot extends Component {
         end_time: this.state.end_time
       },
       refetchQueries: [{query: getSpotsQuery, variables: {}}]
-    })
-  }
+    });
+  };
 
   displayTypeOfSpotToList() {
     if (this.state.reservedToggle) {
@@ -81,7 +79,7 @@ class AddSpot extends Component {
         </div>
       );
     }
-  }
+  };
 
   render() {
     return (
@@ -127,8 +125,8 @@ class AddSpot extends Component {
         </form>
       </div>
     );
-  }
-}
+  };
+};
 
 export default compose(
   graphql(addSpotMutation, {name: "addSpotMutation"})

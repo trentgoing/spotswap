@@ -14,7 +14,6 @@ const getSpotsQuery = gql`
 
 const addSpotMutation = gql`
   mutation(
-    $user_id: ID!,
     $lat: String,
     $lng: String,
     $street1: String,
@@ -27,7 +26,6 @@ const addSpotMutation = gql`
     $end_time: Date
   ) {
     addSpot(
-      user_id: $user_id 
       lat: $lat
       lng: $lng
       street1: $street1

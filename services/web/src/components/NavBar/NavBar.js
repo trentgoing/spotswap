@@ -12,11 +12,10 @@ class NavBar extends Component {
     this.state = {
     }
     this.displayLogin = this.displayLogin.bind(this);
-  }
+  };
 
   componentDidMount() {
-
-  }
+  };
 
   displayLogin() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
@@ -29,7 +28,7 @@ class NavBar extends Component {
             this.props.history.push(`/`)
           }}
         >
-          logout
+          Logout
         </div>
       );
     } else {
@@ -37,11 +36,10 @@ class NavBar extends Component {
         <Link to="/login" className="btn btn-outline-secondary">Login</Link>
       );
     }
-  }
+  };
 
   render() {
-    console.log(this.props.user_id)
-
+    console.log(this.props.user_id);
     return (
       <div className="container">
         <nav className="navbar navbar-dark bg-dark navbar-expand-xs ">
@@ -69,7 +67,7 @@ class NavBar extends Component {
       </div>
     );
   }
-}
+};
 
 // export default compose (
 //   graphql(updateSearch, {name: 'updateSearch'}),

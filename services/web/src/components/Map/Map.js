@@ -15,7 +15,7 @@ class Map extends Component {
       lat: 40.7426,
       zoom: 11.39
     };
-  }
+  };
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
@@ -29,7 +29,6 @@ class Map extends Component {
 
     map.on('move', () => {
       const { lng, lat } = map.getCenter();
-
       this.setState({
         lng: lng.toFixed(4),
         lat: lat.toFixed(4),
@@ -52,13 +51,13 @@ class Map extends Component {
     var geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       country: 'us',
-      bbox: [-74.2299, 40.6778, -73.6806, 40.8789],
+      bbox: [-74.2299, 40.6778, -73.6806, 40.8789]
     });
 
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-  }
+  };
 
-  _getLatLonToRender = data => {
+  _getLatLonToRender = (data) => {
     const isNewPage = this.props.location.pathname.includes('new')
     // if (isNewPage) {
     //   return data.feed.links
@@ -66,7 +65,7 @@ class Map extends Component {
     // const rankedLinks = data.feed.links.slice()
     // rankedLinks.sort((l1, l2) => l2.votes.length - l1.votes.length)
     // return rankedLinks
-  }
+  };
 
   render() {
     const { lng, lat, zoom } = this.state;
@@ -80,7 +79,7 @@ class Map extends Component {
         <NavBar map={this.state.map} user_id={this.props.user_id} />
       </div>
     ); 
-  }
-}
+  };
+};
 
 export default Map;
