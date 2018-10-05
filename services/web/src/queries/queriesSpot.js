@@ -36,4 +36,18 @@ const addSpotMutation = gql`
   }
 `;
 
-export { addSpotMutation, getSpotsQuery };
+const editSpotMutation = gql`
+  mutation(
+    $start_time: DateTime,
+    $end_time: DateTime
+  ) {
+    editSpot(
+      start_time: $start_time
+      end_time: $end_time
+    ){
+      is_available
+    }
+  }
+`;
+
+export { addSpotMutation, getSpotsQuery, editSpotMutation };

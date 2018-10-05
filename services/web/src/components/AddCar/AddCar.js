@@ -32,7 +32,6 @@ class AddCar extends Component {
     console.log('props in addCar', this.props);
     this.props.addCarMutation({
       variables: {
-        user_id: this.props.user_id,
         size: parseInt(this.state.size, 10),
         make: this.state.make,
         model: this.state.model,
@@ -40,7 +39,7 @@ class AddCar extends Component {
         plate: this.state.plate,
         state: this.state.state,
       },
-      refetchQueries: [{query: getCarsQuery, variables: {user_id: this.props.user_id}}]
+      refetchQueries: [{query: getCarsQuery, variables: {}}]
     })
       .then(() => {
         console.log('New car submitted!');
