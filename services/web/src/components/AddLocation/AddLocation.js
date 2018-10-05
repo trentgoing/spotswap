@@ -78,7 +78,8 @@ class AddLocation extends Component {
 
   
   render() {
-    const { name, street1, street2, city, state, zip } = this.state
+    const { name, street1, street2, city, state } = this.state
+    const zip = parseInt(this.state.zip)
     return (
       <div>
           <div className="field">
@@ -107,7 +108,7 @@ class AddLocation extends Component {
           </div>
           <Mutation
             mutation={addLocationMutation}
-            variables={{ name, street1, street2, city, state, zip }}
+            variables={{ name, street1, street2, city, state, zip}}
             // onCompleted={() => this.props.history.push('/new/1')}
           // update={(store, { data: { addLocation } }) => {
           //   const data = store.readQuery({
