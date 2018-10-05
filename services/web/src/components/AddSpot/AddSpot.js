@@ -43,15 +43,28 @@ class AddSpot extends Component {
   submitForm(event) {
     event.preventDefault();
     console.log('props in addSpot', this.props);
+    console.log('vars:' + JSON.stringify({
+      lng: this.props.location.state.lng, 
+      lat: this.props.location.state.lat,
+      street1: this.state.street1,
+      street2: this.state.street2,
+      city: this.state.city,
+      state: this.state.state,
+      zip: parseInt(this.state.zip, 10),
+      type: this.state.reservedToggle ? 1 : 2,
+      start_time: this.state.start_time || Date.now(),
+      end_time: this.state.end_time
+    }))
     this.props.addSpotMutation({
       variables: {
-        user_id: this.props.user_id,
+        lng: this.props.location.state.lng, 
+        lat: this.props.location.state.lat,
         street1: this.state.street1,
         street2: this.state.street2,
         city: this.state.city,
         state: this.state.state,
         zip: parseInt(this.state.zip, 10),
-        type: this.state.reservedToggle ? 'reserved' : 'spotted',
+        type: this.state.reservedToggle ? 1 : 2,
         start_time: this.state.start_time || Date.now(),
         end_time: this.state.end_time
       },

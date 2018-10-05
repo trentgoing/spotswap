@@ -8,13 +8,14 @@ const getSpotsQuery = gql`
       city
       type
       is_available
+      lat
+      lng
     }
   }
 `;
 
 const addSpotMutation = gql`
   mutation(
-    $user_id: ID!,
     $lat: String,
     $lng: String,
     $street1: String,
@@ -23,11 +24,10 @@ const addSpotMutation = gql`
     $state: String,
     $zip: Int,
     $type: String!,
-    $start_time: Date!,
-    $end_time: Date
+    $start_time: DateTime!,
+    $end_time: DateTime
   ) {
-    addSpot(
-      user_id: $user_id 
+    addListing(
       lat: $lat
       lng: $lng
       street1: $street1
