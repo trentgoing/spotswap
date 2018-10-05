@@ -7,23 +7,16 @@ class ClaimSpot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: null
     };
     this.claimSpot = this.claimSpot.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
   };
 
-  componentDidMount(){
-    this.setState({
-      id: this.props.id
-    })
-  };
 
   claimSpot(event) {
     event.preventDefault();
     this.props.editSpotMutation({
       variables: {
-        id: this.state.id
+        id: this.props.location.state.spot
       },
       refetchQueries: [{query: getSpotsQuery, variables: {}}]
     })

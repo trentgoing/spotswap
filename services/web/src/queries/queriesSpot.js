@@ -2,12 +2,9 @@ import { gql } from 'apollo-boost';
 
 const getSpotsQuery = gql`
   {
-    spots {
+    openSpot {
       id
-      street1
-      city
       type
-      is_available
       lat
       lng
     }
@@ -39,9 +36,11 @@ const addSpotMutation = gql`
 const editSpotMutation = gql`
   mutation(
     $start_time: DateTime,
-    $end_time: DateTime
+    $end_time: DateTime,
+    $id: ID
   ) {
     editSpot(
+      id: $id
       start_time: $start_time
       end_time: $end_time
     ){

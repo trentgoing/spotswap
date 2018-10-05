@@ -15,16 +15,16 @@ class SpotList extends Component {
 
   displaySpots() {
     var data = this.props.data;
-    if (data.loading || data.spots === undefined) {
+    if (data.loading || data.openSpot === undefined) {
       return (
         <div> Loading... </div>
       );
-    } else if (data.spots.length === 0) {
+    } else if (data.openSpot.length === 0) {
       return (
         <div> No Spots Currently Available! </div>
       );
     } else {
-      data.spots.forEach((spot) => {
+      data.openSpot.forEach((spot) => {
         if(!(this.props.map.getSource(`${spot.id}`))) {
           let geojson = {
             "type": "FeatureCollection",

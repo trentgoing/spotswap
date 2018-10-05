@@ -7,6 +7,7 @@ import LocationList from '../LocationList/LocationList.js';
 import CarList from '../CarList/CarList.js';
 import SpotsList from '../SpotsList/SpotsList';
 import Header from '../Header/Header';
+import ClaimSpot from '../ClaimSpot/ClaimSpot';
 import Map from '../Map/Map';
 
 class App extends Component {
@@ -27,7 +28,7 @@ class App extends Component {
             <Route exact path="/locations" component={LocationList} />
             <Route exact path="/cars" component={CarList} />
             <Route exact path="/map/:id" component={Map} />
-            <Route exact path="/map/:id" component={Map} />
+            <Route exact path="/claimSpot" component={ClaimSpot} />
           </Switch>
           {/* <Login />
           <AddSpot user_id={this.state.user_id} />

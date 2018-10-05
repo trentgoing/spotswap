@@ -186,7 +186,7 @@ class Map extends Component {
       state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
     }} />;};
     if (this.state.claimRedirect) {return <Redirect to={{
-      pathname: '/addSpot',
+      pathname: '/claimSpot',
       state: { spot: this.state.claimedSpot }
     }} />;};
     const { lng, lat, zoom } = this.state;
