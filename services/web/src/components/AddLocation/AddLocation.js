@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
-import './AddLocation.css';
-import { addLocationMutation, getLocationsQuery } from '../../queries/queriesLocation';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag'
 
+import './AddLocation.css';
+// import { addLocationMutation, getLocationsQuery } from '../../queries/queriesLocation';
+
+const addLocationMutation = gql`
+  mutation AddLocation (
+      $name: String,
+      $street1: String,
+      $street2: String,
+      $city: String,
+      $state: String,
+      $zip: Int
+    ) {
+    addLocation(
+      name: $name,
+      street1: $street1,
+      street2: $street2,
+      city: $city,
+      state: $state,
+      zip: $zip
+    ){
+      id
+      name
+    }
+  }
+`;
 
 class AddLocation extends Component {
   constructor(props) {
@@ -16,7 +41,7 @@ class AddLocation extends Component {
       zip: '',
     }
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    // this.submitForm = this.submitForm.bind(this);
   }
 
   handleInputChange(event) {
@@ -28,33 +53,35 @@ class AddLocation extends Component {
     });
   }
 
-  submitForm(event) {
-    event.preventDefault();
-    console.log('props in addLocation', this.props);
-    this.props.addLocationMutation({
-      variables: {
-        name: this.state.name,
-        street1: this.state.address1,
-        street2: this.state.address2,
-        city: this.state.city,
-        state: this.state.state,
-        zip: parseInt(this.state.zip, 10),
-        user_id: this.props.user_id
-      },
-      refetchQueries: [{query: getLocationsQuery, variables: {user_id: this.props.user_id}}]
-    })
-      .then(() => {
-        console.log('submitted!');
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
+  // submitForm(event) {
+  //   event.preventDefault();
+  //   console.log('props in addLocation', this.props);
+  //   this.props.addLocationMutation({
+  //     variables: {
+  //       name: this.state.name,
+  //       street1: this.state.address1,
+  //       street2: this.state.address2,
+  //       city: this.state.city,
+  //       state: this.state.state,
+  //       zip: parseInt(this.state.zip, 10),
+  //       user_id: this.props.user_id
+  //     },
+  //     refetchQueries: [{query: getLocationsQuery, variables: {user_id: this.props.user_id}}]
+  //   })
+  //     .then(() => {
+  //       console.log('submitted!');
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }
 
   
   render() {
+    const { name, street1, street2, city, state } = this.state
+    const zip = parseInt(this.state.zip)
     return (
-      <form id="add-location" onSubmit={this.submitForm}>
+      <div>
           <div className="field">
               <label>Location name:</label>
               <input type="text" name="name" onChange={(event) => this.handleInputChange(event)} value={this.state.name}/>
@@ -79,13 +106,27 @@ class AddLocation extends Component {
               <label>Zip:</label>
               <input type="text" name="zip" onChange={(event) => this.handleInputChange(event)} value={this.state.zip}/>
           </div>
-          <button>+</button>
-
-      </form>
+          <Mutation
+            mutation={addLocationMutation}
+            variables={{ name, street1, street2, city, state, zip}}
+            // onCompleted={() => this.props.history.push('/new/1')}
+          // update={(store, { data: { addLocation } }) => {
+          //   const data = store.readQuery({
+          //     query: getLocationsQuery,
+          //   })
+          //   data.feed.links.unshift(addLocation)
+          //   store.writeQuery({
+          //     query: getLocationsQuery,
+          //     data,
+          //     variables: { first, skip, orderBy },
+          //   })
+          // }}
+          >
+          {addLocation => <button onClick={addLocation}>+</button>}
+        </Mutation>
+        </div>
     );
   }
 }
 
-export default compose(
-  graphql(addLocationMutation, { name: "addLocationMutation" })
-)(AddLocation);
+export default AddLocation;

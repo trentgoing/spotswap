@@ -149,6 +149,16 @@ class Map extends Component {
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   }
 
+  _getLatLonToRender = data => {
+    const isNewPage = this.props.location.pathname.includes('new')
+    // if (isNewPage) {
+    //   return data.feed.links
+    // }
+    // const rankedLinks = data.feed.links.slice()
+    // rankedLinks.sort((l1, l2) => l2.votes.length - l1.votes.length)
+    // return rankedLinks
+  }
+
   render() {
     const { lng, lat, zoom } = this.state;
     return (

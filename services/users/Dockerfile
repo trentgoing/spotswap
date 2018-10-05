@@ -12,4 +12,4 @@ ADD package.json /usr/src/package.json
 RUN npm install
 
 # start app
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 const getLocationsQuery = gql`
-  query($user_id: ID){
-    locations(user_id: $user_id){
+  query{
+    locations{
       id
       name
       city
