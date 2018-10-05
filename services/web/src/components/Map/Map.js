@@ -3,6 +3,7 @@ import './Map.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import NavBar from '../NavBar/NavBar.js';
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 // console.log(process.env.REACT_APP_MAPBOX_API_KEY);
@@ -13,7 +14,10 @@ class Map extends Component {
     this.state = {
       lng: -73.9824,
       lat: 40.7426,
-      zoom: 11.39
+      zoom: 11.39,
+      redirect: false,
+      listSpotLng: 0,
+      listSpotLat: 0
     };
   }
 
@@ -56,8 +60,13 @@ class Map extends Component {
           .addTo(map);
     });
 
-    map.on('click', 'point', function (e) {
-      alert("YO YOU WANNA ADD THIS SPOT?")
+    map.on('click', 'point', (e) => {
+      console.log("YO YOU WANNA ADD THIS SPOT?" + e.lngLat);
+      this.setState({
+        redirect: true,
+        listSpotLat: e.lngLat.lat,
+        listSpotLng: e.lngLat.lng
+      });
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
@@ -160,6 +169,10 @@ class Map extends Component {
   }
 
   render() {
+    if (this.state.redirect) {return <Redirect to={{
+      pathname: '/addSpot',
+      state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
+    }} />;};
     const { lng, lat, zoom } = this.state;
     return (
       <div id="map">
