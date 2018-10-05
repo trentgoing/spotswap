@@ -10,13 +10,14 @@
     "watch-tests": "jest --watchAll",
     "dev": "npm-run-all --parallel start playground",
     "coverage": "jest --coverage",
-    "playground": "graphql playground",
+    "playground": "graphql playground --port 5000",
     "prisma": "prisma",
     "graphql": "graphql"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-link-context": "^1.0.9",
     "bcryptjs": "^2.4.3",
     "graphql": "^14.0.2",
     "graphql-yoga": "^1.16.2",

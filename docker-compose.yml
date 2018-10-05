@@ -55,6 +55,7 @@ services:
       - './services/users/package.json:/usr/src/package.json'
     ports:
       - '3000:3000' # expose ports - HOST:CONTAINER
+      - '5000:5000'
     environment:
       # - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       # - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
@@ -71,8 +72,8 @@ services:
     container_name: web-service
     build: ./services/web/
     volumes:
-      - './services/web:/usr/src/app'
-      - '/usr/src/app/node_modules'
+      - './services/web:/opt/app'
+      - '/opt/app/node_modules'
     ports:
       - '8080:8080' # expose ports - HOST:CONTAINER
     environment:

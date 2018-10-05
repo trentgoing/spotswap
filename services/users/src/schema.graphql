@@ -1,11 +1,6 @@
-# import Car from "./generated/prisma.graphql"
-# import Spot from "./generated/prisma.graphql"
-# import Location from "./generated/prisma.graphql"
-# import Listing from "./generated/prisma.graphql"
+# import Car, Spot, Location , Listing from "./generated/prisma.graphql"
 
 type Query {
-  user (id: ID) : User
-  users : [User]
   location (id: ID!) : Location
   locations : [Location]
   car (id: ID!) : Car
@@ -15,6 +10,23 @@ type Query {
   listing (id: ID!, listing_user_id: ID, claiming_user_id: ID, spot_id:ID) : Listing
   listings (listing_user_id: ID, claiming_user_id: ID, type: Int, status: Int) : [Listing]
   openSpot : [Spot]
+}
+
+type Mutation {
+  signup (email: String!, password: String!, user_name: String!) : AuthPayload
+  login (email: String!, password: String!) : AuthPayload
+  editUser (user_name: String, first_name: String, last_name: String, email: String, phone_number: String, password: String) : User
+  addLocation (name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
+  editLocation (id: ID!, name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
+  deleteLocation (id: ID) : Location
+  addCar (size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
+  editCar (id: ID!, size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
+  deleteCar (id: ID) : Car
+  addSpot (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
+  editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
+  deleteSpot (id: ID) : Spot
+  addListing (spot_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
+  editListing (spot_id: ID, claiming_user_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
 }
 
 type AuthPayload {
@@ -31,21 +43,4 @@ type User {
     last_name: String
     email: String!
     phone_number: String
-}
-
-type Mutation {
-  signup (email: String!, password: String!, user_name: String!) : AuthPayload
-  login (email: String!, password: String!) : AuthPayload
-  editUser (user_name: String, first_name: String, last_name: String, email: String, phone_number: String, password: String) : User
-  addLocation (name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
-  editLocation (id: ID!, name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
-  deleteLocation (id: ID) : Location
-  addCar (size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
-  editCar (id: ID!, size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
-  deleteCar (id: ID) : Car
-  addSpot (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
-  editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
-  deleteSpot (id: ID) : Spot
-  addListing (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime, status: Int) : Listing
-  editListing (id: ID, spot_id: ID, claiming_user_id: ID, status: Int, time_complete: DateTime) : Listing
 }

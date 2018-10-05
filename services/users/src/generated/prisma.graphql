@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Thu Oct 04 2018 18:35:08 GMT-0400 (EDT)
+# timestamp: Thu Oct 04 2018 22:22:44 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -2463,4 +2463,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, Query } from 'react-apollo';
 import './LocationList.css';
 import { getLocationsQuery, deleteLocationMutation } from '../../queries/queriesLocation';
 import Location from '../Location/Location.js'
@@ -17,20 +17,36 @@ class LocationList extends Component {
   }
 
   displayLocations() {
-    var data = this.props.data;
-    if (data.loading || data.locations === undefined) {
-      return (
-        <div> Loading... </div>
-      )
-    } else {
-      return data.locations.map((location) => {
-        return (
-          <div key={location.id}>
-            <Location location={location} deleteLocation={this.deleteLocation}/>
-          </div>
-        );
-      })
-    }
+    // var data = this.props.data;
+    // if (data.loading || data.locations === undefined) {
+    //   return (
+    //     <div> Loading... </div>
+    //   )
+    // } else {
+    //   return data.locations.map((location) => {
+    //     return (
+    //       <div key={location.id}>
+    //         <Location location={location} deleteLocation={this.deleteLocation}/>
+    //       </div>
+    //     );
+    //   })
+    // }
+
+    return (
+      <Query query={getLocationsQuery} >
+        {({ loading, error, data, subscribeToMore }) => {
+          if (loading) return <div>Fetching</div>;
+          if (error) return <div>Error</div>;
+            return (
+              data.locations.map((location) => {
+               return (
+                <div key={location.id}>
+                  <Location location={location} deleteLocation={this.deleteLocation}/>
+                </div>
+               )}));
+        }}
+      </Query>
+    )
   }
   
   displayLocationList() {
@@ -74,21 +90,23 @@ class LocationList extends Component {
           <h1 className="Locations-title">Your Locations</h1>
         </header>
         <AddLocation user_id={this.props.user_id}/>
-        {this.displayLocationList()}
+        {this.displayLocations()}
       </div>
     );
   }
 }
 
-export default compose(
-  graphql(getLocationsQuery, {
-    options: (props) => {
-      return {
-        variables: {
-          user_id: props.user_id
-        }
-      }
-    }
-  }),
-  graphql(deleteLocationMutation, {name: "deleteLocationMutation"})
-)(LocationList);
+// export default compose(
+//   graphql(getLocationsQuery, {
+//     options: (props) => {
+//       return {
+//         variables: {
+//           user_id: props.user_id
+//         }
+//       }
+//     }
+//   }),
+//   graphql(deleteLocationMutation, {name: "deleteLocationMutation"})
+// )(LocationList);
+
+export default LocationList;

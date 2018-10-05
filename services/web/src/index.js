@@ -1,15 +1,57 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/App/App';
+
 import registerServiceWorker from './registerServiceWorker';
 import { ApolloProvider } from 'react-apollo';
 import { withClientState } from 'apollo-link-state';
 import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { BrowserRouter } from 'react-router-dom';
+import { setContext } from 'apollo-link-context';
+import { split } from 'apollo-link'
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from 'apollo-utilities'
 import { ApolloLink } from 'apollo-link';
 import gql from 'graphql-tag';
+
+import { AUTH_TOKEN } from './constants';
+import './index.css';
+import App from './components/App/App';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3000',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(AUTH_TOKEN);
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  }
+});
+
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:3000`,
+  options: {
+    reconnect: true,
+    connectionParams: {
+      authToken: localStorage.getItem(AUTH_TOKEN),
+    },
+  },
+});
+
+const link = split(
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query)
+    return kind === 'OperationDefinition' && operation === 'subscription'
+  },
+  wsLink,
+  authLink.concat(httpLink),
+);
 
 const cache = new InMemoryCache();
 
@@ -49,19 +91,18 @@ const stateLink = withClientState({
 })
 
 const client = new ApolloClient({
-  cache,
-  link: ApolloLink.from([
-    stateLink,
-    new HttpLink({ uri: 'http://localhost:3000/graphql' })
-  ])
+  link,
+  cache
 })
 
 
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 )
 registerServiceWorker();
