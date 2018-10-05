@@ -2,32 +2,8 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag'
-
 import './AddLocation.css';
-// import { addLocationMutation, getLocationsQuery } from '../../queries/queriesLocation';
-
-const addLocationMutation = gql`
-  mutation AddLocation (
-      $name: String,
-      $street1: String,
-      $street2: String,
-      $city: String,
-      $state: String,
-      $zip: Int
-    ) {
-    addLocation(
-      name: $name,
-      street1: $street1,
-      street2: $street2,
-      city: $city,
-      state: $state,
-      zip: $zip
-    ){
-      id
-      name
-    }
-  }
-`;
+import { addLocationMutation, getLocationsQuery } from '../../queries/queriesLocation';
 
 class AddLocation extends Component {
   constructor(props) {
@@ -39,10 +15,10 @@ class AddLocation extends Component {
       city: '',
       state: '',
       zip: '',
-    }
+    };
     this.handleInputChange = this.handleInputChange.bind(this);
     // this.submitForm = this.submitForm.bind(this);
-  }
+  };
 
   handleInputChange(event) {
     const target = event.target;
@@ -51,7 +27,7 @@ class AddLocation extends Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   // submitForm(event) {
   //   event.preventDefault();
@@ -126,7 +102,7 @@ class AddLocation extends Component {
         </Mutation>
         </div>
     );
-  }
-}
+  };
+};
 
 export default AddLocation;

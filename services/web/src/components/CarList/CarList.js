@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import './CarList.css';
 import { getCarsQuery, deleteCarMutation } from '../../queries/queriesCar';
-import Car from '../Car/Car'
+import Car from '../Car/Car';
 import AddCar from '../AddCar/AddCar';
 
 
 class CarList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
+    this.state = {};
     this.displayCars = this.displayCars.bind(this);
     this.displayCarList = this.displayCarList.bind(this);
     this.deleteCar = this.deleteCar.bind(this);
-  }
+  };
 
   displayCars() {
     var data = this.props.data;
@@ -31,7 +30,7 @@ class CarList extends Component {
         );
       })
     }
-  }
+  };
   
   displayCarList() {
     const {user_id} = this.props
@@ -48,10 +47,9 @@ class CarList extends Component {
         </div>
       )
     }
-  }
+  };
 
   deleteCar(carId) {
-    // console.log('carId', carId);
     this.props.deleteCarMutation({
       variables: {
         user_id: this.props.user_id,
@@ -65,7 +63,7 @@ class CarList extends Component {
     .catch((err) => {
       console.log(err);
     })
-  }
+  };
 
   render() {
     console.log('props in CarList', this.props);
@@ -79,7 +77,7 @@ class CarList extends Component {
       </div>
     );
   }
-}
+};
 
 export default compose(
   graphql(getCarsQuery, {

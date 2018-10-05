@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
 const getCarsQuery = gql`
-query($user_id: ID){
-  cars(user_id: $user_id){
+query{
+  cars{
     id
     make
     model
@@ -21,16 +21,14 @@ query($user_id: ID){
 
 const addCarMutation = gql`
   mutation(
-    $size: Int!,
-    $make: String!,
-    $model: String!,
-    $color: String!,
-    $plate: String!,
-    $state: String!,
-    $user_id: ID!
+    $size: Int,
+    $make: String,
+    $model: String,
+    $color: String,
+    $plate: String,
+    $state: String
   ) {
     addCar(
-      user_id: $user_id,
       size: $size,
       make: $make,
       model: $model,
@@ -46,12 +44,10 @@ const addCarMutation = gql`
 
 const deleteCarMutation = gql`
   mutation(
-    $id: ID!,
-    $user_id: ID!
+    $id: ID!
   ) {
     deleteCar(
-      id: $id,
-      user_id: $user_id
+      id: $id
     ) {
       id
     }

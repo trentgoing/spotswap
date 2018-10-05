@@ -4,9 +4,8 @@ import './Car.css';
 class Car extends Component {
   constructor(props) {
     super(props);
-    this.state = {  
-    }
-  }
+    this.state = {};
+  };
 
   render() {
     return (
@@ -17,7 +16,7 @@ class Car extends Component {
         </p>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Car;
