@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import './NavBar.css';
 import { graphql, compose } from 'react-apollo';
 import { getCurrentSearch, updateSearch } from '../../queries/queriesClient';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router'
+import { AUTH_TOKEN } from '../../constants';
 
 class NavBar extends Component {
   constructor(props) {
@@ -18,20 +19,29 @@ class NavBar extends Component {
   }
 
   displayLogin() {
-    if (this.props.user_id) {
+    const authToken = localStorage.getItem(AUTH_TOKEN);
+    if (authToken) {
       return (
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        <div
+          className="navbar-toggler"
+          onClick={() => {
+            localStorage.removeItem(AUTH_TOKEN)
+            this.props.history.push(`/`)
+          }}
+        >
+          logout
+        </div>
       );
     } else {
       return (
-        <button className="btn btn-outline-secondary" type="submit">Sign In</button>
+        <Link to="/login" className="btn btn-outline-secondary">Login</Link>
       );
     }
   }
 
   render() {
+    console.log(this.props.user_id)
+
     return (
       <div className="container">
         <nav className="navbar navbar-dark bg-dark navbar-expand-xs ">
@@ -61,14 +71,16 @@ class NavBar extends Component {
   }
 }
 
-export default compose (
-  graphql(updateSearch, {name: 'updateSearch'}),
-  graphql(getCurrentSearch, {
-    props: ({ data: { currentSearch, loading } }) => {
-      return ({
-        currentSearch,
-        loading
-      })
-    }
-  })
-)(NavBar);
+// export default compose (
+//   graphql(updateSearch, {name: 'updateSearch'}),
+//   graphql(getCurrentSearch, {
+//     props: ({ data: { currentSearch, loading } }) => {
+//       return ({
+//         currentSearch,
+//         loading
+//       })
+//     }
+//   })
+// )(NavBar);
+
+export default withRouter(NavBar);
