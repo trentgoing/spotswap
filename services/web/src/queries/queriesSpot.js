@@ -8,6 +8,8 @@ const getSpotsQuery = gql`
       city
       type
       is_available
+      lat
+      lng
     }
   }
 `;

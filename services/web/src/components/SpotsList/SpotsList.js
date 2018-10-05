@@ -15,6 +15,7 @@ class SpotList extends Component {
 
   displaySpots() {
     var data = this.props.data;
+    console.log
     if (data.loading || data.spots === undefined) {
       return (
         <div> Loading... </div>
@@ -24,18 +25,38 @@ class SpotList extends Component {
         <div> No Spots Currently Available! </div>
       );
     } else {
-      return data.spots.map((spot) => {
-        return (
-          <div key={spot.id}>
-            <Spot spot={spot} />
-          </div>
-        );
+      data.spots.forEach((spot) => {
+        console.log(this.props);
+        if(!(this.props.map.getSource(`${spot.id}`))) {
+          let geojson = {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [spot.lng, spot.lat]
+                }
+            }]
+          };
+          this.props.map.addSource(`${spot.id}`, {
+            "type": "geojson",
+            "data": geojson
+          });
+          this.props.map.addLayer({
+            "id": `${spot.id}`,
+            "type": "circle",
+            "source": `${spot.id}`,
+            "paint": {
+                "circle-radius": 10,
+                "circle-color": "#f44242"
+            }
+          });
+        }
       });
     }
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="Spots">
         <header className="Login-header">

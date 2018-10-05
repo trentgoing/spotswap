@@ -3,7 +3,8 @@ import './Map.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import NavBar from '../NavBar/NavBar.js';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom';
+import SpotsList from '../SpotsList/SpotsList';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 // console.log(process.env.REACT_APP_MAPBOX_API_KEY);
@@ -17,7 +18,8 @@ class Map extends Component {
       zoom: 11.39,
       redirect: false,
       listSpotLng: 0,
-      listSpotLat: 0
+      listSpotLat: 0,
+      map: {}
     };
   };
 
@@ -152,6 +154,10 @@ class Map extends Component {
     });
 
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+    this.setState({
+      map: map
+    })
   };
 
   _getLatLonToRender = (data) => {
@@ -178,6 +184,7 @@ class Map extends Component {
         <div ref={el => this.mapContainer = el} id="map-container" />
         <div id='geocoder' className='geocoder'></div>
         <NavBar map={this.state.map} user_id={this.props.user_id} />
+        <SpotsList map={this.state.map} />
       </div>
     ); 
   };
