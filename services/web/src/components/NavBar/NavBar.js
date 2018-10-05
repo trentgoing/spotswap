@@ -39,7 +39,6 @@ class NavBar extends Component {
   };
 
   render() {
-    console.log(this.props.user_id);
     return (
       <div className="container">
         <nav className="navbar navbar-dark bg-dark navbar-expand-xs ">

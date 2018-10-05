@@ -25,7 +25,7 @@ type Mutation {
   addSpot (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
   editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
   deleteSpot (id: ID) : Spot
-  addListing (spot_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
+  addListing (lat: String, lng: String, type: Int, status: Int, start_time: DateTime, end_time: DateTime) : Listing
   editListing (spot_id: ID, claiming_user_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
 }
 
