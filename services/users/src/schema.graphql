@@ -4,7 +4,7 @@
 # import Listing from "./generated/prisma.graphql"
 
 type Query {
-  user : User
+  user (id: ID) : User
   users : [User]
   location (id: ID!) : Location
   locations : [Location]
@@ -14,7 +14,7 @@ type Query {
   spots : [Spot]
   listing (id: ID!, listing_user_id: ID, claiming_user_id: ID, spot_id:ID) : Listing
   listings (listing_user_id: ID, claiming_user_id: ID, type: Int, status: Int) : [Listing]
-  openListings : [Listing]
+  openSpot : [Spot]
 }
 
 type AuthPayload {
@@ -44,8 +44,8 @@ type Mutation {
   editCar (id: ID!, size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
   deleteCar (id: ID) : Car
   addSpot (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
-  editSpot (id: ID, lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
+  editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
   deleteSpot (id: ID) : Spot
-  addListing (spot_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
-  editListing (spot_id: ID, claiming_user_id: ID, type: Int, status: Int, time_complete: DateTime) : Listing
+  addListing (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime, status: Int) : Listing
+  editListing (id: ID, spot_id: ID, claiming_user_id: ID, status: Int, time_complete: DateTime) : Listing
 }

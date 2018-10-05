@@ -184,16 +184,7 @@ function editSpot (parent, args, context, info) {
   return context.db.mutation.updateSpot(
     {
       data: {
-        user_id: userId,
-        lat: args.lat,
-        lng: args.lng,
-        street1: args.street1,
-        street2: args.street2,
-        city: args.city,
-        state: args.state,
-        zip: args.zip,
-        is_available: true,
-        type: args.type,
+        is_available: false,
         start_time: args.start_time,
         end_time: args.end_time
       },
@@ -213,9 +204,9 @@ function deleteSpot (parent, args, context, info) {
   )
 };
 
-function addListing (parent, args, context, info) {
+function addListing (parent, args, context, info) { //working
   const userId = getUserId(context);
-  return context.db.mutation.addListing(
+  return context.db.mutation.createListing(
     {
       data: {
         listing_user: {
@@ -223,10 +214,23 @@ function addListing (parent, args, context, info) {
             id: userId
           }
         },
-        spot_id: args.spot_id,
+        spot: {
+          create: {
+            lat: args.lat,
+            lng: args.lng,
+            street1: args.street1,
+            street2: args.street2,
+            city: args.city,
+            state: args.state,
+            zip: args.zip,
+            is_available: true,
+            type: args.type,
+            start_time: args.start_time,
+            end_time: args.end_time
+          }
+        },
         type: args.type,
-        status: args.status,
-        time_complete: args.time_complete
+        status: args.status
       }
     },
     info
@@ -235,19 +239,26 @@ function addListing (parent, args, context, info) {
 
 function editListing (parent, args, context, info) {
   const userId = getUserId(context);
-  return context.db.mutation.addListing(
+  return context.db.mutation.updateListing(
     {
       data: {
         claiming_user: {
-          connect:{
+          connect: {
             id: args.claiming_user_id
           }
         },
-        type: args.type,
         status: args.status,
-        time_complete: args.time_complete
+        time_complete: args.time_complete,
+        spot: {
+          update: [
+            {
+              where: {id: args.spot_id},
+              data: {is_available: false}
+            }
+          ]
+        }
       },
-      where: {spot_id: args.spot_id}
+      where: {id: args.id}
     },
     info
   )
