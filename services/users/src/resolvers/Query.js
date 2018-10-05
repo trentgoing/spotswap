@@ -35,8 +35,8 @@ function listings (parent, args, context, info) {
   return context.db.query.listings({}, info);
 }
 
-function openListings (parent, args, context, info) {
-  return context.db.query.listings({ where: {status: 1} }, info);
+function openSpot (parent, args, context, info) {
+  return context.db.query.spots({ where: {is_available: true} }, info);
 }
 
 module.exports = {
@@ -48,5 +48,5 @@ module.exports = {
   spots,
   listing,
   listings,
-  openListings
+  openSpot
 };

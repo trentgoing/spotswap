@@ -467,7 +467,7 @@ type Listing implements Node {
   id: ID!
   listing_user: User
   claiming_user: User
-  spot_id: Spot!
+  spot: Spot
   type: Int
   status: Int
   time_complete: DateTime
@@ -489,7 +489,7 @@ input ListingCreateInput {
   time_complete: DateTime
   listing_user: UserCreateOneInput
   claiming_user: UserCreateOneInput
-  spot_id: SpotCreateOneInput!
+  spot: SpotCreateOneInput
 }
 
 """An edge in a connection."""
@@ -568,7 +568,7 @@ input ListingUpdateInput {
   time_complete: DateTime
   listing_user: UserUpdateOneInput
   claiming_user: UserUpdateOneInput
-  spot_id: SpotUpdateOneRequiredInput
+  spot: SpotUpdateOneInput
 }
 
 input ListingWhereInput {
@@ -688,7 +688,7 @@ input ListingWhereInput {
   time_complete_gte: DateTime
   listing_user: UserWhereInput
   claiming_user: UserWhereInput
-  spot_id: SpotWhereInput
+  spot: SpotWhereInput
 }
 
 input ListingWhereUniqueInput {
@@ -1492,9 +1492,11 @@ input SpotUpdateInput {
   user: UserUpdateOneInput
 }
 
-input SpotUpdateOneRequiredInput {
+input SpotUpdateOneInput {
   create: SpotCreateInput
   connect: SpotWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
   update: SpotUpdateDataInput
   upsert: SpotUpsertNestedInput
 }

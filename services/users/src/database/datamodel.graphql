@@ -39,7 +39,7 @@ type Listing {
   id: ID! @unique
   listing_user: User @relation(name: "Lister")
   claiming_user: User @relation(name: "Claimer")
-  spot_id: Spot!
+  spot: Spot
   type: Int
   status: Int
   time_complete: DateTime
