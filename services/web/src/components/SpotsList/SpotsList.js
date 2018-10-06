@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-
+import { graphql, Query } from 'react-apollo';
+import { withRouter } from 'react-router';
 import { getSpotsQuery } from '../../queries/queriesSpot';
 import Spot from '../Spot/Spot.js'
 
@@ -13,17 +13,8 @@ class SpotList extends Component {
     this.displaySpots = this.displaySpots.bind(this);
   };
 
-  displaySpots() {
-    var data = this.props.data;
-    if (data.loading || data.openSpot === undefined) {
-      return (
-        <div> Loading... </div>
-      );
-    } else if (data.openSpot.length === 0) {
-      return (
-        <div> No Spots Currently Available! </div>
-      );
-    } else {
+  displaySpots(data) {
+    
       data.openSpot.forEach((spot) => {
         if(!(this.props.map.getSource(`${spot.id}`))) {
           let geojson = {
@@ -70,7 +61,6 @@ class SpotList extends Component {
 
         }
       });
-    }
   };
 
   render() {
@@ -79,17 +69,21 @@ class SpotList extends Component {
         <header className="Login-header">
           <h1 className="Spots-title">Spots</h1>
         </header>
-        {this.displaySpots()}
+        <Query 
+          query={getSpotsQuery}
+        >
+          {({ loading, error, data, subscribeToMore }) => {
+            if (loading) return <div>Fetching</div>;
+            if (error) return <div>Error</div>;
+            if (data) this.displaySpots(data)
+              return (
+                <div></div>
+              );
+          }}
+        </Query>
       </div>
     );
   }
 };
 
-export default graphql(getSpotsQuery, {
-  options: (props) => {
-    return {
-      variables: {
-      }
-    }
-  }
-})(SpotList);
+export default withRouter(SpotList);

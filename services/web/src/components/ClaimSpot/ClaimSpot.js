@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, Mutation } from 'react-apollo';
+import { withRouter } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { getSpotsQuery, editSpotMutation } from '../../queries/queriesSpot';
 import moment from 'moment';
 
@@ -8,35 +10,22 @@ class ClaimSpot extends Component {
     super(props);
     this.state = {
     };
-    this.claimSpot = this.claimSpot.bind(this);
-  };
-
-
-  claimSpot(event) {
-    event.preventDefault();
-    this.props.editSpotMutation({
-      variables: {
-        id: this.props.location.state.spot
-      },
-      refetchQueries: [{query: getSpotsQuery, variables: {}}]
-    })
-    .then(() => {
-      console.log('Spot claimed');
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   };
 
   render() {
+    const id = this.props.location.state.spot;
     return (
       <div>
-        <button onClick={this.claimSpot}>Claim</button>
+        <Mutation
+          mutation={editSpotMutation}
+          variables={{id}}
+          onCompleted={() => this.props.history.push('/')}
+        >
+          {editSpot => <button onClick={editSpot}>Claim</button>}
+        </Mutation>
       </div>
     );
   };
 };
 
-export default compose(
-  graphql(editSpotMutation, {name: "editSpotMutation"})
-)(ClaimSpot);
+export default withRouter(ClaimSpot);
