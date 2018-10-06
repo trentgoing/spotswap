@@ -26,17 +26,20 @@ class SpotList extends Component {
   };
 
   _subscribeToNewSpots = subscribeToMore => {
-    debugger;
     subscribeToMore({
       document: NEW_SPOTS_SUBSCRIPTION,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
-        const newSpot = subscriptionData.data.newSpot.node
+        const newSpot = subscriptionData.data.newSpot.node;
+        console.log(newSpot);
 
         return Object.assign({}, prev, {
-            spots: [newSpot, ...prev.spots],
-            __typename: prev.__typename
+          openSpot: [newSpot, ...prev.openSpot],
+            // __typename: prev.__typename
         })
+
+
+        return Object.assign({}, prev)
       }
     })
   }
