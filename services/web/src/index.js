@@ -60,7 +60,7 @@ const defaultState = {
     __typename: 'currentSearch',
     searchInput: 'Search for a spot here!'
   }
-}
+};
 
 const stateLink = withClientState({
   cache,
@@ -88,14 +88,12 @@ const stateLink = withClientState({
       }
     }
   },
-})
+});
 
 const client = new ApolloClient({
   link,
   cache
-})
-
-
+});
 
 ReactDOM.render(
   <BrowserRouter>
@@ -104,5 +102,6 @@ ReactDOM.render(
     </ApolloProvider>
   </BrowserRouter>,
   document.getElementById('root')
-)
+);
+
 registerServiceWorker();

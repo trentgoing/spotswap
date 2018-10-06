@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { graphql, compose, Query } from 'react-apollo';
 import './LocationList.css';
-import { getLocationsQuery, deleteLocationMutation } from '../../queries/queriesLocation';
-import Location from '../Location/Location.js'
+import { getLocationsQuery, deleteLocationMutation } from '../../../../queries/queriesLocation';
+import Location from '../Location/Location.js';
 import AddLocation from '../AddLocation/AddLocation';
 
 
 class LocationList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
+    this.state = {};
     this.displayLocations = this.displayLocations.bind(this);
     this.displayLocationList = this.displayLocationList.bind(this);
     this.deleteLocation = this.deleteLocation.bind(this);
-  }
+  };
 
   displayLocations() {
     // var data = this.props.data;
@@ -47,7 +46,7 @@ class LocationList extends Component {
         }}
       </Query>
     )
-  }
+  };
   
   displayLocationList() {
     const {user_id} = this.props
@@ -64,7 +63,7 @@ class LocationList extends Component {
         </div>
       )
     }
-  }
+  };
 
   deleteLocation(locationId) {
     this.props.deleteLocationMutation({
@@ -80,7 +79,7 @@ class LocationList extends Component {
     .catch((err) => {
       console.log(err);
     })
-  }
+  };
 
   render() {
     console.log('props in LocationList', this.props);
@@ -93,8 +92,8 @@ class LocationList extends Component {
         {this.displayLocations()}
       </div>
     );
-  }
-}
+  };
+};
 
 // export default compose(
 //   graphql(getLocationsQuery, {

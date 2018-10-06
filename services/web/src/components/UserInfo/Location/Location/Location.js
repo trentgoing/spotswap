@@ -4,10 +4,8 @@ import './Location.css';
 class Location extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
-    }
-  }
+    this.state = {};
+  };
 
   render() {
     return (
@@ -18,7 +16,7 @@ class Location extends Component {
         </p>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Location;
