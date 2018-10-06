@@ -26,7 +26,7 @@ type Mutation {
   editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
   deleteSpot (id: ID) : Spot
   addListing (lat: String, lng: String, type: Int, status: Int, start_time: DateTime, end_time: DateTime) : Listing
-  editListing (claiming_user_id: ID, status: Int, time_complete: DateTime) : Listing
+  editListing (id: ID, claiming_user_id: ID, status: Int, time_complete: DateTime) : Listing
 }
 
 type Subscription {
