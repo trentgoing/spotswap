@@ -85,8 +85,9 @@ class SpotList extends Component {
 
         this.props.map.on('click', `${spot.id}`, (e) => {
           console.log("YO YOU WANNA CLAIM THIS SPOT?" + e.features[0].properties.spot_id);
-          let spot = e.features[0].properties.spot_id;
-          this.props.claimSpot(spot);
+          let spotId = e.features[0].properties.spot_id;
+          let spotType = spot.type
+          this.props.claimSpot(spotId, spotType);
         });
       }
     });
