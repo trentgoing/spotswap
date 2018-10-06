@@ -248,15 +248,7 @@ function editListing (parent, args, context, info) {
           }
         },
         status: args.status,
-        time_complete: args.time_complete,
-        spot: {
-          update: [
-            {
-              where: {id: args.spot_id},
-              data: {is_available: false}
-            }
-          ]
-        }
+        time_complete: args.time_complete
       },
       where: {id: args.id}
     },

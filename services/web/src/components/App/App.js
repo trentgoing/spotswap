@@ -8,7 +8,8 @@ import LocationList from '../UserInfo/Location/LocationList/LocationList';
 import CarList from '../UserInfo/Car/CarList/CarList';
 import SpotsList from '../Map/SpotsList/SpotsList';
 import Header from '../Header/Header';
-import ClaimSpot from '../Transaction/ClaimSpot/ClaimSpot';
+import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
+import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
 
 class App extends Component {
   constructor(props){
@@ -28,7 +29,8 @@ class App extends Component {
             <Route exact path="/locations" component={LocationList} />
             <Route exact path="/cars" component={CarList} />
             <Route exact path="/map/:id" component={Map} />
-            <Route exact path="/claimSpot" component={ClaimSpot} />
+            <Route exact path="/claimSpotted" component={ClaimSpotted} />
+            <Route exact path="/claimReserved" component={ClaimReserved} />
           </Switch>
           {/* <Login />
           <AddSpot user_id={this.state.user_id} />
