@@ -6,6 +6,8 @@ class Spot extends Component {
     return (
       <div>
         {this.props.spot.street1}
+        {this.props.spot.is_available}
+        
         {this.props.spot.type === "spotted" ? ": Spotted" : ": Reserved"}
       </div>
     );

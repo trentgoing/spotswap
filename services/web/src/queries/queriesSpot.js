@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
 const getSpotsQuery = gql`
-  {
+  query getStops {
     spots {
       id
       street1
@@ -13,8 +13,7 @@ const getSpotsQuery = gql`
 `;
 
 const addSpotMutation = gql`
-  mutation(
-    $user_id: ID!,
+  mutation addSpotMutation (
     $lat: String,
     $lng: String,
     $street1: String,
@@ -22,12 +21,11 @@ const addSpotMutation = gql`
     $city: String,
     $state: String,
     $zip: Int,
-    $type: String!,
-    $start_time: Date!,
-    $end_time: Date
+    $type: Int!,
+    $start_time: DateTime,
+    $end_time: DateTime
   ) {
     addSpot(
-      user_id: $user_id 
       lat: $lat
       lng: $lng
       street1: $street1
@@ -38,8 +36,12 @@ const addSpotMutation = gql`
       type: $type
       start_time: $start_time
       end_time: $end_time
-    ){
+    ) {
       id
+      street1
+      city
+      type
+      is_available
     }
   }
 `;
