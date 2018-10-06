@@ -2,7 +2,20 @@ import React, { Component } from 'react';
 import { graphql, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { getSpotsQuery } from '../../../queries/queriesSpot';
+import gql from 'graphql-tag'
 
+
+const NEW_SPOTS_SUBSCRIPTION = gql`
+  subscription {
+    newSpot {
+      node {
+        id
+        lat
+        lng
+      }
+    }
+  }
+`;
 
 class SpotList extends Component {
   constructor(props) {
@@ -11,6 +24,22 @@ class SpotList extends Component {
     }
     this.displaySpots = this.displaySpots.bind(this);
   };
+
+  _subscribeToNewSpots = subscribeToMore => {
+    debugger;
+    subscribeToMore({
+      document: NEW_SPOTS_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev
+        const newSpot = subscriptionData.data.newSpot.node
+
+        return Object.assign({}, prev, {
+            spots: [newSpot, ...prev.spots],
+            __typename: prev.__typename
+        })
+      }
+    })
+  }
 
   displaySpots(data) {
     
@@ -74,6 +103,9 @@ class SpotList extends Component {
           {({ loading, error, data, subscribeToMore }) => {
             if (loading) return <div>Fetching</div>;
             if (error) return <div>Error</div>;
+
+            this._subscribeToNewSpots(subscribeToMore);
+
             if (data) this.displaySpots(data)
               return (
                 <div></div>

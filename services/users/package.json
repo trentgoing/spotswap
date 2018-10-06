@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app/src/index.js",
+    "start": "nodemon src/index.js",
     "lint": "eslint src",
     "test": "jest",
     "watch-tests": "jest --watchAll",
@@ -17,10 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-link-context": "^1.0.9",
     "bcryptjs": "^2.4.3",
-    "graphql": "^14.0.2",
-    "graphql-yoga": "^1.16.2",
+    "graphql-yoga": "^1.14.12",
     "jsonwebtoken": "^8.3.0",
     "nodemon": "^1.18.4",
     "prisma-binding": "^2.1.6"
