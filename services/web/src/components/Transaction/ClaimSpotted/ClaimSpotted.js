@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import { graphql, compose, Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
-import { getSpotsQuery, editSpotMutation } from '../../../queries/queriesSpot';
+import { editSpotMutation } from '../../../queries/queriesSpot';
+import { editListingMutation } from'../../../queries/queriesListing';
 import moment from 'moment';
 
-class ClaimSpot extends Component {
+class ClaimSpotted extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   };
 
   render() {
     const id = this.props.location.state.spot;
     return (
       <div>
+        <div>Parking spot was seeing here X mins ago</div>
         <Mutation
           mutation={editSpotMutation}
           variables={{id}}
@@ -28,4 +29,7 @@ class ClaimSpot extends Component {
   };
 };
 
-export default withRouter(ClaimSpot);
+export default withRouter(ClaimSpotted);
+
+
+//beware that in SpotsList and Map, it's called ClaimSpot;
