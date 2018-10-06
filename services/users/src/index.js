@@ -3,20 +3,22 @@ const { Prisma } = require('prisma-binding');
 
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
-const AuthPayload = require('./resolvers/AuthPayload')
+const AuthPayload = require('./resolvers/AuthPayload');
+const Subscription = require('./resolvers/Subscription');
 
 const resolvers = {
   Query,
-  Mutation
+  Mutation,
+  Subscription
 };
 
 const server = new GraphQLServer({
-  typeDefs : 'app/src/schema.graphql',
+  typeDefs : './src/schema.graphql',
   resolvers,
   context: req => ({
     ...req,
     db: new Prisma({
-      typeDefs: 'app/src/generated/prisma.graphql',
+      typeDefs: 'src/generated/prisma.graphql',
       endpoint: 'https://us1.prisma.sh/milton-lopez/spotswap/dev',
       secret: 'spotswap',
       debug: true,
