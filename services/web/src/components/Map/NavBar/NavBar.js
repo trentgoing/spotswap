@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import './NavBar.css';
-import { graphql, compose } from 'react-apollo';
-import { getCurrentSearch, updateSearch } from '../../queries/queriesClient';
 import { Link } from 'react-router-dom';
-import { AUTH_TOKEN } from '../../constants';
+import { AUTH_TOKEN } from '../../../constants';
 
 class NavBar extends Component {
   constructor(props) {

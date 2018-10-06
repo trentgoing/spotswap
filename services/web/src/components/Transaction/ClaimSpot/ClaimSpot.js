@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { graphql, compose, Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
-import { getSpotsQuery, editSpotMutation } from '../../queries/queriesSpot';
+import { getSpotsQuery, editSpotMutation } from '../../../queries/queriesSpot';
 import moment from 'moment';
 
 class ClaimSpot extends Component {

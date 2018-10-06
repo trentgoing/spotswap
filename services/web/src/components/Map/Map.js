@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './Map.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import NavBar from '../NavBar/NavBar.js';
+import NavBar from './NavBar/NavBar.js';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import SpotsList from '../SpotsList/SpotsList';
+import SpotsList from './SpotsList/SpotsList';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 // console.log(process.env.REACT_APP_MAPBOX_API_KEY);

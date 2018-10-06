@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { addSpotMutation, getSpotsQuery } from '../../queries/queriesSpot';
+import { addSpotMutation, getSpotsQuery } from '../../../queries/queriesSpot';
 import moment from 'moment';
 
 // THIS IS THE FORM TO ADD A SPOT
