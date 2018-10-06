@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import './CarList.css';
-import { getCarsQuery, deleteCarMutation } from '../../queries/queriesCar';
+import { getCarsQuery, deleteCarMutation } from '../../../../queries/queriesCar';
 import Car from '../Car/Car';
 import AddCar from '../AddCar/AddCar';
 

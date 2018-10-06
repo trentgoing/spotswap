@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag'
 import './AddLocation.css';
-import { addLocationMutation, getLocationsQuery } from '../../queries/queriesLocation';
+import { addLocationMutation, getLocationsQuery } from '../../../../queries/queriesLocation';
 
 class AddLocation extends Component {
   constructor(props) {

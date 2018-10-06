@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, compose, Query } from 'react-apollo';
 import './LocationList.css';
-import { getLocationsQuery, deleteLocationMutation } from '../../queries/queriesLocation';
+import { getLocationsQuery, deleteLocationMutation } from '../../../../queries/queriesLocation';
 import Location from '../Location/Location.js';
 import AddLocation from '../AddLocation/AddLocation';
 

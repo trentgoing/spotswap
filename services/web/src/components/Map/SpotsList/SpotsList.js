@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { getSpotsQuery } from '../../queries/queriesSpot';
-import Spot from '../Spot/Spot.js'
+import { getSpotsQuery } from '../../../queries/queriesSpot';
 
 
 class SpotList extends Component {

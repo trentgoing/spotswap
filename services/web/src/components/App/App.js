@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
-import Login from '../Login/Login.js';
-import AddSpot from '../AddSpot/AddSpot.js';
-import LocationList from '../LocationList/LocationList.js';
-import CarList from '../CarList/CarList.js';
-import SpotsList from '../SpotsList/SpotsList';
-import Header from '../Header/Header';
-import ClaimSpot from '../ClaimSpot/ClaimSpot';
 import Map from '../Map/Map';
+import Login from '../Login/Login.js';
+import AddSpot from '../Transaction/AddSpot/AddSpot';
+import LocationList from '../UserInfo/Location/LocationList/LocationList';
+import CarList from '../UserInfo/Car/CarList/CarList';
+import SpotsList from '../Map/SpotsList/SpotsList';
+import Header from '../Header/Header';
+import ClaimSpot from '../Transaction/ClaimSpot/ClaimSpot';
 
 class App extends Component {
   constructor(props){
