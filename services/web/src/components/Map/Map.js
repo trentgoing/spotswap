@@ -160,10 +160,10 @@ class Map extends Component {
     });
   };
 
-  claimSpot(spot) {
+  claimSpot(spotId, spotType) {
     this.setState({
-      claimRedirect: spot.type,
-      claimedSpot: spot
+      claimRedirect: spotType,
+      claimedSpot: spotId
     })
   };
 
