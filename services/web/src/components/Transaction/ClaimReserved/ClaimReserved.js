@@ -3,6 +3,7 @@ import { graphql, compose, Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { getSpotsQuery, editSpotMutation } from '../../../queries/queriesSpot';
+import { editListingMutation } from'../../../queries/queriesListing';
 import moment from 'moment';
 
 class ClaimReserved extends Component {
@@ -21,7 +22,8 @@ class ClaimReserved extends Component {
   };
 
   render() {
-    const id = this.props.location.state.spot;
+    const spot_id = this.props.location.state.spotId;
+    const listing_id = this.props.location.state.listingId;
     if (!this.state.clicked) {
       return (
         <div>
@@ -35,11 +37,15 @@ class ClaimReserved extends Component {
         <div>
           <div>Are you sure?</div>
           <Mutation
-            mutation={editSpotMutation}
-            variables={{id}}
+            mutation={editListingMutation}
+            variables={{
+              spot_id: spot_id,
+              listing_id: listing_id,
+              status: 2
+            }}
             onCompleted={() => this.props.history.push('/')}
           >
-            {editSpot => <button onClick={editSpot}>Claim Spot</button>}
+            {editSpotListing => <button onClick={editSpotListing}>Claim Spot</button>}
           </Mutation>
         </div>
       )

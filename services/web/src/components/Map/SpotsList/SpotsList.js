@@ -83,11 +83,12 @@ class SpotList extends Component {
           this.props.map.getCanvas().style.cursor = '';
         });
 
-        this.props.map.on('click', `${spot.id}`, (e) => {
+        this.props.map.on('click', `${spot.id}`, () => {
           console.log(`YO YOU WANNA CLAIM THIS SPOT? ${spot.id}`);
           let spotId = spot.id;
-          let spotType = spot.type
-          this.props.claimSpot(spotId, spotType);
+          let spotType = spot.type;
+          let listingId = spot.listing.id
+          this.props.claimSpot(spotId, spotType, listingId);
         });
       }
     });
@@ -99,9 +100,7 @@ class SpotList extends Component {
         <header className="Login-header">
           <h1 className="Spots-title">Spots</h1>
         </header>
-        <Query 
-          query={getSpotsQuery}
-        >
+        <Query query={getSpotsQuery}>
           {({ loading, error, data, subscribeToMore }) => {
             if (loading) return <div>Fetching</div>;
             if (error) return <div>Error</div>;

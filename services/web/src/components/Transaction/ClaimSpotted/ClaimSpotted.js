@@ -12,6 +12,7 @@ class ClaimSpotted extends Component {
     this.state = {
       clicked: false
     };
+    this.changeState = this.changeState.bind(this);
   };
 
   changeState() {
@@ -21,28 +22,40 @@ class ClaimSpotted extends Component {
   };
 
   render() {
-    const id = this.props.location.state.spot;
-    // const statusThree = 3;
-    // const statusTwo = 2;
-    //mutation to edit spot and edit listing
+    const spot_id = this.props.location.state.spotId;
+    const listing_id = this.props.location.state.listingId;
     if (!this.state.clicked) {
       return (
         <div>
           <div>Parking spot was seeing here X mins ago</div>
           <Mutation
-            mutation={editSpotMutation}
-            variables={{id}}
+            mutation={editListingMutation}
+            variables={{
+              spot_id: spot_id,
+              listing_id: listing_id,
+              status: 3
+            }}
             onCompleted={() => this.props.history.push('/')}
           >
-            {editSpot => <button onClick={editSpot}>Spot No Longer Available</button>}
+            {editSpotListing => <button onClick={() => {
+              editSpotListing();
+              this.changeState();
+            }}>Spot No Longer Available</button>}
           </Mutation>
   
           <Mutation
-            mutation={editSpotMutation}
-            variables={{id}}
+            mutation={editListingMutation}
+            variables={{
+              spot_id: spot_id,
+              listing_id: listing_id, 
+              status: 2
+            }}
             onCompleted={() => this.props.history.push('/')}
           >
-            {editSpot => <button onClick={editSpot}>I Parked Here</button>}
+            {editSpotListing => <button onClick={() => {
+              editSpotListing();
+              this.changeState();
+            }}>I Parked Here</button>}
           </Mutation>
         </div>
       );
