@@ -24,12 +24,13 @@ class Map extends Component {
       listRedirect: false,
       listSpotLng: 0,
       listSpotLat: 0,
-      claimedSpot: {},
-      map: {},
       modalShow: true,
       spotType: 0,
       spotId: '',
-      listingId: ''
+      listingId: '',
+      spotStartTime: '',
+      spotEndTime: '',
+      map: {}
     };
     this.claimSpot = this.claimSpot.bind(this);
   };
@@ -171,26 +172,32 @@ class Map extends Component {
     });
   };
 
-  claimSpot(spotId, spotType, listingId) {
+  claimSpot(spot) {
     this.setState({
-      listingId: listingId,
-      spotType: spotType,
-      spotId: spotId
+      listingId: spot.listing.id,
+      spotType: spot.type,
+      spotId: spot.id,
+      spotStartTime: spot.start_time,
+      spotEndTime: spot.end_time
     });
-    if (spotType === 1) {
+
+    if (spot.type === 1) {
       this.props.history.push({
         pathname: '/claimReserved',
         state: { 
-          spotId: spotId, 
-          listingId: listingId
+          spotId: this.state.spotId, 
+          listingId: this.state.listingId, 
+          start_time: this.state.spotStartTime, 
+          end_time: this.state.spotEndTime
         }
       });
-    } else if (spotType === 2) {
+    } else if (spot.type === 2) {
       this.props.history.push({
         pathname: '/claimSpotted',
         state: { 
-          spotId: spotId, 
-          listingId: listingId
+          spotId: this.state.spotId, 
+          listingId: this.state.listingId, 
+          start_time: this.state.spotStartTime
         }
       });
     } else {

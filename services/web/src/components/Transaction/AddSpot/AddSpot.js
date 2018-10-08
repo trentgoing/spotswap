@@ -12,7 +12,7 @@ class AddSpot extends Component {
     this.state = {
       reservedToggle: false,
       start_time: moment().format(),
-      end_time:  moment().format(),
+      end_time:  '',
       modalShow: true,
       homeRedirect: false
     };
