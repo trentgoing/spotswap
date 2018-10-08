@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
 const getSpotsQuery = gql`
-  {
+  query OpenSpotQuery {
     openSpot {
       id
       type

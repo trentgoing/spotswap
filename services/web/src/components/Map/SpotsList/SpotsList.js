@@ -12,6 +12,7 @@ const NEW_SPOTS_SUBSCRIPTION = gql`
         id
         lat
         lng
+        type
       }
     }
   }
@@ -34,20 +35,20 @@ class SpotList extends Component {
         const newSpot = subscriptionData.data.newSpot.node;
         console.log(newSpot);
 
-        return Object.assign({}, prev, {
-          openSpot: [newSpot, ...prev.openSpot],
-            // __typename: prev.__typename
-        })
+        var openSpots = [newSpot, ...prev.openSpot];
 
+        var newSpotObj = {
+          openSpot: openSpots,
+          __typename: "openSpot"
+        };
 
-        // return Object.assign({}, prev)
+        this.addSpot(newSpot);
       }
     })
   }
 
   addSpot(spot) {
     if(!(this.props.map.getSource(`${spot.id}`))) {
-
       let geojson = {
         "type": "FeatureCollection",
         "features": [{
@@ -109,6 +110,8 @@ class SpotList extends Component {
             if (error) return <div>Error</div>;
 
             this._subscribeToNewSpots(subscribeToMore);
+
+            // console.log(data)
 
             if (data) this.displaySpots(data)
               return (
