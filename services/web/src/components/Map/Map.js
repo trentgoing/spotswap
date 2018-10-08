@@ -3,15 +3,21 @@ import './Map.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import NavBar from './NavBar/NavBar.js';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 import SpotsList from './SpotsList/SpotsList';
+import Login from '../Login/Login.js';
+import AddSpot from '../Transaction/AddSpot/AddSpot';
+import LocationList from '../UserInfo/Location/LocationList/LocationList';
+import CarList from '../UserInfo/Car/CarList/CarList';
+import ClaimSpot from '../Transaction/ClaimSpot/ClaimSpot';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 // console.log(process.env.REACT_APP_MAPBOX_API_KEY);
 
 class Map extends Component {
-  constructor(props){
-    super(props);
+  constructor(props, context){
+    super(props, context);
     this.state = {
       lng: -73.9824,
       lat: 40.7426,
@@ -21,9 +27,9 @@ class Map extends Component {
       listSpotLng: 0,
       listSpotLat: 0,
       claimedSpot: {},
-      map: {}
+      map: {},
+      modalShow: true
     };
-
     this.claimSpot = this.claimSpot.bind(this);
   };
 
@@ -33,6 +39,8 @@ class Map extends Component {
       claimedSpot: spot
     });
   }
+
+
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
@@ -71,9 +79,12 @@ class Map extends Component {
 
     map.on('click', 'point', (e) => {
       this.setState({
-        listRedirect: true,
         listSpotLat: e.lngLat.lat,
         listSpotLng: e.lngLat.lng
+      })
+      this.props.history.push({
+        pathname: '/addSpot',
+        state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
       });
     });
 
@@ -181,6 +192,13 @@ class Map extends Component {
   };
 
   render() {
+    const popover = (
+      <Popover id="modal-popover" title="popover">
+        very popover. such engagement
+      </Popover>
+    );
+    const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
+
     if (this.state.listRedirect) {return <Redirect to={{
       pathname: '/addSpot',
       state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
@@ -191,17 +209,24 @@ class Map extends Component {
     }} />;};
     const { lng, lat, zoom } = this.state;
     return (
+      <React.Fragment>
       <div id="map">
-        {/* <div id="location-describe" className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
-          <div>{`Longitude: ${lng} Latitude: ${lat} Zoom: ${zoom}`}</div>
-        </div> */}
         <div ref={el => this.mapContainer = el} id="map-container" />
         <div id='geocoder' className='geocoder'></div>
         <NavBar map={this.state.map} user_id={this.props.user_id} />
         <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
       </div>
+        <Switch>
+          <Route exact path="/addSpot" component={AddSpot} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/spots" component={SpotsList} />
+          <Route exact path="/locations" component={LocationList} />
+          <Route exact path="/cars" component={CarList} />
+          <Route exact path="/claimSpot" component={ClaimSpot} />
+        </Switch>
+      </React.Fragment>
     ); 
   };
 };
 
-export default Map;
+export default withRouter(Map);

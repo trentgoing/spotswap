@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { addSpotMutation, getSpotsQuery } from '../../../queries/queriesSpot';
 import moment from 'moment';
+import { Modal, Button, OverlayTrigger, Tooltip, Popover } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 // THIS IS THE FORM TO ADD A SPOT
 class AddSpot extends Component {
@@ -10,9 +12,13 @@ class AddSpot extends Component {
     this.state = {
       reservedToggle: false,
       start_time: moment().format(),
-      end_time:  moment().format()
+      end_time:  moment().format(),
+      modalShow: true,
+      homeRedirect: false
     };
-
+    
+    this.handleClose = this.handleClose.bind(this);
+    this.handleShow = this.handleShow.bind(this);
     this.changeView = this.changeView.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.displayTypeOfSpotToList = this.displayTypeOfSpotToList.bind(this);
@@ -23,6 +29,11 @@ class AddSpot extends Component {
       reservedToggle: arg
     })
   };
+
+  handleClose() {
+    console.log('GO HOME')
+    this.setState({ homeRedirect: true });
+  }
 
   submitForm(event) {
     event.preventDefault();
@@ -64,30 +75,48 @@ class AddSpot extends Component {
   };
 
   render() {
+    if (this.state.homeRedirect) {return <Redirect to={{
+      pathname: '/',
+      state: {}
+    }} />;};
     return (
-      <div>
-        <h1 className="Locations-title">List a Spot</h1>
-        <div>
-          List a Spot for {this.props.location.state.lng} , {this.props.location.state.lat}
-        </div>
-        <div className="btn-group" role="group" aria-label="Basic example">
-          <button 
-            type="button" 
-            className={'btn btn-primary ' + (this.state.reservedToggle ? '': 'active')} 
-            onClick={() => this.changeView(false)}
-          > I noticed a Spot </button>
-          <button 
-            type="button" 
-            className={'btn btn-primary ' + (this.state.reservedToggle ? 'active': '')} 
-            onClick={() => this.changeView(true)}
-          > I am holding a Spot </button>
-        </div>
+      <React.Fragment>
+        <div className="modal-container">
+          <Modal show={this.state.modalShow} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modal heading</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div>
+                <h1 className="Locations-title">List a Spot</h1>
+                <div>
+                  List a Spot for {this.props.location.state.lng} , {this.props.location.state.lat}
+                </div>
+                <div className="btn-group" role="group" aria-label="Basic example">
+                  <button 
+                    type="button" 
+                    className={'btn btn-primary ' + (this.state.reservedToggle ? '': 'active')} 
+                    onClick={() => this.changeView(false)}
+                  > I noticed a Spot </button>
+                  <button 
+                    type="button" 
+                    className={'btn btn-primary ' + (this.state.reservedToggle ? 'active': '')} 
+                    onClick={() => this.changeView(true)}
+                  > I am holding a Spot </button>
+                </div>
 
-        <form id="add-location" onSubmit={this.submitForm}>
-          {this.displayTypeOfSpotToList()}
-          <button>+</button>
-        </form>
-      </div>
+                <form id="add-location" onSubmit={this.submitForm}>
+                  {this.displayTypeOfSpotToList()}
+                  <button>+</button>
+                </form>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.handleClose}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </React.Fragment>
     );
   };
 };
