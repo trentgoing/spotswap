@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import MapComp from '../Map/Map';
-import Login from '../Login/Login.js';
-import AddSpot from '../Transaction/AddSpot/AddSpot';
-import LocationList from '../UserInfo/Location/LocationList/LocationList';
-import CarList from '../UserInfo/Car/CarList/CarList';
-import SpotsList from '../Map/SpotsList/SpotsList';
 import Header from '../Header/Header';
-import ClaimSpot from '../Transaction/ClaimSpot/ClaimSpot';
+// import { Switch, Route, Redirect } from 'react-router-dom';
+// import Login from '../Login/Login.js';
+// import AddSpot from '../Transaction/AddSpot/AddSpot';
+// import LocationList from '../UserInfo/Location/LocationList/LocationList';
+// import CarList from '../UserInfo/Car/CarList/CarList';
+// import SpotsList from '../Map/SpotsList/SpotsList';
+// import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
+// import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
 
 class App extends Component {
-  constructor(props){
-    super(props);
-  };
 
   render() {
     return (
@@ -31,6 +29,7 @@ class App extends Component {
             <Route exact path="/map/:id" component={MapComp} />
             <Route exact path="/claimSpot" component={ClaimSpot} />
           </Switch> */}
+          
           {/* <Login />
           <AddSpot user_id={this.state.user_id} />
           <SpotsList />

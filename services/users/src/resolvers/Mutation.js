@@ -237,7 +237,7 @@ function addListing (parent, args, context, info) { //working
   )
 };
 
-function editListing (parent, args, context, info) {
+function editListing (parent, args, context, info) { //working until I try to change is_available in spot
   const userId = getUserId(context);
   return context.db.mutation.updateListing(
     {
@@ -247,21 +247,48 @@ function editListing (parent, args, context, info) {
             id: args.claiming_user_id
           }
         },
-        status: args.status,
-        time_complete: args.time_complete,
         spot: {
-          update: [
-            {
-              where: {id: args.spot_id},
-              data: {is_available: false}
-            }
-          ]
-        }
+          connect: {
+            id: args.spot_id
+          }
+        },
+        // spot: {
+        //   update:
+        //     {
+        //       data: {is_available: false},
+        //       where: {id: args.spot_id}
+        //     }
+        // },
+        status: args.status,
+        time_complete: args.time_complete
       },
       where: {id: args.id}
     },
     info
   )
+};
+
+function editSpotListing (parent, args, context, info) { //working
+  const userId = getUserId(context);
+  return context.db.mutation.updateSpot(
+    {
+      data: {
+        is_available: false
+      },
+      where: { id: args.spot_id}
+    },
+    info
+  )
+  .then(() => {
+    return  context.db.mutation.updateListing(
+      {
+        data: {
+          status: args.status
+        },
+        where: {id: args.listing_id}
+      }
+    )
+  })
 };
 
 module.exports = {
@@ -278,5 +305,6 @@ module.exports = {
   editSpot,
   deleteSpot,
   addListing,
-  editListing
+  editListing,
+  editSpotListing
 };

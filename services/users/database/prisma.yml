@@ -10,4 +10,4 @@ secret: spotswap
 # Deploy hook
 hooks:
   post-deploy:
-    - graphql get-schema --project database
+    -  npm run graphql get-schema --project database

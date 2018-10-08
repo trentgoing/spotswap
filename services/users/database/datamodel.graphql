@@ -55,8 +55,9 @@ type Spot {
   city: String
   state: String
   zip: Int,
-  is_available: Boolean! @default(value: "true")
+  is_available: Boolean! @default(value: "true") 
   type: Int
   start_time: DateTime
   end_time: DateTime
+  listing: Listing
 }
