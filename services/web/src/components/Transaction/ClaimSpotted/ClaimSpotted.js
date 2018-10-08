@@ -12,6 +12,7 @@ class ClaimSpotted extends Component {
     this.state = {
       clicked: false
     };
+    this.changeState = this.changeState.bind(this);
   };
 
   changeState() {
@@ -36,7 +37,10 @@ class ClaimSpotted extends Component {
             }}
             onCompleted={() => this.props.history.push('/')}
           >
-            {editSpotListing => <button onClick={editSpotListing}>Spot No Longer Available</button>}
+            {editSpotListing => <button onClick={() => {
+              editSpotListing();
+              this.changeState();
+            }}>Spot No Longer Available</button>}
           </Mutation>
   
           <Mutation
@@ -48,7 +52,10 @@ class ClaimSpotted extends Component {
             }}
             onCompleted={() => this.props.history.push('/')}
           >
-            {editSpotListing => <button onClick={editSpotListing}>I Parked Here</button>}
+            {editSpotListing => <button onClick={() => {
+              editSpotListing();
+              this.changeState();
+            }}>I Parked Here</button>}
           </Mutation>
         </div>
       );
