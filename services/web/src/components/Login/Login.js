@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { AUTH_TOKEN } from '../../constants';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import { signupQuery, loginQuery } from '../../queries/queriesUser';
 
 import './Login.css';
