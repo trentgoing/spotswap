@@ -16,10 +16,11 @@ class Map extends Component {
       lat: 40.7426,
       zoom: 11.39,
       listRedirect: false,
-      claimRedirect: 0,
       listSpotLng: 0,
       listSpotLat: 0,
-      claimedSpot: {}, //could be either spotted or reserved
+      spotType: 0,
+      spotId: '',
+      listingId: '',
       map: {}
     };
     this.claimSpot = this.claimSpot.bind(this);
@@ -46,7 +47,6 @@ class Map extends Component {
     map.on('click', 'places', (e) => {
       var coordinates = e.features[0].geometry.coordinates.slice();
       var description = e.features[0].properties.description;
-
       // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, 
       // the popup appears over the copy being pointed to.
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -160,10 +160,11 @@ class Map extends Component {
     });
   };
 
-  claimSpot(spotId, spotType) {
+  claimSpot(spotId, spotType, listingId) {
     this.setState({
-      claimRedirect: spotType,
-      claimedSpot: spotId
+      listingId: listingId,
+      spotType: spotType,
+      spotId: spotId
     })
   };
 
@@ -184,16 +185,16 @@ class Map extends Component {
         state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
       }}/>
     };
-    if (this.state.claimRedirect === 1) {
+    if (this.state.spotType === 1) {
       return <Redirect to={{
         pathname: '/claimReserved',
-        state: { spot: this.state.claimedSpot } //need to send more to ClaimSpotted
+        state: { spotId: this.state.spotId, listingId: this.state.listingId }
       }}/>
     };
-    if (this.state.claimRedirect === 2) {
+    if (this.state.spotType === 2) {
       return <Redirect to={{
         pathname: '/claimSpotted',
-        state: { spot: this.state.claimedSpot }
+        state: { spotId: this.state.spotId, listingId: this.state.listingId }
       }}/>
     };
 

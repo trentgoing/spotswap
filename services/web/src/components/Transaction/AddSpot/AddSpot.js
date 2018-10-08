@@ -15,7 +15,7 @@ class AddSpot extends Component {
 
     this.changeView = this.changeView.bind(this);
     this.submitForm = this.submitForm.bind(this);
-    this.displayTypeOfSpotToList = this.displayTypeOfSpotToList.bind(this);
+    this.displayTimeForReservedSpots = this.displayTimeForReservedSpots.bind(this);
   };
 
   changeView(arg) {
@@ -39,7 +39,7 @@ class AddSpot extends Component {
     });
   };
 
-  displayTypeOfSpotToList() {
+  displayTimeForReservedSpots() {
     if (this.state.reservedToggle) {
       return (
         <div>
@@ -84,7 +84,7 @@ class AddSpot extends Component {
         </div>
 
         <form id="add-location" onSubmit={this.submitForm}>
-          {this.displayTypeOfSpotToList()}
+          {this.displayTimeForReservedSpots()}
           <button>+</button>
         </form>
       </div>
