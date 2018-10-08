@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Thu Oct 04 2018 22:22:44 GMT-0400 (EDT)
+# timestamp: Sun Oct 07 2018 15:27:20 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -489,7 +489,20 @@ input ListingCreateInput {
   time_complete: DateTime
   listing_user: UserCreateOneInput
   claiming_user: UserCreateOneInput
-  spot: SpotCreateOneInput
+  spot: SpotCreateOneWithoutListingInput
+}
+
+input ListingCreateOneWithoutSpotInput {
+  create: ListingCreateWithoutSpotInput
+  connect: ListingWhereUniqueInput
+}
+
+input ListingCreateWithoutSpotInput {
+  type: Int
+  status: Int
+  time_complete: DateTime
+  listing_user: UserCreateOneInput
+  claiming_user: UserCreateOneInput
 }
 
 """An edge in a connection."""
@@ -568,7 +581,29 @@ input ListingUpdateInput {
   time_complete: DateTime
   listing_user: UserUpdateOneInput
   claiming_user: UserUpdateOneInput
-  spot: SpotUpdateOneInput
+  spot: SpotUpdateOneWithoutListingInput
+}
+
+input ListingUpdateOneWithoutSpotInput {
+  create: ListingCreateWithoutSpotInput
+  connect: ListingWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: ListingUpdateWithoutSpotDataInput
+  upsert: ListingUpsertWithoutSpotInput
+}
+
+input ListingUpdateWithoutSpotDataInput {
+  type: Int
+  status: Int
+  time_complete: DateTime
+  listing_user: UserUpdateOneInput
+  claiming_user: UserUpdateOneInput
+}
+
+input ListingUpsertWithoutSpotInput {
+  update: ListingUpdateWithoutSpotDataInput!
+  create: ListingCreateWithoutSpotInput!
 }
 
 input ListingWhereInput {
@@ -1336,6 +1371,7 @@ type Spot implements Node {
   type: Int
   start_time: DateTime
   end_time: DateTime
+  listing: Listing
 }
 
 """A connection to a list of items."""
@@ -1361,11 +1397,27 @@ input SpotCreateInput {
   start_time: DateTime
   end_time: DateTime
   user: UserCreateOneInput
+  listing: ListingCreateOneWithoutSpotInput
 }
 
-input SpotCreateOneInput {
-  create: SpotCreateInput
+input SpotCreateOneWithoutListingInput {
+  create: SpotCreateWithoutListingInput
   connect: SpotWhereUniqueInput
+}
+
+input SpotCreateWithoutListingInput {
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime
+  end_time: DateTime
+  user: UserCreateOneInput
 }
 
 """An edge in a connection."""
@@ -1462,21 +1514,6 @@ input SpotSubscriptionWhereInput {
   node: SpotWhereInput
 }
 
-input SpotUpdateDataInput {
-  lat: String
-  lng: String
-  street1: String
-  street2: String
-  city: String
-  state: String
-  zip: Int
-  is_available: Boolean
-  type: Int
-  start_time: DateTime
-  end_time: DateTime
-  user: UserUpdateOneInput
-}
-
 input SpotUpdateInput {
   lat: String
   lng: String
@@ -1490,20 +1527,36 @@ input SpotUpdateInput {
   start_time: DateTime
   end_time: DateTime
   user: UserUpdateOneInput
+  listing: ListingUpdateOneWithoutSpotInput
 }
 
-input SpotUpdateOneInput {
-  create: SpotCreateInput
+input SpotUpdateOneWithoutListingInput {
+  create: SpotCreateWithoutListingInput
   connect: SpotWhereUniqueInput
   disconnect: Boolean
   delete: Boolean
-  update: SpotUpdateDataInput
-  upsert: SpotUpsertNestedInput
+  update: SpotUpdateWithoutListingDataInput
+  upsert: SpotUpsertWithoutListingInput
 }
 
-input SpotUpsertNestedInput {
-  update: SpotUpdateDataInput!
-  create: SpotCreateInput!
+input SpotUpdateWithoutListingDataInput {
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime
+  end_time: DateTime
+  user: UserUpdateOneInput
+}
+
+input SpotUpsertWithoutListingInput {
+  update: SpotUpdateWithoutListingDataInput!
+  create: SpotCreateWithoutListingInput!
 }
 
 input SpotWhereInput {
@@ -1888,6 +1941,7 @@ input SpotWhereInput {
   """All values greater than or equal the given value."""
   end_time_gte: DateTime
   user: UserWhereInput
+  listing: ListingWhereInput
 }
 
 input SpotWhereUniqueInput {

@@ -8,23 +8,42 @@ import moment from 'moment';
 class ClaimReserved extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      clicked: false
+    };
+    this.changeState = this.changeState.bind(this);
+  };
+
+  changeState() {
+    this.setState({
+      clicked: true
+    })
   };
 
   render() {
     const id = this.props.location.state.spot;
-    return (
-      <div>
-        <div>This spot is being held for X mins</div>
-        <Mutation
-          mutation={editSpotMutation}
-          variables={{id}}
-          onCompleted={() => this.props.history.push('/')}
-        >
-          {editSpot => <button onClick={editSpot}>Claim Spot</button>}
-        </Mutation>
-      </div>
-    );
+    if (!this.state.clicked) {
+      return (
+        <div>
+          <div>This spot is being held for X mins</div>
+          <button onClick={this.changeState}>Claim Spot</button>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div>
+          <div>Are you sure?</div>
+          <Mutation
+            mutation={editSpotMutation}
+            variables={{id}}
+            onCompleted={() => this.props.history.push('/')}
+          >
+            {editSpot => <button onClick={editSpot}>Claim Spot</button>}
+          </Mutation>
+        </div>
+      )
+    }
   };
 };
 

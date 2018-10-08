@@ -16,7 +16,7 @@ class Map extends Component {
       lat: 40.7426,
       zoom: 11.39,
       listRedirect: false,
-      claimRedirect: 0, //redirect to either ClaimSpotted or ClaimReserved
+      claimRedirect: 0,
       listSpotLng: 0,
       listSpotLat: 0,
       claimedSpot: {}, //could be either spotted or reserved
@@ -187,7 +187,7 @@ class Map extends Component {
     if (this.state.claimRedirect === 1) {
       return <Redirect to={{
         pathname: '/claimReserved',
-        state: { spot: this.state.claimedSpot }
+        state: { spot: this.state.claimedSpot } //need to send more to ClaimSpotted
       }}/>
     };
     if (this.state.claimRedirect === 2) {
