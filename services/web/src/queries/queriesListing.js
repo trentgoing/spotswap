@@ -2,20 +2,19 @@ import { gql } from 'apollo-boost';
 
 const editListingMutation = gql`
 mutation(
-  $id: ID
-  $claiming_user_id: ID,
-  $status: Int,
-  $time_complete: DateTime
+  $spot_id: ID, 
+  $listing_id: ID, 
+  $status: Int
 ) {
-  editListing(
-    id: $id
-    claiming_user_id: $claiming_user_id
+  editSpotListing(
+    spot_id: $spot_id
+    listing_id: $listing_id 
     status: $status
-    time_complete: $time_complete
   ){
-    status
+    id
   }
 }
 `;
+
 
 export { editListingMutation };

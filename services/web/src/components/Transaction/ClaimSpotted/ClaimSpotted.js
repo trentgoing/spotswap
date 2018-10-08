@@ -9,23 +9,52 @@ import moment from 'moment';
 class ClaimSpotted extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      clicked: false
+    };
+  };
+
+  changeState() {
+    this.setState({
+      clicked: true
+    })
   };
 
   render() {
     const id = this.props.location.state.spot;
-    return (
-      <div>
-        <div>Parking spot was seeing here X mins ago</div>
-        <Mutation
-          mutation={editSpotMutation}
-          variables={{id}}
-          onCompleted={() => this.props.history.push('/')}
-        >
-          {editSpot => <button onClick={editSpot}>Claim</button>}
-        </Mutation>
-      </div>
-    );
+    // const statusThree = 3;
+    // const statusTwo = 2;
+    //mutation to edit spot and edit listing
+    if (!this.state.clicked) {
+      return (
+        <div>
+          <div>Parking spot was seeing here X mins ago</div>
+          <Mutation
+            mutation={editSpotMutation}
+            variables={{id}}
+            onCompleted={() => this.props.history.push('/')}
+          >
+            {editSpot => <button onClick={editSpot}>Spot No Longer Available</button>}
+          </Mutation>
+  
+          <Mutation
+            mutation={editSpotMutation}
+            variables={{id}}
+            onCompleted={() => this.props.history.push('/')}
+          >
+            {editSpot => <button onClick={editSpot}>I Parked Here</button>}
+          </Mutation>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div>
+          Thank you for being a great Spotter!
+        </div>
+      )
+    }
+    
   };
 };
 
