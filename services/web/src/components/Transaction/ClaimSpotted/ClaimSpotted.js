@@ -24,10 +24,11 @@ class ClaimSpotted extends Component {
   render() {
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
+    const time = moment(this.props.location.state.start_time).fromNow();
     if (!this.state.clicked) {
       return (
         <div>
-          <div>Parking spot was seeing here X mins ago</div>
+          <div>Parking spot was seeing here {time}</div>
           <Mutation
             mutation={editListingMutation}
             variables={{

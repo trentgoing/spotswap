@@ -21,6 +21,8 @@ class Map extends Component {
       spotType: 0,
       spotId: '',
       listingId: '',
+      spotStartTime: '',
+      spotEndTime: '',
       map: {}
     };
     this.claimSpot = this.claimSpot.bind(this);
@@ -160,11 +162,13 @@ class Map extends Component {
     });
   };
 
-  claimSpot(spotId, spotType, listingId) {
+  claimSpot(spot) {
     this.setState({
-      listingId: listingId,
-      spotType: spotType,
-      spotId: spotId
+      listingId: spot.listing.id,
+      spotType: spot.type,
+      spotId: spot.id,
+      spotStartTime: spot.start_time,
+      spotEndTime: spot.end_time
     })
   };
 
@@ -179,6 +183,7 @@ class Map extends Component {
   };
 
   render() {
+
     if (this.state.listRedirect) {
       return <Redirect to={{
         pathname: '/addSpot',
@@ -188,13 +193,13 @@ class Map extends Component {
     if (this.state.spotType === 1) {
       return <Redirect to={{
         pathname: '/claimReserved',
-        state: { spotId: this.state.spotId, listingId: this.state.listingId }
+        state: { spotId: this.state.spotId, listingId: this.state.listingId, start_time: this.state.spotStartTime, end_time: this.state.spotEndTime }
       }}/>
     };
     if (this.state.spotType === 2) {
       return <Redirect to={{
         pathname: '/claimSpotted',
-        state: { spotId: this.state.spotId, listingId: this.state.listingId }
+        state: { spotId: this.state.spotId, listingId: this.state.listingId, start_time: this.state.spotStartTime }
       }}/>
     };
 

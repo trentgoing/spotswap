@@ -7,6 +7,8 @@ const getSpotsQuery = gql`
       type
       lat
       lng
+      start_time
+      end_time
       listing {
         id
       }

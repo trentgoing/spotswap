@@ -24,10 +24,12 @@ class ClaimReserved extends Component {
   render() {
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
+    const time = moment(this.props.location.state.end_time) - moment(this.props.location.state.start_time);
+    console.log('time', time);
     if (!this.state.clicked) {
       return (
         <div>
-          <div>This spot is being held for X mins</div>
+          <div>This spot is being held for {time} mins</div>
           <button onClick={this.changeState}>Claim Spot</button>
         </div>
       );
