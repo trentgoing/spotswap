@@ -3,36 +3,36 @@ import './Map.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import NavBar from './NavBar/NavBar.js';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { withRouter, Switch, Route } from 'react-router-dom';
 import SpotsList from './SpotsList/SpotsList';
+import Login from '../Login/Login.js';
+import AddSpot from '../Transaction/AddSpot/AddSpot';
+import LocationList from '../UserInfo/Location/LocationList/LocationList';
+import CarList from '../UserInfo/Car/CarList/CarList';
+import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
+import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
-// console.log(process.env.REACT_APP_MAPBOX_API_KEY);
 
 class Map extends Component {
-  constructor(props){
-    super(props);
+  constructor(props, context){
+    super(props, context);
     this.state = {
       lng: -73.9824,
       lat: 40.7426,
       zoom: 11.39,
       listRedirect: false,
-      claimRedirect: false,
       listSpotLng: 0,
       listSpotLat: 0,
       claimedSpot: {},
-      map: {}
+      map: {},
+      modalShow: true,
+      spotType: 0,
+      spotId: '',
+      listingId: ''
     };
-
     this.claimSpot = this.claimSpot.bind(this);
   };
-
-  claimSpot(spot) {
-    this.setState({
-      claimRedirect: true,
-      claimedSpot: spot
-    });
-  }
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
@@ -52,13 +52,11 @@ class Map extends Component {
       });
     });
 
-    map.on('click', 'places', function (e) {
+    map.on('click', 'places', (e) => {
       var coordinates = e.features[0].geometry.coordinates.slice();
       var description = e.features[0].properties.description;
-
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
+      // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, 
+      // the popup appears over the copy being pointed to.
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
@@ -71,28 +69,31 @@ class Map extends Component {
 
     map.on('click', 'point', (e) => {
       this.setState({
-        listRedirect: true,
         listSpotLat: e.lngLat.lat,
         listSpotLng: e.lngLat.lng
+      })
+      this.props.history.push({
+        pathname: '/addSpot',
+        state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
       });
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on('mouseenter', 'places', function () {
-        map.getCanvas().style.cursor = 'pointer';
+    map.on('mouseenter', 'places', () => {
+      map.getCanvas().style.cursor = 'pointer';
     });
 
     // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'places', function () {
-        map.getCanvas().style.cursor = '';
+    map.on('mouseleave', 'places', () => {
+      map.getCanvas().style.cursor = '';
     });
 
-    map.on('mouseenter', 'point', function() {
+    map.on('mouseenter', 'point', () => {
       map.setPaintProperty('point', 'circle-color', '#3bb2d0');
       map.getCanvas().style.cursor = 'pointer';
     });
 
-    map.on('mouseleave', 'point', function() {
+    map.on('mouseleave', 'point', () => {
       map.setPaintProperty('point', 'circle-color', '#3887be');
       map.getCanvas().style.cursor = '';
     });
@@ -104,9 +105,10 @@ class Map extends Component {
         this.setState({
           zoom: newZoom
         })
-      } else {
+      }
+      else {
         console.log("Need to place a marker on: " + e.lngLat);
-        if(map.getSource('point')) {
+        if (map.getSource('point')) {
           let geojson = {
             "type": "FeatureCollection",
             "features": [{
@@ -118,7 +120,8 @@ class Map extends Component {
             }]
           };
           map.getSource('point').setData(geojson);
-        } else {
+        }
+        else {
           let geojson = {
             "type": "FeatureCollection",
             "features": [{
@@ -129,12 +132,11 @@ class Map extends Component {
                 }
             }]
           };
-  
           map.addSource('point', {
             "type": "geojson",
             "data": geojson
           });
-  
+
           map.addLayer({
             "id": "point",
             "type": "circle",
@@ -145,14 +147,13 @@ class Map extends Component {
             }
           });
         }
-  
       }
       // map.flyTo({center: e.lngLat});
     });
 
     map.addControl(new mapboxgl.GeolocateControl({
       positionOptions: {
-          enableHighAccuracy: true
+        enableHighAccuracy: true
       },
       trackUserLocation: true
     }));
@@ -167,11 +168,38 @@ class Map extends Component {
 
     this.setState({
       map: map
-    })
+    });
+  };
+
+  claimSpot(spotId, spotType, listingId) {
+    this.setState({
+      listingId: listingId,
+      spotType: spotType,
+      spotId: spotId
+    });
+    if (spotType === 1) {
+      this.props.history.push({
+        pathname: '/claimReserved',
+        state: { 
+          spotId: spotId, 
+          listingId: listingId
+        }
+      });
+    } else if (spotType === 2) {
+      this.props.history.push({
+        pathname: '/claimSpotted',
+        state: { 
+          spotId: spotId, 
+          listingId: listingId
+        }
+      });
+    } else {
+      console.log('Error, no spot Type');
+    }
   };
 
   _getLatLonToRender = (data) => {
-    const isNewPage = this.props.location.pathname.includes('new')
+    // const isNewPage = this.props.location.pathname.includes('new')
     // if (isNewPage) {
     //   return data.feed.links
     // }
@@ -181,27 +209,47 @@ class Map extends Component {
   };
 
   render() {
-    if (this.state.listRedirect) {return <Redirect to={{
-      pathname: '/addSpot',
-      state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
-    }} />;};
-    if (this.state.claimRedirect) {return <Redirect to={{
-      pathname: '/claimSpot',
-      state: { spot: this.state.claimedSpot }
-    }} />;};
-    const { lng, lat, zoom } = this.state;
+    // if (this.state.listRedirect) {
+    //   return <Redirect to={{
+    //     pathname: '/addSpot',
+    //     state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
+    //   }}/>
+    // };
+    // if (this.state.spotType === 1) {
+    //   return <Redirect to={{
+    //     pathname: '/claimReserved',
+    //     state: { spotId: this.state.spotId, listingId: this.state.listingId }
+    //   }}/>
+    // };
+    // if (this.state.spotType === 2) {
+    //   return <Redirect to={{
+    //     pathname: '/claimSpotted',
+    //     state: { spotId: this.state.spotId, listingId: this.state.listingId }
+    //   }}/>
+    // };
+
+    // const { lng, lat, zoom } = this.state;
+
     return (
+      <React.Fragment>
       <div id="map">
-        {/* <div id="location-describe" className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
-          <div>{`Longitude: ${lng} Latitude: ${lat} Zoom: ${zoom}`}</div>
-        </div> */}
         <div ref={el => this.mapContainer = el} id="map-container" />
         <div id='geocoder' className='geocoder'></div>
-        <NavBar map={this.state.map} user_id={this.props.user_id} />
+        <NavBar map={this.state.map} />
         <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
       </div>
+        <Switch>
+          <Route exact path="/addSpot" component={AddSpot} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/spots" component={SpotsList} />
+          <Route exact path="/locations" component={LocationList} />
+          <Route exact path="/cars" component={CarList} />
+          <Route exact path="/claimSpotted" component={ClaimSpotted} />
+          <Route exact path="/claimReserved" component={ClaimReserved} />
+        </Switch>
+      </React.Fragment>
     ); 
   };
 };
 
-export default Map;
+export default withRouter(Map);

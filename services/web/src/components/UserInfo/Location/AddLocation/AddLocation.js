@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+// import { graphql, compose } from 'react-apollo';
 import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag'
+// import gql from 'graphql-tag'
 import './AddLocation.css';
-import { addLocationMutation, getLocationsQuery } from '../../../../queries/queriesLocation';
+import { addLocationMutation } from '../../../../queries/queriesLocation';
 
 class AddLocation extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class AddLocation extends Component {
   
   render() {
     const { name, street1, street2, city, state } = this.state
-    const zip = parseInt(this.state.zip)
+    const zip = parseInt(this.state.zip, 10)
     return (
       <div>
           <div className="field">

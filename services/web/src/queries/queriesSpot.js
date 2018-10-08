@@ -7,6 +7,9 @@ const getSpotsQuery = gql`
       type
       lat
       lng
+      listing {
+        id
+      }
     }
   }
 `;

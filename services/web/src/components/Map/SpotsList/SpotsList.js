@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { getSpotsQuery } from '../../../queries/queriesSpot';
 import gql from 'graphql-tag'
@@ -85,32 +85,26 @@ class SpotList extends Component {
         this.props.map.getCanvas().style.cursor = '';
       });
 
-      this.props.map.on('click', `${spot.id}`, (e) => {
-        console.log("YO YOU WANNA CLAIM THIS SPOT?" + e.features[0].properties.spot_id);
-        let spot = e.features[0].properties.spot_id;
-        this.props.claimSpot(spot);
+      this.props.map.on('click', `${spot.id}`, () => {
+        console.log(`YO YOU WANNA CLAIM THIS SPOT? ${spot.id}`);
+        let spotId = spot.id;
+        let spotType = spot.type;
+        let listingId = spot.listing.id
+        this.props.claimSpot(spotId, spotType, listingId);
       });
-
     }
   }
 
   displaySpots(data) {
-    
-    console.log(data)
-      data.openSpot.forEach((spot) => {
-        this.addSpot(spot)
-      });
+    data.openSpot.forEach((spot) => {
+      this.addSpot(spot);
+    });
   };
 
   render() {
     return (
       <div className="Spots">
-        <header className="Login-header">
-          <h1 className="Spots-title">Spots</h1>
-        </header>
-        <Query 
-          query={getSpotsQuery}
-        >
+        <Query query={getSpotsQuery}>
           {({ loading, error, data, subscribeToMore }) => {
             if (loading) return <div>Fetching</div>;
             if (error) return <div>Error</div>;
