@@ -33,7 +33,6 @@ class SpotList extends Component {
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
         const newSpot = subscriptionData.data.newSpot.node;
-        console.log(newSpot);
 
         var openSpots = [newSpot, ...prev.openSpot];
 
