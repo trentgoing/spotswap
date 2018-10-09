@@ -1,15 +1,16 @@
-# import Car, Spot, Location , Listing, SpotSubscriptionPayload from "./generated/prisma.graphql"
+# import Car, Spot, Location , Listing, SpotSubscriptionPayload, ListingSubscriptionPayload from "./generated/prisma.graphql"
 
 type Query {
   location (id: ID!) : Location
   locations : [Location]
   car (id: ID!) : Car
-  cars (user_id: ID!) : [Car]
+  cars : [Car]
   spot (id: ID!) : Spot
   spots : [Spot]
   listing (id: ID!, listing_user_id: ID, claiming_user_id: ID, spot_id:ID) : Listing
   listings (listing_user_id: ID, claiming_user_id: ID, type: Int, status: Int) : [Listing]
   openSpot : [Spot]
+  myListings : [Listing]
 }
 
 type Mutation {
@@ -26,12 +27,13 @@ type Mutation {
   editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
   deleteSpot (id: ID) : Spot
   addListing (lat: String, lng: String, type: Int, status: Int, start_time: DateTime, end_time: DateTime) : Listing
-  editListing (id: ID, claiming_user_id: ID, status: Int, time_complete: DateTime, spot_id: ID) : Listing
+  editListing (id: ID, claiming_user_id: ID, status: Int, time_complete: DateTime, spot_id: ID, claimer: Boolean) : Listing
   editSpotListing (spot_id: ID, listing_id: ID, status: Int) : Spot
 }
 
 type Subscription {
-  newSpot: SpotSubscriptionPayload
+  newSpot : SpotSubscriptionPayload,
+  listingUpdate: ListingSubscriptionPayload
 }
 
 type AuthPayload {

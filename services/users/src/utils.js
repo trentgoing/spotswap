@@ -13,7 +13,19 @@ function getUserId(context) {
   throw new Error('Not authenticated');
 }
 
+function getUserIdForSockets(context) {
+  const Authorization = context.connection.context.Authorization;
+  if (Authorization) {
+    const token = Authorization.replace('Bearer ', '');
+    const { userId } = jwt.verify(token, APP_SECRET);
+    return userId;
+  }
+
+  throw new Error('Not authenticated');
+}
+
 module.exports = {
   APP_SECRET,
   getUserId,
+  getUserIdForSockets
 };

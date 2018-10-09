@@ -6,6 +6,7 @@ function location (parent, args, context, info) {
 }
 
 function locations (parent, args, context, info) {
+  console.log(context);
   const userId = getUserId(context);
   return context.db.query.locations({where: {user: {id: userId }}}, info);
 }
@@ -32,8 +33,14 @@ function listing (parent, args, context, info) {
 }
 
 function listings (parent, args, context, info) {
-  return context.db.query.listings({}, info);
+  return context.db.query.listings({ }, info);
 }
+
+function myListings (parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.db.query.listings({ where: {listing_user: {id: userId}, type: 1, OR: [{ status: 1 }, { status: 2 }] } }, info);
+}
+
 
 function openSpot (parent, args, context, info) {
   return context.db.query.spots({ where: {is_available: true} }, info);
@@ -48,5 +55,6 @@ module.exports = {
   spots,
   listing,
   listings,
-  openSpot
+  openSpot,
+  myListings
 };
