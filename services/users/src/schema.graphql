@@ -32,7 +32,7 @@ type Mutation {
 }
 
 type Subscription {
-  newSpot: SpotSubscriptionPayload,
+  newSpot : SpotSubscriptionPayload,
   listingUpdate: ListingSubscriptionPayload
 }
 
