@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { editListingMutation } from'../../../queries/queriesListing';
 import { Modal, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment';
 
 class ClaimSpotted extends Component {
   constructor(props) {
@@ -37,6 +38,8 @@ class ClaimSpotted extends Component {
     };
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
+    const timeDiff = moment(this.props.location.state.start_time).from(this.props.location.state._time)
+    // const timeDiff = moment(this.props.location.state.start_time).fromNow();
     if (!this.state.clicked) {
       return (
         <React.Fragment>
@@ -47,7 +50,7 @@ class ClaimSpotted extends Component {
             </Modal.Header>
             <Modal.Body>
               <div>
-                <div>Parking spot was seeing here X mins ago</div>
+                <div>Parking spot was seen here {timeDiff}</div>
                 <Mutation
                   mutation={editListingMutation}
                   variables={{

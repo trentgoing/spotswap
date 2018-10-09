@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { editListingMutation } from'../../../queries/queriesListing';
 import { Modal, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment';
 
 class ClaimReserved extends Component {
   constructor(props) {
@@ -35,8 +36,11 @@ class ClaimReserved extends Component {
                 state: {}
               }} />;
     };
+    
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
+    const timeLeft = moment(this.props.location.state.end_time).fromNow(true);    
+
     if (!this.state.clicked) {
       return (
         <React.Fragment>
@@ -47,7 +51,7 @@ class ClaimReserved extends Component {
               </Modal.Header>
               <Modal.Body>
                 <div>
-                  <div>This spot is being held for X mins</div>
+                  <div>This spot is being held for another {timeLeft}</div>
                   <button onClick={this.changeState}>Claim Spot</button>
                 </div>
               </Modal.Body>
