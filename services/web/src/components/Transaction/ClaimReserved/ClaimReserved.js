@@ -39,7 +39,7 @@ class ClaimReserved extends Component {
     
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
-    const timeLeft = moment(this.props.location.state.end_time).fromNow().slice(3, -4);    
+    const timeLeft = moment(this.props.location.state.end_time).fromNow(true);    
 
     if (!this.state.clicked) {
       return (

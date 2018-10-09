@@ -38,7 +38,8 @@ class ClaimSpotted extends Component {
     };
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
-    const time = moment(this.props.location.state.start_time).fromNow();
+    const timeDiff = moment(this.props.location.state.start_time).from(this.props.location.state._time)
+    // const timeDiff = moment(this.props.location.state.start_time).fromNow();
     if (!this.state.clicked) {
       return (
         <React.Fragment>
@@ -49,7 +50,7 @@ class ClaimSpotted extends Component {
             </Modal.Header>
             <Modal.Body>
               <div>
-                <div>Parking spot was seeing here {time}</div>
+                <div>Parking spot was seen here {timeDiff}</div>
                 <Mutation
                   mutation={editListingMutation}
                   variables={{
