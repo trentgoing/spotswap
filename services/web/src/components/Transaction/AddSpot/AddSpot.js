@@ -12,7 +12,7 @@ class AddSpot extends Component {
     this.state = {
       reservedToggle: false,
       start_time: moment().format(),
-      end_time:  '',
+      end_time:  moment().add(10, 'minute').format(),
       modalShow: true,
       homeRedirect: false
     };
@@ -37,7 +37,7 @@ class AddSpot extends Component {
 
   handleInputTimeChange(event) { 
     let extraMin = event.target.value;
-    let end_time = moment(this.start_time).add(extraMin, 'minute');
+    let end_time = moment(this.state.start_time).add(extraMin, 'minute').format();
     this.setState({
       end_time: end_time
     })
@@ -45,6 +45,7 @@ class AddSpot extends Component {
 
   submitForm(event) {
     event.preventDefault();
+
     this.props.addSpotMutation({
       variables: {
         lng: (this.props.location.state.lng).toString(),
