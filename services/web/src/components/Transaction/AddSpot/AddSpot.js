@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { addSpotMutation, getSpotsQuery } from '../../../queries/queriesSpot';
 import moment from 'moment';
-import { Modal, Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 // THIS IS THE FORM TO ADD A SPOT
