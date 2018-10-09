@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import MapComp from '../Map/Map';
-import Header from '../Header/Header';
 // import { Switch, Route, Redirect } from 'react-router-dom';
 // import Login from '../Login/Login.js';
 // import AddSpot from '../Transaction/AddSpot/AddSpot';
@@ -16,9 +15,7 @@ class App extends Component {
   render() {
     return (
         <div className="App">
-          <Header />
           <MapComp />
-          <br></br><br></br>
           {/* <Switch>
             <Route exact path="/" render={() => <Redirect to="/map/1" />} />
             <Route exact path="/addSpot" component={AddSpot} />
