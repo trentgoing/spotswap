@@ -87,7 +87,22 @@ class HandshakeLister extends Component {
       return (
         <React.Fragment>
           CLAIMED
+          <p>Your spot has been claimed</p>
           {JSON.stringify(listing)}
+          <Mutation
+            mutation={editListingMutation}
+            variables={{
+              spot_id: listing.spot.id,
+              listing_id: listing.id,
+              status: 6
+            }}
+            onCompleted={() => this.props.history.push('/')}
+          >
+            {editListing => <button onClick={() => {
+              editListing();
+              this.handleClose();
+            }}>Cancel</button>}
+          </Mutation>
         </React.Fragment>
       );
     } else if (listing.status === 3) {

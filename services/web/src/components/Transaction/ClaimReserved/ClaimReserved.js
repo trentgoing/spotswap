@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { editListingMutation } from'../../../queries/queriesListing';
-import { Button, Modal } from 'react-bootstrap';
+import { editListingMutation, updateListingMutation } from'../../../queries/queriesListing';
+import { Modal, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
@@ -16,6 +16,32 @@ class ClaimReserved extends Component {
     };
     this.changeState = this.changeState.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.twoFunctionMutation = this.twoFunctionMutation.bind(this);
+  };
+
+  twoFunctionMutation(editSpotListing, updateListing) {
+    const spot_id = this.props.location.state.spotId;
+    const listing_id = this.props.location.state.listingId;
+
+    editSpotListing({
+      variables: {
+        spot_id: spot_id,
+        listing_id: listing_id,
+        status: 2
+      }
+    })
+    .then(() => {
+      updateListing({
+        variables: {
+          id: listing_id,
+          spot_id: spot_id,
+          claimer: true
+        }
+      })
+    })
+    .catch((err) => {
+      console.log('Error caught on twoFunctionMutation', err);
+    })
   };
 
   changeState() {
@@ -37,8 +63,8 @@ class ClaimReserved extends Component {
               }} />;
     };
     
-    const spot_id = this.props.location.state.spotId;
-    const listing_id = this.props.location.state.listingId;
+    // const spot_id = this.props.location.state.spotId;
+    // const listing_id = this.props.location.state.listingId;
     const timeLeft = moment(this.props.location.state.end_time).fromNow(true);    
 
     if (!this.state.clicked) {
@@ -81,7 +107,7 @@ class ClaimReserved extends Component {
               <Modal.Body>
                 <div>
                   <div>Are you sure?</div>
-                  <Mutation
+                  {/* <Mutation
                     mutation={editListingMutation}
                     variables={{
                       spot_id: spot_id,
@@ -90,8 +116,32 @@ class ClaimReserved extends Component {
                     }}
                     onCompleted={() => this.props.history.push('/')}
                   >
-                    {editSpotListing => <button onClick={editSpotListing}>Claim Spot</button>}
+                    {editListing => <button onClick={editListing}>Claim Spot</button>}
+                  </Mutation> */}
+                  {/* <Mutation
+                    mutation={updateListingMutation}
+                    variables={{
+                      id: listing_id,
+                      spot_id: spot_id,
+                      claimer: true
+                    }}
+                    onCompleted={() => this.props.history.push('/')}
+                  >
+                    {updateClaimer => <button onClick={updateClaimer}>Claim Spot</button>}
+                  </Mutation> */}
+
+                  <Mutation
+                    mutation={editListingMutation}
+                  >
+                  {editSpotListing => (
+                    <Mutation
+                      mutation={updateListingMutation}
+                    >
+                      {updateListing => <button onClick={this.twoFunctionMutation(editSpotListing, updateListing)}>Claim Spot</button>}
+                    </Mutation>
+                  )}
                   </Mutation>
+
                 </div>
               </Modal.Body>
               <Modal.Footer>
