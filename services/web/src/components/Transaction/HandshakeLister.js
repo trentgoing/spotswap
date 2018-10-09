@@ -85,7 +85,7 @@ class HandshakeLister extends Component {
       )
     } else if (listing.status === 2) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           CLAIMED
           <p>Your spot has been claimed</p>
           {JSON.stringify(listing)}
@@ -103,35 +103,35 @@ class HandshakeLister extends Component {
               this.handleClose();
             }}>Cancel</button>}
           </Mutation>
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 3) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           YOUR RESERVATION TIMED OUT
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 4) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           THE CLAIMER OF THIS SPOT SAYS YOU WEREN'T THERE
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 7) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           THE CLAIMER OF THIS SPOT CANCELLED!
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 8) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           SPOT SWAPPED!
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     }
   }
