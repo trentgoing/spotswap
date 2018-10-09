@@ -239,33 +239,52 @@ function addListing (parent, args, context, info) { //working
 
 function editListing (parent, args, context, info) { //working until I try to change is_available in spot
   const userId = getUserId(context);
-  return context.db.mutation.updateListing(
-    {
-      data: {
-        claiming_user: {
-          connect: {
-            id: args.claiming_user_id
-          }
-        },
-        spot: {
-          connect: {
-            id: args.spot_id
-          }
-        },
-        // spot: {
-        //   update:
-        //     {
-        //       data: {is_available: false},
-        //       where: {id: args.spot_id}
-        //     }
-        // },
-        status: args.status,
-        time_complete: args.time_complete
+  if (args.claimer) {
+    return context.db.mutation.updateListing(
+      {
+        data: {
+          claiming_user: {
+            connect: {
+              id: userId
+            }
+          },
+          spot: {
+            connect: {
+              id: args.spot_id
+            }
+          },
+          // spot: {
+          //   update:
+          //     {
+          //       data: {is_available: false},
+          //       where: {id: args.spot_id}
+          //     }
+          // },
+          status: args.status,
+          time_complete: args.time_complete
+        }, 
+        where: {id: args.id}
       },
-      where: {id: args.id}
-    },
-    info
-  )
+      info
+    )
+  }
+  else {
+    return context.db.mutation.updateListing(
+      {
+        data: {
+          spot: {
+            connect: {
+              id: args.spot_id
+            }
+          },
+          status: args.status,
+          time_complete: args.time_complete
+        }, 
+        where: {id: args.id}
+      },
+      info
+    )
+  }
 };
 
 function editSpotListing (parent, args, context, info) { //working

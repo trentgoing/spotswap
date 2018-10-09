@@ -16,5 +16,23 @@ mutation(
 }
 `;
 
+const getListingsQuery = gql`
+query{
+  myListings{
+    id
+    status
+    listing_user{
+      id
+      user_name
+    }
+    spot {
+      id
+      start_time
+      end_time
+    }
+  }
+}
+`;
 
-export { editListingMutation };
+
+export { editListingMutation, getListingsQuery };
