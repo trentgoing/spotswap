@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { editListingMutation } from'../../../queries/queriesListing';
-import { Button } from 'react-bootstrap/lib/Button';
-import { Modal } from 'react-bootstrap/lib/Modal';
+import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
@@ -40,7 +39,7 @@ class ClaimSpotted extends Component {
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
     const time = moment(this.props.location.state.start_time).fromNow();
-    if (!this.state.clicked) {
+    if (!this.state.clicked) {  
       return (
         <React.Fragment>
         <div className="modal-container">

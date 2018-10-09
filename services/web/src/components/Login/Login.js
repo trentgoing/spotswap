@@ -3,8 +3,9 @@ import { withRouter } from 'react-router';
 import { AUTH_TOKEN } from '../../constants';
 import { Mutation } from 'react-apollo';
 import { signupQuery, loginQuery } from '../../queries/queriesUser';
-import { Button } from 'react-bootstrap/lib/Button';
-import { Modal, Container, Row, Col } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap/lib/Button';
+import { Modal, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 import './Login.css';
 
@@ -31,6 +32,12 @@ class Login extends Component {
   }
 
   render() {
+    if (!this.state.show) {
+      return <Redirect to={{
+                pathname: '/',
+                state: {}
+              }} />;
+    };
     const { login, email, password, user_name } = this.state
     return (
       <Modal show={this.state.show} onHide={this.handleClose}>
@@ -38,7 +45,7 @@ class Login extends Component {
           <Modal.Title>{login ? 'Login' : 'Sign Up'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Container>
+        {/* <Container>
             <Row className="show-grid">
               <Col xs={12} md={8}>
                 <code>.col-xs-12 .col-md-8</code>
@@ -59,18 +66,35 @@ class Login extends Component {
                 <code>.col-xs-6 .col-md-4</code>
               </Col>
             </Row>
-          </Container>
-            <div className="Login">
-            <h4 className="mv3">{login ? 'Login' : 'Sign Up'}</h4>
-            <div className="flex flex-column">
-              {!login && (
-                <input
-                  value={user_name}
-                  onChange={e => this.setState({ user_name: e.target.value })}
-                  type="text"
-                  placeholder="Your name"
-                />
+          </Container> */}
+          <Form>
+            {!login && (
+                <Form.Group controlId="formBasicUserName">
+                  <Form.Label>Your Name</Form.Label>
+                  <Form.Control type="text" placeholder="Enter Name" onChange={e => this.setState({ user_name: e.target.value })} value={user_name} />
+                </Form.Group>
               )}
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" />
+            </Form.Group>
+            <Form.Group id="formBasicChecbox">
+              <Form.Check type="checkbox" label="Remember me" />
+            </Form.Group>
+            <Button type="submit">
+              Login
+            </Button>
+          </Form>
+            <div className="Login">
+            <div className="flex flex-column">
+              
               <input
                 value={email}
                 onChange={e => this.setState({ email: e.target.value })}

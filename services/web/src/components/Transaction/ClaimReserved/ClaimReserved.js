@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { editListingMutation } from'../../../queries/queriesListing';
-import { Button } from 'react-bootstrap/lib/Button';
-import { Modal } from 'react-bootstrap/lib/Modal';
+import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
