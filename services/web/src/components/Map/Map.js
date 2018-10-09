@@ -209,27 +209,6 @@ class Map extends Component {
   };
 
   render() {
-    // if (this.state.listRedirect) {
-    //   return <Redirect to={{
-    //     pathname: '/addSpot',
-    //     state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
-    //   }}/>
-    // };
-    // if (this.state.spotType === 1) {
-    //   return <Redirect to={{
-    //     pathname: '/claimReserved',
-    //     state: { spotId: this.state.spotId, listingId: this.state.listingId }
-    //   }}/>
-    // };
-    // if (this.state.spotType === 2) {
-    //   return <Redirect to={{
-    //     pathname: '/claimSpotted',
-    //     state: { spotId: this.state.spotId, listingId: this.state.listingId }
-    //   }}/>
-    // };
-
-    // const { lng, lat, zoom } = this.state;
-
     return (
       <React.Fragment>
       <div id="map">

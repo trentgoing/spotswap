@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { getSpotsQuery } from '../../../queries/queriesSpot';
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 
 const NEW_SPOTS_SUBSCRIPTION = gql`

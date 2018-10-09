@@ -37,7 +37,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      authToken: localStorage.getItem(AUTH_TOKEN),
+      Authorization: localStorage.getItem(AUTH_TOKEN),
     },
   },
 });
