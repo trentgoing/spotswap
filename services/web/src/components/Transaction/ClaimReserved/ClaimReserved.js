@@ -37,9 +37,11 @@ class ClaimReserved extends Component {
                 state: {}
               }} />;
     };
+    
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
-    const time = moment(this.props.location.state.end_time) - moment(this.props.location.state.start_time);
+    const timeLeft = moment(this.props.location.state.end_time).fromNow().slice(3, -4);    
+
     if (!this.state.clicked) {
       return (
         <React.Fragment>
@@ -50,7 +52,7 @@ class ClaimReserved extends Component {
               </Modal.Header>
               <Modal.Body>
                 <div>
-                  <div>This spot is being held for {time} mins</div>
+                  <div>This spot is being held for another {timeLeft}</div>
                   <button onClick={this.changeState}>Claim Spot</button>
                 </div>
               </Modal.Body>

@@ -22,6 +22,7 @@ class AddSpot extends Component {
     this.changeView = this.changeView.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.displayTimeForReservedSpots = this.displayTimeForReservedSpots.bind(this);
+    this.handleInputTimeChange = this.handleInputTimeChange.bind(this);
   };
 
   changeView(arg) {
@@ -33,7 +34,15 @@ class AddSpot extends Component {
   handleClose() {
     console.log('GO HOME')
     this.setState({ homeRedirect: true });
-  }
+  };
+
+  handleInputTimeChange(event) { 
+    let extraMin = event.target.value;
+    let end_time = moment(this.start_time).add(extraMin, 'minute');
+    this.setState({
+      end_time: end_time
+    })
+  };
 
   submitForm(event) {
     event.preventDefault();
@@ -57,12 +66,8 @@ class AddSpot extends Component {
         <div>
           <p> I will hold this spot </p>
           <div className="field">
-              <label>From:</label>
-              <input type="datetime-local" name="name" onChange={(event) => this.handleInputChange(event)} value={this.state.start_time}/>
-          </div>
-          <div className="field">
-              <label>Until:</label>
-              <input type="datetime-local" name="name" onChange={(event) => this.handleInputChange(event)} value={this.state.end_time}/>
+              <label>For the next: </label>
+              <input type="text" name="time" onChange={this.handleInputTimeChange}/><span> minutes</span>
           </div>
         </div>
       );
