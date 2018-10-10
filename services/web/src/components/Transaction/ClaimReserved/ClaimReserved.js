@@ -14,7 +14,7 @@ class ClaimReserved extends Component {
       modalShow: true,
       homeRedirect: false
     };
-    this.changeState = this.changeState.bind(this);
+    this.changeClicked = this.changeClicked.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.twoFunctionMutation = this.twoFunctionMutation.bind(this);
   };
@@ -22,7 +22,6 @@ class ClaimReserved extends Component {
   twoFunctionMutation(editSpotListing, updateListing) {
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
-
     editSpotListing({
       variables: {
         spot_id: spot_id,
@@ -40,11 +39,11 @@ class ClaimReserved extends Component {
       })
     })
     .catch((err) => {
-      console.log('Error caught on twoFunctionMutation', err);
+      console.log('Error in twoFunctionMutation in ClaimReserved', err);
     })
   };
 
-  changeState() {
+  changeClicked() {
     this.setState({
       clicked: true
     })
@@ -52,9 +51,11 @@ class ClaimReserved extends Component {
   
   handleClose() {
     this.setState({ homeRedirect: true });
-  }
+  };
 
   render() {
+    const timeLeft = moment(this.props.location.state.end_time).fromNow(true);    
+
     if (this.state.homeRedirect) {
       return <Redirect to={{
                 pathname: '/',
@@ -62,10 +63,6 @@ class ClaimReserved extends Component {
               }} />;
     };
     
-    // const spot_id = this.props.location.state.spotId;
-    // const listing_id = this.props.location.state.listingId;
-    const timeLeft = moment(this.props.location.state.end_time).fromNow(true);    
-
     if (!this.state.clicked) {
       return (
         <React.Fragment>
@@ -77,7 +74,7 @@ class ClaimReserved extends Component {
               <Modal.Body>
                 <div>
                   <div>This spot is being held for another {timeLeft}</div>
-                  <button onClick={this.changeState}>Claim Spot</button>
+                  <button onClick={this.changeClicked}>Claim Spot</button>
                 </div>
               </Modal.Body>
               <Modal.Footer>
@@ -106,29 +103,6 @@ class ClaimReserved extends Component {
               <Modal.Body>
                 <div>
                   <div>Are you sure?</div>
-                  {/* <Mutation
-                    mutation={editListingMutation}
-                    variables={{
-                      spot_id: spot_id,
-                      listing_id: listing_id,
-                      status: 2
-                    }}
-                    onCompleted={() => this.props.history.push('/')}
-                  >
-                    {editListing => <button onClick={editListing}>Claim Spot</button>}
-                  </Mutation> */}
-                  {/* <Mutation
-                    mutation={updateListingMutation}
-                    variables={{
-                      id: listing_id,
-                      spot_id: spot_id,
-                      claimer: true
-                    }}
-                    onCompleted={() => this.props.history.push('/')}
-                  >
-                    {updateClaimer => <button onClick={updateClaimer}>Claim Spot</button>}
-                  </Mutation> */}
-
                   <Mutation
                     mutation={editListingMutation}
                     onCompleted={() => {
@@ -137,15 +111,15 @@ class ClaimReserved extends Component {
                       })
                     }}
                   >
-                  {editSpotListing => (
-                    <Mutation
-                      mutation={updateListingMutation}
-                    >
-                      {updateListing => <button onClick={this.twoFunctionMutation(editSpotListing, updateListing)}>Claim Spot</button>}
-                    </Mutation>
-                  )}
-                  </Mutation>
+                    {editSpotListing => (
+                      <Mutation
+                        mutation={updateListingMutation}
+                      >
 
+                      {(updateListing) => <button onClick={this.twoFunctionMutation(editSpotListing, updateListing)}>Claim Spot</button>}
+                      </Mutation>
+                    )}
+                  </Mutation>
                 </div>
               </Modal.Body>
               <Modal.Footer>

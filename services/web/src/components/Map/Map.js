@@ -11,6 +11,7 @@ import LocationList from '../UserInfo/Location/LocationList/LocationList';
 import CarList from '../UserInfo/Car/CarList/CarList';
 import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
 import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
+import { AUTH_TOKEN } from '../../constants';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 
@@ -30,9 +31,12 @@ class Map extends Component {
       listingId: '',
       spotStartTime: '',
       spotEndTime: '',
-      map: {}
+      map: {},
+      loggedIn: false
     };
     this.claimSpot = this.claimSpot.bind(this);
+    this.changeLogin = this.changeLogin.bind(this);
+    this.toggleLogin = this.toggleLogin.bind(this);
   };
 
   componentDidMount() {
@@ -184,6 +188,21 @@ class Map extends Component {
     });
   };
 
+  changeLogin() {
+    const authToken = localStorage.getItem(AUTH_TOKEN);
+    if (authToken) {
+      this.setState({
+        loggedIn: true
+      })
+    }
+  };
+
+  toggleLogin() {
+    this.setState({
+      loggedIn: !this.state.loggedIn
+    })
+  };
+
   claimSpot(spot) {
     this.setState({
       listingId: spot.listing.id,
@@ -232,14 +251,16 @@ class Map extends Component {
       <React.Fragment>
       <div id="map">
         <div ref={el => this.mapContainer = el} id="map-container" />
-        <div id='geocoder' className='geocoder'></div>
-        <div id='track-user' className='track-user'></div>
-        <NavBar map={this.state.map} />
+        <div id="geocoder" className="geocoder"></div>
+        <div id="track-user" className="track-user"></div>
+        <NavBar map={this.state.map} loggedIn={this.state.loggedIn} changeLogin={this.changeLogin} toggleLogin={this.toggleLogin}/>
         <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
       </div>
         <Switch>
           <Route exact path="/addSpot" component={AddSpot} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login" render={() => {
+            return <Login toggleLogin={this.toggleLogin}/>
+          }}/>
           <Route exact path="/spots" component={SpotsList} />
           <Route exact path="/locations" component={LocationList} />
           <Route exact path="/cars" component={CarList} />
