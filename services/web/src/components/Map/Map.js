@@ -39,7 +39,7 @@ class Map extends Component {
     const { lng, lat, zoom } = this.state;
     const map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
+      style: 'mapbox://styles/trentgoing/cjn3k897e04832ro1m1uospzy',
       center: [lng, lat],
       zoom
     });
@@ -52,6 +52,16 @@ class Map extends Component {
         zoom: map.getZoom().toFixed(2)
       });
     });
+
+    map.loadImage('/parking-meter-blue.png', function(error, image) {
+        if (error) console.log(error);
+        map.addImage('blue-meter', image);
+    })
+
+    map.loadImage('/parking-meter-green.png', function(error, image) {
+      if (error) console.log(error);
+      map.addImage('green-meter', image);
+    })
 
     map.on('click', 'places', (e) => {
       var coordinates = e.features[0].geometry.coordinates.slice();
@@ -151,13 +161,15 @@ class Map extends Component {
       }
       // map.flyTo({center: e.lngLat});
     });
-
-    map.addControl(new mapboxgl.GeolocateControl({
+    
+    var trackUser = new mapboxgl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
       },
       trackUserLocation: true
-    }));
+    });
+
+    document.getElementById('track-user').appendChild(trackUser.onAdd(map));
 
     var geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -221,6 +233,7 @@ class Map extends Component {
       <div id="map">
         <div ref={el => this.mapContainer = el} id="map-container" />
         <div id='geocoder' className='geocoder'></div>
+        <div id='track-user' className='track-user'></div>
         <NavBar map={this.state.map} />
         <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
       </div>
