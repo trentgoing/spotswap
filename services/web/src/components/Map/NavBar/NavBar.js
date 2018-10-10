@@ -35,7 +35,7 @@ class NavBar extends Component {
                   onClick={() => {
                     localStorage.removeItem(AUTH_TOKEN);
                     this.props.history.push(`/`);
-                    this.props.toogleLoggedIn();
+                    this.props.toggleLogin();
                   }}
                 >Logout</NavDropdown.Item>
               </NavDropdown>

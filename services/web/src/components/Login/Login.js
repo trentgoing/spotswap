@@ -121,7 +121,7 @@ class Login extends Component {
   _confirm = async data => {
     const { token } = this.state.login ? data.login : data.signup;
     await this._saveUserData(token);
-    this.props.toogleLoggedIn();
+    this.props.toggleLogin();
     this.props.history.push(`/`);
   };
 
