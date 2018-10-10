@@ -1,0 +1,83 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "lint": "eslint src",
+    "test": "jest",
+    "watch-tests": "jest --watchAll",
+    "dev": "npm-run-all --parallel start playground",
+    "coverage": "jest --coverage",
+    "playground": "graphql playground --port 5000",
+    "prisma": "prisma",
+    "graphql": "graphql"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsonwebtoken": "^8.3.0",
+    "lokka": "^1.7.0",
+    "lokka-transport-http": "^1.6.1",
+    "nodemon": "^1.18.4"
+  },
+  "devDependencies": {
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.6.0",
+    "eslint-watch": "^4.0.2",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.4",
+    "supertest": "^3.3.0",
+    "npm-run-all": "^4.1.2"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 8,
+      "sourceType": "module"
+    },
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "indent": [
+        "error",
+        2
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "log"
+          ]
+        }
+      ]
+    }
+  }
+}
