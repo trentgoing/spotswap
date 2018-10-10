@@ -23,7 +23,12 @@ const addSpotMutation = gql`
     $type: Int,
     $start_time: DateTime,
     $end_time: DateTime,
-    $status: Int
+    $status: Int,
+    $street1: String,
+    $street2: String,
+    $city: String,
+    $state: String,
+    $zip: Int,
   ) {
     addListing(
       lat: $lat
@@ -32,6 +37,11 @@ const addSpotMutation = gql`
       start_time: $start_time
       end_time: $end_time
       status: $status
+      street1: $street1
+      street2: $street2
+      state: $state
+      zip: $zip
+      city: $city
     ){
       id
     }

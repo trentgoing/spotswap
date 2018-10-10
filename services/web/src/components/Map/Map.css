@@ -28,3 +28,14 @@
   top:120px;
 }
 .mapboxgl-ctrl-geocoder { min-width:100%; }
+
+#track-user {
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+}
+
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
+  width: 40px;
+  height: 40px;
+}
