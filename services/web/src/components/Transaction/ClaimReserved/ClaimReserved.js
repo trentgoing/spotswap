@@ -106,9 +106,11 @@ class ClaimReserved extends Component {
                   <div>Are you sure?</div>
                   <Mutation
                     mutation={editListingMutation}
-                    onCompleted={() => this.setState({
-                      homeRedirect: true
-                    })}
+                    onCompleted={() => {
+                      this.setState({
+                        homeRedirect: true
+                      })
+                    }}
                   >
                     {editSpotListing => (
                       <Mutation

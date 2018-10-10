@@ -28,6 +28,22 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
   }
 `;
 
+function hashCode(str) { // java String#hashCode
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+     hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+} 
+
+function intToRGB(i){
+  var c = (i & 0x00FFFFFF)
+      .toString(16)
+      .toUpperCase();
+
+  return "00000".substring(0, 6 - c.length) + c;
+}
+
 class HandshakeLister extends Component {
   constructor(props) {
     super(props);
@@ -85,7 +101,8 @@ class HandshakeLister extends Component {
       )
     } else if (listing.status === 2) {
       return (
-        <React.Fragment>
+        <div key={listing.id} style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}>
+          {intToRGB(hashCode(listing.id))}
           CLAIMED
           <p>Your spot has been claimed</p>
           {JSON.stringify(listing)}
@@ -103,35 +120,35 @@ class HandshakeLister extends Component {
               this.handleClose();
             }}>Cancel</button>}
           </Mutation>
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 3) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           YOUR RESERVATION TIMED OUT
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 4) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           THE CLAIMER OF THIS SPOT SAYS YOU WEREN'T THERE
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 7) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           THE CLAIMER OF THIS SPOT CANCELLED!
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     } else if (listing.status === 8) {
       return (
-        <React.Fragment>
+        <div key={listing.id}>
           SPOT SWAPPED!
           {JSON.stringify(listing)}
-        </React.Fragment>
+        </div>
       );
     }
   }

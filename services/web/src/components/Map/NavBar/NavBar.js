@@ -3,79 +3,65 @@ import { withRouter } from 'react-router';
 import './NavBar.css';
 import { Link } from 'react-router-dom';
 import { AUTH_TOKEN } from '../../../constants';
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
-    this.displayLogin = this.displayLogin.bind(this);
+    this.state = {};
   };
-
+  
   componentDidMount() {
-  };
-
-  displayLogin() {
-    const authToken = localStorage.getItem(AUTH_TOKEN);
-    if (authToken) {
-      return (
-        <div
-          className="navbar-toggler"
-          onClick={() => {
-            localStorage.removeItem(AUTH_TOKEN)
-            this.props.history.push(`/`)
-          }}
-        >
-          Logout
-        </div>
-      );
-    } else {
-      return (
-        <Link to="/login" className="btn btn-outline-secondary">Login</Link>
-      );
-    }
+    this.props.changeLogin();
   };
 
   render() {
-    return (
-      <div className="container">
-        <nav className="navbar navbar-dark bg-dark navbar-expand-xs ">
-          <a className="navbar-brand">
-            <img src="/favicon-256.png" width="30" height="30" alt="" />
-          </a>
-          
-          <div id='searchInput' className='geocoder'></div>
-            
-          {this.displayLogin()}
-        </nav>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item active">
-              <a className="nav-link">Home <span className="sr-only">(current)</span></a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link">Features</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link">Pricing</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    );
-  }
+    if (this.props.loggedIn) {
+      return (
+        <Container>
+          <Navbar bg="dark" variant="dark" expand="lg">
+            <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt=""/></Navbar.Brand>
+            <div id='searchInput' className='geocoder'></div>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Nav>
+              <NavDropdown title="menu" id="collasible-nav-dropdown">
+                <NavDropdown.Item>
+                  <Link to="/profilePage">Profile</Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <Link to="/historyPage">History</Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  onClick={() => {
+                    localStorage.removeItem(AUTH_TOKEN);
+                    this.props.history.push(`/`);
+                    this.props.toogleLoggedIn();
+                  }}
+                >Logout</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar>
+        </Container>
+      );
+    }
+    else {
+      return (
+        <Container>
+          <Navbar bg="dark" variant="dark" expand="lg">
+            <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt=""/></Navbar.Brand>
+            <div id="searchInput" className="geocoder"></div>
+            <Nav>
+              <NavDropdown title="menu" id="collasible-nav-dropdown">
+                <NavDropdown.Item>
+                  <Link to="/login">Login</Link>
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar>
+        </Container>
+      );
+    };
+  };
 };
-
-// export default compose (
-//   graphql(updateSearch, {name: 'updateSearch'}),
-//   graphql(getCurrentSearch, {
-//     props: ({ data: { currentSearch, loading } }) => {
-//       return ({
-//         currentSearch,
-//         loading
-//       })
-//     }
-//   })
-// )(NavBar);
 
 export default withRouter(NavBar);

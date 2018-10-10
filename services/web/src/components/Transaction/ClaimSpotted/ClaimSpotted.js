@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { editListingMutation } from'../../../queries/queriesListing';
-import { Modal, Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
@@ -88,7 +88,6 @@ class ClaimSpotted extends Component {
           </Modal>
         </div>
       </React.Fragment>
-        
       );
     }
     else {
