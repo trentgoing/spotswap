@@ -44,8 +44,7 @@ class NavBar extends Component {
             <img src="/favicon-256.png" width="30" height="30" alt="" />
           </a>
           
-          <div id='searchInput' className='geocoder'></div>
-            
+          <div id='searchInput' className='geocoder'><div id='geocoder'></div></div>
           {this.displayLogin()}
         </nav>
         <div className="collapse navbar-collapse" id="navbarNav">

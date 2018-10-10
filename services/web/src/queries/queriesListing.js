@@ -44,16 +44,27 @@ query{
         make
         model
         color
+        plate
       }
     }
     listing_user{
       id
       user_name
+      default_car {
+        make
+        model
+        color
+        plate
+      }
     }
     spot {
       id
       start_time
       end_time
+      street1
+      street2
+      state
+      city
     }
   }
 }

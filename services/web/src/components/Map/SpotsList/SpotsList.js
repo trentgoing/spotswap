@@ -12,7 +12,11 @@ const NEW_SPOTS_SUBSCRIPTION = gql`
         id
         lat
         lng
+        is_available
         type
+        listing {
+          id
+        }
       }
     }
   }
@@ -40,7 +44,7 @@ class SpotList extends Component {
           openSpot: openSpots,
           __typename: "openSpot"
         };
-
+        console.log(newSpot);
         this.addSpot(newSpot);
       }
     })
@@ -67,12 +71,17 @@ class SpotList extends Component {
       });
       this.props.map.addLayer({
         "id": `${spot.id}`,
-        "type": "circle",
+        "type": "symbol",
         "source": `${spot.id}`,
-        "paint": {
-            "circle-radius": 10,
-            "circle-color": `${spot.type === 1 ? '#f4f142' : '#f44242'}`
-        }
+        "layout": {
+          "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
+          "icon-size": 0.25,
+          "icon-allow-overlap": true
+      }
+        // "paint": {
+        //     "circle-radius": 10,
+        //     "circle-color": `${spot.type === 1 ? '#f4f142' : '#f44242'}`
+        // }
       });
 
       this.props.map.on('mouseenter', `${spot.id}`, () => {
