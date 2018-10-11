@@ -1,6 +1,7 @@
 # import Car, Spot, Location , Listing, SpotSubscriptionPayload, ListingSubscriptionPayload, BatchPayload from "./generated/prisma.graphql"
 
 type Query {
+  userInfo: User
   location (id: ID!) : Location
   locations : [Location]
   car (id: ID!) : Car

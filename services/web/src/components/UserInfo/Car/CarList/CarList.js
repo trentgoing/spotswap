@@ -32,35 +32,26 @@ class CarList extends Component {
   };
   
   displayCarList() {
-    const {user_id} = this.props
-    if (user_id) {
-      return (
-        <div>
-          {this.displayCars()}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          Add a Car!
-        </div>
-      )
-    }
+    return (
+      <div>
+        {this.displayCars()}
+      </div>
+    );
   };
 
   deleteCar(carId) {
     this.props.deleteCarMutation({
       variables: {
-        user_id: this.props.user_id,
+        // user_id: this.props.user_id,
         id: carId
       },
-      refetchQueries: [{query: getCarsQuery, variables: {user_id: this.props.user_id}}]
+      // refetchQueries: [{query: getCarsQuery, variables: {user_id: this.props.user_id}}]
     })
     .then(() => {
       console.log('Car deleted!');
     })
     .catch((err) => {
-      console.log(err);
+      console.log('Error in CarList.js', err);
     })
   };
 
@@ -71,7 +62,7 @@ class CarList extends Component {
         <header className="Login-header">
           <h1 className="cars-title">Your Cars</h1>
         </header>
-        <AddCar user_id={this.props.user_id}/>
+        <AddCar />
         {this.displayCarList()}
       </div>
     );
