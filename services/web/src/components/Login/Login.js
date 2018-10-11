@@ -122,7 +122,9 @@ class Login extends Component {
     const { token } = this.state.login ? data.login : data.signup;
     await this._saveUserData(token);
     this.props.toggleLogin();
-    this.props.history.push(`/`);
+
+    if (!this.state.login) { this.props.history.push(`/profilePage`) }
+    else { this.props.history.push(`/`) }
   };
 
   _saveUserData = token => {

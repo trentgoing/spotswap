@@ -8,6 +8,10 @@ import ProfilePage from '../UserInfo/Profile/ProfilePage';
 import HistoryPage from '../UserInfo/History/HistoryPage';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  };
 
   handshake() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
