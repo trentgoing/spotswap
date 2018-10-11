@@ -14,18 +14,17 @@ class ClaimSpotted extends Component {
       modalShow: true,
       homeRedirect: false
     };
-    this.changeState = this.changeState.bind(this);
+    this.changeClicked = this.changeClicked.bind(this);
     this.handleClose = this.handleClose.bind(this);
   };
 
-  changeState() {
+  changeClicked() {
     this.setState({
       clicked: true
     })
   };
 
   handleClose() {
-    console.log('GO HOME')
     this.setState({ homeRedirect: true });
   }
 
@@ -38,7 +37,7 @@ class ClaimSpotted extends Component {
     };
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
-    const timeDiff = moment(this.props.location.state.start_time).from(this.props.location.state._time)
+    const timeDiff = moment(this.props.location.state.start_time).from(this.props.location.state.end_time)
     // const timeDiff = moment(this.props.location.state.start_time).fromNow();
     if (!this.state.clicked) {
       return (
@@ -62,7 +61,7 @@ class ClaimSpotted extends Component {
                 >
                   {editSpotListing => <button onClick={() => {
                     editSpotListing();
-                    this.changeState();
+                    this.changeClicked();
                   }}>Spot No Longer Available</button>}
                 </Mutation>
         
@@ -77,7 +76,7 @@ class ClaimSpotted extends Component {
                 >
                   {editSpotListing => <button onClick={() => {
                     editSpotListing();
-                    this.changeState();
+                    this.changeClicked();
                   }}>I Parked Here</button>}
                 </Mutation>
               </div>
@@ -88,7 +87,6 @@ class ClaimSpotted extends Component {
           </Modal>
         </div>
       </React.Fragment>
-        
       );
     }
     else {

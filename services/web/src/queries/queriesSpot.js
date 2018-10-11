@@ -64,4 +64,21 @@ const editSpotMutation = gql`
   }
 `;
 
-export { addSpotMutation, getSpotsQuery, editSpotMutation };
+const NEW_SPOTS_SUBSCRIPTION = gql`
+  subscription {
+    newSpot {
+      node {
+        id
+        lat
+        lng
+        is_available
+        type
+        listing {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export { addSpotMutation, getSpotsQuery, editSpotMutation, NEW_SPOTS_SUBSCRIPTION };

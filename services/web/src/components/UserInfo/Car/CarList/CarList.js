@@ -5,7 +5,6 @@ import { getCarsQuery, deleteCarMutation } from '../../../../queries/queriesCar'
 import Car from '../Car/Car';
 import AddCar from '../AddCar/AddCar';
 
-
 class CarList extends Component {
   constructor(props) {
     super(props);
