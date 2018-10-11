@@ -16,7 +16,7 @@ class AddSpot extends Component {
     this.state = {
       reservedToggle: false,
       start_time: moment().format(),
-      end_time:  moment().add(10, 'minute').format(),
+      end_time:  moment().add(30, 'minute').format(),
       modalShow: true,
       homeRedirect: false,
       street1: '',
@@ -40,7 +40,6 @@ class AddSpot extends Component {
   };
 
   handleClose() {
-    console.log('GO HOME')
     this.setState({ homeRedirect: true });
   };
 

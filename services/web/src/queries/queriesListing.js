@@ -70,5 +70,28 @@ query{
 }
 `;
 
+const CHANGED_LISTINGS_SUBSCRIPTION = gql`
+  subscription {
+    listingUpdate {
+      node {
+        id
+        status
+        spot{
+          id
+          end_time
+        }
+        claiming_user {
+          user_name
+          id
+          default_car{
+            model
+            color
+          }
+        }
+      }
+    }
+  }
+`;
 
-export { editListingMutation, getListingsQuery, updateListingMutation };
+
+export { editListingMutation, getListingsQuery, updateListingMutation, CHANGED_LISTINGS_SUBSCRIPTION };

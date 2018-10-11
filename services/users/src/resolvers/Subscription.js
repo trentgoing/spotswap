@@ -2,7 +2,7 @@ const { getUserIdForSockets } = require('../utils');
 
 function newSpotSubscribe (parent, args, context, info) {
   return context.db.subscription.spot(
-    { where: { mutation_in: ['CREATED', 'DELETED'] } },
+    { where: { mutation_in: ['CREATED', 'UPDATED'] } },
     info,
   );
 }

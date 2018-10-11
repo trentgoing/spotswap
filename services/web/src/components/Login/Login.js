@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { AUTH_TOKEN } from '../../constants';
 import { Mutation } from 'react-apollo';
 import { signupQuery, loginQuery } from '../../queries/queriesUser';
-import { Modal, Form, Button,Alert } from 'react-bootstrap';
+import { Modal, Form, Button, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 import './Login.css';
@@ -36,7 +36,7 @@ class Login extends Component {
   handleLogin(mutation, e){
     e.preventDefault();
     if (this.state.login){
-      if (this.state.email != '' && this.state.password != ''){
+      if (this.state.email !== '' && this.state.password !== ''){
         mutation()
           .then((response) => {
             console.log(response);
@@ -50,7 +50,7 @@ class Login extends Component {
       }
     }
     else {
-      if (this.state.email != '' && this.state.password != '' && this.state.user_name != '') {
+      if (this.state.email !== '' && this.state.password !== '' && this.state.user_name !== '') {
         mutation()
       }
     }
