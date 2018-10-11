@@ -39,13 +39,13 @@ class AddCar extends Component {
         plate: this.state.plate,
         state: this.state.state,
       },
-      refetchQueries: [{query: getCarsQuery, variables: {}}]
+      // refetchQueries: [{query: getCarsQuery, variables: {}}]
     })
       .then(() => {
         console.log('New car submitted!');
       })
       .catch((err) => {
-        console.log(err);
+        console.log('Error caught on AddCar.js', err);
       })
   };
 

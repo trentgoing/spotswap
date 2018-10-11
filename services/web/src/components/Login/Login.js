@@ -23,19 +23,20 @@ class Login extends Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    
-  }
+  };
 
-  handleClose(){
+  handleClose() {
     this.setState({ show:false });
-  }
-  handleShow(){
-    this.setState({show:true});
-  }
-  handleLogin(mutation,e){
+  };
+
+  handleShow() {
+    this.setState({ show:true });
+  };
+
+  handleLogin(mutation, e){
     e.preventDefault();
-    if(this.state.login){
-      if(this.state.email != '' && this.state.password != ''){
+    if (this.state.login){
+      if (this.state.email !== '' && this.state.password !== ''){
         mutation()
           .then((response) => {
             console.log(response);
@@ -49,11 +50,11 @@ class Login extends Component {
       }
     }
     else {
-      if(this.state.email != '' && this.state.password != '' && this.state.user_name != ''){
+      if (this.state.email !== '' && this.state.password !== '' && this.state.user_name !== '') {
         mutation()
       }
     }
-  }
+  };
 
   render() {
     if (!this.state.show) {
@@ -98,11 +99,9 @@ class Login extends Component {
             <Mutation
                 mutation={login ? loginQuery : signupQuery}
                 variables={{ email, password, user_name }}
-                onCompleted={data => this._confirm(data)}
-                
-              >
+                onCompleted={(data) => this._confirm(data)}>
                 {mutation => (
-                  <Button type="submit" onClick={(e) => this.handleLogin(mutation,e)}>
+                  <Button type="submit" onClick={(e) => this.handleLogin(mutation, e)}>
                     {login ? 'Login' : 'Create Account'}
                   </Button>
                 )}
@@ -121,7 +120,8 @@ class Login extends Component {
 
   _confirm = async data => {
     const { token } = this.state.login ? data.login : data.signup;
-    this._saveUserData(token);
+    await this._saveUserData(token);
+    this.props.toggleLogin();
     this.props.history.push(`/`);
   };
 

@@ -1,34 +1,16 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { getSpotsQuery } from '../../../queries/queriesSpot';
+import { getSpotsQuery, NEW_SPOTS_SUBSCRIPTION } from '../../../queries/queriesSpot';
 import gql from 'graphql-tag';
-
-
-const NEW_SPOTS_SUBSCRIPTION = gql`
-  subscription {
-    newSpot {
-      node {
-        id
-        lat
-        lng
-        is_available
-        type
-        listing {
-          id
-        }
-      }
-    }
-  }
-`;
+import { addSpot, removeSpot } from '../../../utilities/mapHelper';
 
 class SpotList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      spots: []
     }
-    this.displaySpots = this.displaySpots.bind(this);
-    this.addSpot = this.addSpot.bind(this);
   };
 
   _subscribeToNewSpots = subscribeToMore => {
@@ -38,71 +20,25 @@ class SpotList extends Component {
         if (!subscriptionData.data) return prev
         const newSpot = subscriptionData.data.newSpot.node;
 
-        var openSpots = [newSpot, ...prev.openSpot];
+        // var openSpots = [newSpot, ...prev.openSpot];
 
-        var newSpotObj = {
-          openSpot: openSpots,
-          __typename: "openSpot"
-        };
-        console.log(newSpot);
-        this.addSpot(newSpot);
+        // var newSpotObj = {
+        //   openSpot: openSpots,
+        //   __typename: "openSpot"
+        // };
+        if(newSpot.is_available) {
+          addSpot(newSpot, this.props.map, this.props.claimSpot);
+        } else {
+          removeSpot(newSpot, this.props.map);
+        }
       }
     })
   }
 
-  addSpot(spot) {
-    if(!(this.props.map.getSource(`${spot.id}`))) {
-      let geojson = {
-        "type": "FeatureCollection",
-        "features": [{
-            "type": "Feature",
-            "properties": {
-              "spot_id": spot.id,
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [spot.lng, spot.lat]
-            }
-        }]
-      };
-      this.props.map.addSource(`${spot.id}`, {
-        "type": "geojson",
-        "data": geojson
-      });
-      this.props.map.addLayer({
-        "id": `${spot.id}`,
-        "type": "symbol",
-        "source": `${spot.id}`,
-        "layout": {
-          "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
-          "icon-size": 0.25,
-          "icon-allow-overlap": true
-      }
-        // "paint": {
-        //     "circle-radius": 10,
-        //     "circle-color": `${spot.type === 1 ? '#f4f142' : '#f44242'}`
-        // }
-      });
-
-      this.props.map.on('mouseenter', `${spot.id}`, () => {
-        this.props.map.getCanvas().style.cursor = 'pointer';
-      });
-  
-      // Change it back to a pointer when it leaves.
-      this.props.map.on('mouseleave', `${spot.id}`, () => {
-        this.props.map.getCanvas().style.cursor = '';
-      });
-
-      this.props.map.on('click', `${spot.id}`, () => {
-        console.log(`YO YOU WANNA CLAIM THIS SPOT? ${spot.id}`);
-        this.props.claimSpot(spot);
-      });
-    }
-  }
-
   displaySpots(data) {
+    this.state.spots = data.openSpot;  // HEY PHIL, CHECK THIS GREAT CODE OUT
     data.openSpot.forEach((spot) => {
-      this.addSpot(spot);
+      addSpot(spot, this.props.map, this.props.claimSpot);
     });
   };
 
@@ -115,10 +51,8 @@ class SpotList extends Component {
             if (error) return <div>Error</div>;
 
             this._subscribeToNewSpots(subscribeToMore);
-
-            // console.log(data)
-
-            if (data) this.displaySpots(data)
+            
+            if (data.openSpot.length !== this.state.spots.length) this.displaySpots(data)
               return (
                 <div></div>
               );
