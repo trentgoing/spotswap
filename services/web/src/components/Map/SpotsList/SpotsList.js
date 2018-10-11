@@ -26,6 +26,7 @@ class SpotList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      spots: []
     }
     this.displaySpots = this.displaySpots.bind(this);
     this.addSpot = this.addSpot.bind(this);
@@ -45,12 +46,17 @@ class SpotList extends Component {
           __typename: "openSpot"
         };
         console.log(newSpot);
-        this.addSpot(newSpot);
+        if(newSpot.is_available) {
+          this.addSpot(newSpot);
+        } else {
+          this.removeSpot(newSpot);
+        }
       }
     })
   }
 
   addSpot(spot) {
+    console.log('Adding');
     if(!(this.props.map.getSource(`${spot.id}`))) {
       let geojson = {
         "type": "FeatureCollection",
@@ -100,7 +106,16 @@ class SpotList extends Component {
     }
   }
 
+  removeSpot(spot) {
+    console.log('Removing');
+    if((this.props.map.getSource(`${spot.id}`))) {
+      this.props.map.removeSource(spot.id);
+      this.props.map.removeLayer(spot.id);
+    }
+  }
+
   displaySpots(data) {
+    this.state.spots = data.openSpot;
     data.openSpot.forEach((spot) => {
       this.addSpot(spot);
     });
@@ -115,10 +130,8 @@ class SpotList extends Component {
             if (error) return <div>Error</div>;
 
             this._subscribeToNewSpots(subscribeToMore);
-
-            // console.log(data)
-
-            if (data) this.displaySpots(data)
+            
+            if (data.openSpot.length !== this.state.spots.length) this.displaySpots(data)
               return (
                 <div></div>
               );
