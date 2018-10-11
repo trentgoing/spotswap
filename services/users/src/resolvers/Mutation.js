@@ -310,6 +310,22 @@ function editSpotListing (parent, args, context, info) { //working
   })
 };
 
+function expireListing (parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.db.mutation.updateListing({
+    data: {
+      spot : {
+        is_available: false
+      }
+    },
+    where: {
+      spot: {
+        end_time_lte: args.date
+      }
+    }
+  }, info);
+}
+
 module.exports = {
   signup,
   login,
@@ -325,5 +341,6 @@ module.exports = {
   deleteSpot,
   addListing,
   editListing,
-  editSpotListing
+  editSpotListing,
+  expireListing
 };

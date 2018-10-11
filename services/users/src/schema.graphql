@@ -29,6 +29,7 @@ type Mutation {
   addListing (lat: String, lng: String, type: Int, status: Int, start_time: DateTime, end_time: DateTime, street1: String, street2: String, city: String, state: String, zip: Int) : Listing
   editListing (id: ID, status: Int, time_complete: DateTime, spot_id: ID, claimer: Boolean) : Listing
   editSpotListing (spot_id: ID, listing_id: ID, status: Int, claimer: Boolean) : Spot
+  expireListing (date: DateTime ): [Listing]
 }
 
 type Subscription {

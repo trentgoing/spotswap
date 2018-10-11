@@ -46,18 +46,6 @@ function openSpot (parent, args, context, info) {
   return context.db.query.spots({ where: {is_available: true} }, info);
 }
 
-function expiredListings (parent, args, context, info) {
-  return context.db.query.listings (
-    {
-      where: {
-        spot: { 
-          end_time_gte: args.date
-        }
-      } 
-    }, info
-  );
-}
-
 module.exports = {
   location,
   locations,
@@ -68,6 +56,5 @@ module.exports = {
   listing,
   listings,
   openSpot,
-  myListings,
-  expiredListings
+  myListings
 };
