@@ -40,7 +40,6 @@ class AddSpot extends Component {
   };
 
   handleClose() {
-    console.log('GO HOME')
     this.setState({ homeRedirect: true });
   };
 
