@@ -1,35 +1,12 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
-import { getListingsQuery } from '../../queries/queriesListing';
+import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import Reserving from './HandshakeModals/Reserving';
 import Claimed from './HandshakeModals/Claimed';
 import Success from './HandshakeModals/Success';
+import Failed from './HandshakeModals/Failed';
 import './HandshakeLister.css';
-
-const CHANGED_LISTINGS_SUBSCRIPTION = gql`
-  subscription {
-    listingUpdate {
-      node {
-        id
-        status
-        spot{
-          id
-          end_time
-        }
-        claiming_user {
-          user_name
-          id
-          default_car{
-            model
-            color
-          }
-        }
-      }
-    }
-  }
-`;
 
 class HandshakeLister extends Component {
   constructor(props) {
@@ -47,20 +24,11 @@ class HandshakeLister extends Component {
       document: CHANGED_LISTINGS_SUBSCRIPTION,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
-        // const updatedListing = subscriptionData.data.listingUpdate.node;
-        // var listings = [updatedListing, ...prev.myListings];
-
-        // var newListingsObj = {
-        //   listings: listings,
-        //   __typename: "myListings"
-        // };
-        // this.addSpot(listings);
       }
     })
   }
 
   handleClose() {
-    console.log(this.props);
     this.setState({
       modalShow: false
     })
@@ -75,32 +43,13 @@ class HandshakeLister extends Component {
 
   displayListingStatus(listing) {
     if (listing.status === 1) {
-      return <Reserving listing={listing} handleClose={this.handleClose}/>
+      return <Reserving listing={listing} handleClose={this.handleClose} key={listing.id}/>
     } else if (listing.status === 2) {
-      return <Claimed listing={listing} handleClose={this.handleClose} />
+      return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 8) {
-      return <Success listing={listing} handleClose={this.handleClose} />;
-    }else if (listing.status === 3) {
-      return (
-        <div key={listing.id}>
-          YOUR RESERVATION TIMED OUT
-          {JSON.stringify(listing)}
-        </div>
-      );
-    } else if (listing.status === 4) {
-      return (
-        <div key={listing.id}>
-          THE CLAIMER OF THIS SPOT SAYS YOU WEREN'T THERE
-          {JSON.stringify(listing)}
-        </div>
-      );
-    } else if (listing.status === 7) {
-      return (
-        <div key={listing.id}>
-          THE CLAIMER OF THIS SPOT CANCELLED!
-          {JSON.stringify(listing)}
-        </div>
-      );
+      return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
+    } else  {
+      return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } 
   }
 
@@ -122,13 +71,10 @@ class HandshakeLister extends Component {
                   <Modal.Body>
                     <div id="modal-content">
                       
-                        
-                        
-                          {data.myListings.map((listing) => {
-                            return this.displayListingStatus(listing);
-                          })}
-                          
-                      
+                      {data.myListings.map((listing) => {
+                        return this.displayListingStatus(listing);
+                      })}
+                    
                     </div>
                   </Modal.Body>
                 </Modal>

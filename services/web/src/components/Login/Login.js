@@ -36,7 +36,7 @@ class Login extends Component {
   handleLogin(mutation, e){
     e.preventDefault();
     if (this.state.login){
-      if (this.state.email != '' && this.state.password != ''){
+      if (this.state.email !== '' && this.state.password !== ''){
         mutation()
           .then((response) => {
             console.log(response);
@@ -50,7 +50,7 @@ class Login extends Component {
       }
     }
     else {
-      if (this.state.email != '' && this.state.password != '' && this.state.user_name != '') {
+      if (this.state.email !== '' && this.state.password !== '' && this.state.user_name !== '') {
         mutation()
       }
     }
