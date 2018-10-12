@@ -36,7 +36,8 @@ const getUserQuery = gql`
       user_name
       first_name
       last_name
-      default_car {
+      user_cars {
+        default_car
         make
         model
         color

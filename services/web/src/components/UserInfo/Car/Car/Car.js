@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
 import './Car.css';
 
 class Car extends Component {
@@ -11,8 +12,8 @@ class Car extends Component {
     return (
       <div>
         <p>
-          <b>{this.props.car.make}</b><button onClick={() => {this.props.deleteCar(this.props.car.id)}}>-</button><br/>
-          {this.props.car.model + ', ' + this.props.car.color}
+          <b>{this.props.car.make}</b>   <button onClick={() => {this.props.deleteCar(this.props.car.id)}}>-</button><br/>
+            {this.props.car.model + ', ' + this.props.car.color}
         </p>
       </div>
     );
@@ -20,3 +21,6 @@ class Car extends Component {
 };
 
 export default Car;
+
+
+
