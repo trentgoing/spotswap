@@ -1,55 +1,117 @@
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query, compose, graphql } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { editListingMutation } from'../../../queries/queriesListing';
-import { Button, Modal } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
+import { Redirect, Link } from 'react-router-dom';
 import CarList from '../Car/CarList/CarList';
 import LocationList from '../Location/LocationList/LocationList';
+import { getUserQuery, mutationUser } from '../../../queries/queriesUser';
 
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      empty: true,
       toogleCarList: false,
       username: '',
       firstName: '',
       lastName: '',
-
+      defaultCar: {},
+      rating: null
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.getUserInfo = this.getUserInfo.bind(this);
   };
 
+  getUserInfo(data) {
+    let defaultCar = data.userInfo.user_cars.default_car ? data.userInfo.user_cars.default_car : null
+    this.setState({
+      username: data.userInfo.user_name,
+      firstName: data.userInfo.first_name,
+      lastName: data.userInfo.last_name,
+      defaultCar: defaultCar,
+      rating: data.userInfo.rating,
+      empty: false
+    })
+  };
 
-
+  handleInputChange(evt) {
+    evt.preventDefault();
+    this.setState({ 
+      [evt.target.name]: evt.target.value 
+    })
+  };
 
   render() {
-
-    return (
-      <React.Fragment>
-        <div>
+    if (this.state.empty) {
+      return (
+        <Query query={getUserQuery}>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Fetching</div>;
+            if (error) return <div>Error {console.log({error})}</div>;
+            if (data) { 
+              this.getUserInfo(data); 
+              return <div></div> 
+            };
+          }}
+        </Query>
+      );
+    }
+    else {
+      let { username, firstName, lastName } = this.state
+      return (  
+        <React.Fragment>
+          <Form>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Rating: </Form.Label>
+              <div></div>
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Username: </Form.Label>
+              <Form.Control type="text" placeholder="Username" name="username" value={username} 
+                onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>First Name: </Form.Label>
+              <Form.Control type="text" placeholder="First Name" name="firstName" value={firstName}
+                onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Last Name: </Form.Label>
+              <Form.Control type="text" placeholder="Last Name" name="lastName" value={lastName}
+                onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
+            </Form.Group>
+            <Mutation
+              mutation={mutationUser}
+              variables={{
+                user_name: this.state.username,
+                first_name: this.state.firstName,
+                last_name: this.state.lastName
+              }}
+            >
+              {userEdit => 
+                <Button type="submit" onClick={() => {userEdit()}}>Submit Edits</Button>
+              }
+            </Mutation>
+            <Form.Group>
+              <Form.Label>Default Car: </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <CarList />
+            </Form.Group>
+          </Form>
           <div>
-            Username: { this.state.username ? this.state.username : 
-              <input type="text"/> }
+            <Link to={'/addCar'}>Add your cars</Link>
           </div>
-          <div>
-            First Name: { this.state.firstName ? this.state.firstName : 
-              <input type="text"/> }
-          </div>
-          <div>
-            Last Name: { this.state.lastName ? this.state.lastName : 
-              <input type="text"/> }
-          </div>
-          <div>
-            Default Car:
-            <CarList />
-          </div>
-          <div>
-            <LocationList />
-          </div>
-        </div>
-      </React.Fragment>
-    );
+         <div>
+          <Link to={'/addLocation'}>Add your locations</Link>
+         </div>
+          
+          <Button onClick={() => {this.props.history.push(`/`)}}>Go To Map</Button> 
+        </React.Fragment>
+      );
+    }
   };
 };
 
-export default ProfilePage;
+export default withRouter(ProfilePage);

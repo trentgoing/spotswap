@@ -7,6 +7,7 @@ query{
     make
     model
     color
+    default_car
   }
 }
 `;

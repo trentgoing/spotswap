@@ -1,5 +1,9 @@
 const { getUserId } = require('../utils');
 
+function userInfo (parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.db.query.user({ where: {id: userId} }, info);
+}
 
 function location (parent, args, context, info) {
   return context.db.query.location({ where: {id: args.id} }, info);
@@ -8,7 +12,7 @@ function location (parent, args, context, info) {
 function locations (parent, args, context, info) {
   console.log(context);
   const userId = getUserId(context);
-  return context.db.query.locations({where: {user: {id: userId }}}, info);
+  return context.db.query.locations({ where: {user: {id: userId }} }, info);
 }
 
 function car (parent, args, context, info) {
@@ -33,7 +37,7 @@ function listing (parent, args, context, info) {
 }
 
 function listings (parent, args, context, info) {
-  return context.db.query.listings({ }, info);
+  return context.db.query.listings({}, info);
 }
 
 function myListings (parent, args, context, info) {
@@ -48,6 +52,7 @@ function openSpot (parent, args, context, info) {
 }
 
 module.exports = {
+  userInfo,
   location,
   locations,
   car,
