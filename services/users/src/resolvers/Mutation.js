@@ -118,7 +118,8 @@ function addCar (parent, args, context, info) { //Working
           connect: {
             id: userId
           }
-        }
+        },
+        default_car: args.default_car
       }
     },
     info
@@ -135,6 +136,7 @@ function editCar (parent, args, context, info) { //working
         color: args.color,
         plate: args.plate,
         state: args.state,
+        default_car: args.default_car
       },
       where: {id: args.id}
     },
@@ -310,6 +312,63 @@ function editSpotListing (parent, args, context, info) { //working
   })
 };
 
+
+async function expireSpot (parent, args, context, info) {
+  const userId = await getUserId(context);
+  //check if worker process
+  if (args.isWorker)
+  {
+    // return await context.db.mutation.updateManySpots({
+    //   where: {
+    //     end_time_lte: args.date,
+    //     is_available: true
+    //   },
+    //   data: {
+    //       is_available: false
+    //   },
+    // }, info)
+
+    const spots = await context.db.query.spots({
+      where: {
+        end_time_lte: args.date,
+        is_available: true
+      }
+    })
+
+    console.log(spots);
+
+    const expiredSpots = await spots.map((spot) => {
+      context.db.mutation.updateSpot({
+        where: {
+          id: spot.id
+        },
+        data: {
+          is_available: false
+        }
+      })  
+    })
+
+    return {
+      count : spots.length
+    }
+  }
+};
+
+
+// async function signup (parent, args, context, info) {
+//   const password = await bcrypt.hash(args.password, 10)
+//   const user = await context.db.mutation.createUser({
+//     data: { ...args, password },
+//   }, `{ id }`)
+
+//   const token = jwt.sign({ userId: user.id }, APP_SECRET)
+
+//   return {
+//     token,
+//     user,
+//   }
+// };
+
 module.exports = {
   signup,
   login,
@@ -325,5 +384,6 @@ module.exports = {
   deleteSpot,
   addListing,
   editListing,
-  editSpotListing
+  editSpotListing,
+  expireSpot
 };

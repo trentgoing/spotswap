@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
+import { Button, Modal, Form } from 'react-bootstrap';
 import './CarList.css';
 import { getCarsQuery, deleteCarMutation } from '../../../../queries/queriesCar';
 import Car from '../Car/Car';
-import AddCar from '../AddCar/AddCar';
 
 class CarList extends Component {
   constructor(props) {
@@ -24,7 +24,11 @@ class CarList extends Component {
       return data.cars.map((car) => {
         return (
           <div key={car.id}>
-            <Car car={car} deleteCar={this.deleteCar}/>
+                <Form.Check 
+                  id={car.id}
+                  label={<Car car={car} deleteCar={this.deleteCar}/>}
+                >
+            </Form.Check>
           </div>
         );
       })
@@ -32,46 +36,32 @@ class CarList extends Component {
   };
   
   displayCarList() {
-    const {user_id} = this.props
-    if (user_id) {
-      return (
-        <div>
-          {this.displayCars()}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          Add a Car!
-        </div>
-      )
-    }
+    return (
+      <Form>
+      {this.displayCars()}
+      </Form>
+    );
   };
 
   deleteCar(carId) {
     this.props.deleteCarMutation({
       variables: {
-        user_id: this.props.user_id,
         id: carId
       },
-      refetchQueries: [{query: getCarsQuery, variables: {user_id: this.props.user_id}}]
     })
     .then(() => {
       console.log('Car deleted!');
     })
     .catch((err) => {
-      console.log(err);
+      console.log('Error in CarList.js', err);
     })
   };
 
   render() {
-    console.log('props in CarList', this.props);
     return (
       <div className="Cars">
         <header className="Login-header">
-          <h1 className="cars-title">Your Cars</h1>
         </header>
-        <AddCar user_id={this.props.user_id}/>
         {this.displayCarList()}
       </div>
     );

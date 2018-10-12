@@ -26,7 +26,7 @@ class ClaimSpotted extends Component {
 
   handleClose() {
     this.setState({ homeRedirect: true });
-  }
+  };
 
   render() {
     if (this.state.homeRedirect) {

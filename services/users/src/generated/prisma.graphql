@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Sun Oct 07 2018 15:27:20 GMT-0400 (EDT)
+# timestamp: Fri Oct 12 2018 13:22:23 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -28,6 +28,7 @@ type BatchPayload {
 
 type Car implements Node {
   id: ID!
+  default_car: Boolean
   size: Int
   make: String
   model: String
@@ -48,21 +49,23 @@ type CarConnection {
 }
 
 input CarCreateInput {
+  default_car: Boolean
   size: Int
   make: String
   model: String
   color: String
   plate: String
   state: String
-  user: UserCreateOneWithoutDefault_carInput
+  user: UserCreateOneWithoutUser_carsInput
 }
 
-input CarCreateOneWithoutUserInput {
-  create: CarCreateWithoutUserInput
-  connect: CarWhereUniqueInput
+input CarCreateManyWithoutUserInput {
+  create: [CarCreateWithoutUserInput!]
+  connect: [CarWhereUniqueInput!]
 }
 
 input CarCreateWithoutUserInput {
+  default_car: Boolean
   size: Int
   make: String
   model: String
@@ -83,6 +86,8 @@ type CarEdge {
 enum CarOrderByInput {
   id_ASC
   id_DESC
+  default_car_ASC
+  default_car_DESC
   size_ASC
   size_DESC
   make_ASC
@@ -103,6 +108,7 @@ enum CarOrderByInput {
 
 type CarPreviousValues {
   id: ID!
+  default_car: Boolean
   size: Int
   make: String
   model: String
@@ -151,25 +157,27 @@ input CarSubscriptionWhereInput {
 }
 
 input CarUpdateInput {
+  default_car: Boolean
   size: Int
   make: String
   model: String
   color: String
   plate: String
   state: String
-  user: UserUpdateOneWithoutDefault_carInput
+  user: UserUpdateOneWithoutUser_carsInput
 }
 
-input CarUpdateOneWithoutUserInput {
-  create: CarCreateWithoutUserInput
-  connect: CarWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: CarUpdateWithoutUserDataInput
-  upsert: CarUpsertWithoutUserInput
+input CarUpdateManyWithoutUserInput {
+  create: [CarCreateWithoutUserInput!]
+  connect: [CarWhereUniqueInput!]
+  disconnect: [CarWhereUniqueInput!]
+  delete: [CarWhereUniqueInput!]
+  update: [CarUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [CarUpsertWithWhereUniqueWithoutUserInput!]
 }
 
 input CarUpdateWithoutUserDataInput {
+  default_car: Boolean
   size: Int
   make: String
   model: String
@@ -178,7 +186,13 @@ input CarUpdateWithoutUserDataInput {
   state: String
 }
 
-input CarUpsertWithoutUserInput {
+input CarUpdateWithWhereUniqueWithoutUserInput {
+  where: CarWhereUniqueInput!
+  data: CarUpdateWithoutUserDataInput!
+}
+
+input CarUpsertWithWhereUniqueWithoutUserInput {
+  where: CarWhereUniqueInput!
   update: CarUpdateWithoutUserDataInput!
   create: CarCreateWithoutUserInput!
 }
@@ -232,6 +246,10 @@ input CarWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  default_car: Boolean
+
+  """All values that are not equal to given value."""
+  default_car_not: Boolean
   size: Int
 
   """All values that are not equal to given value."""
@@ -1958,7 +1976,6 @@ type Subscription {
 
 type User implements Node {
   id: ID!
-  default_car: Car
   user_name: String!
   rating: Int
   first_name: String
@@ -1967,6 +1984,7 @@ type User implements Node {
   phone_number: String
   password: String!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  user_cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
 }
 
 """A connection to a list of items."""
@@ -1987,17 +2005,12 @@ input UserCreateInput {
   email: String!
   phone_number: String
   password: String!
-  default_car: CarCreateOneWithoutUserInput
   locations: LocationCreateManyWithoutUserInput
+  user_cars: CarCreateManyWithoutUserInput
 }
 
 input UserCreateOneInput {
   create: UserCreateInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateOneWithoutDefault_carInput {
-  create: UserCreateWithoutDefault_carInput
   connect: UserWhereUniqueInput
 }
 
@@ -2006,15 +2019,9 @@ input UserCreateOneWithoutLocationsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserCreateWithoutDefault_carInput {
-  user_name: String!
-  rating: Int
-  first_name: String
-  last_name: String
-  email: String!
-  phone_number: String
-  password: String!
-  locations: LocationCreateManyWithoutUserInput
+input UserCreateOneWithoutUser_carsInput {
+  create: UserCreateWithoutUser_carsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateWithoutLocationsInput {
@@ -2025,7 +2032,18 @@ input UserCreateWithoutLocationsInput {
   email: String!
   phone_number: String
   password: String!
-  default_car: CarCreateOneWithoutUserInput
+  user_cars: CarCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutUser_carsInput {
+  user_name: String!
+  rating: Int
+  first_name: String
+  last_name: String
+  email: String!
+  phone_number: String
+  password: String!
+  locations: LocationCreateManyWithoutUserInput
 }
 
 """An edge in a connection."""
@@ -2118,8 +2136,8 @@ input UserUpdateDataInput {
   email: String
   phone_number: String
   password: String
-  default_car: CarUpdateOneWithoutUserInput
   locations: LocationUpdateManyWithoutUserInput
+  user_cars: CarUpdateManyWithoutUserInput
 }
 
 input UserUpdateInput {
@@ -2130,8 +2148,8 @@ input UserUpdateInput {
   email: String
   phone_number: String
   password: String
-  default_car: CarUpdateOneWithoutUserInput
   locations: LocationUpdateManyWithoutUserInput
+  user_cars: CarUpdateManyWithoutUserInput
 }
 
 input UserUpdateOneInput {
@@ -2143,15 +2161,6 @@ input UserUpdateOneInput {
   upsert: UserUpsertNestedInput
 }
 
-input UserUpdateOneWithoutDefault_carInput {
-  create: UserCreateWithoutDefault_carInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: UserUpdateWithoutDefault_carDataInput
-  upsert: UserUpsertWithoutDefault_carInput
-}
-
 input UserUpdateOneWithoutLocationsInput {
   create: UserCreateWithoutLocationsInput
   connect: UserWhereUniqueInput
@@ -2161,15 +2170,13 @@ input UserUpdateOneWithoutLocationsInput {
   upsert: UserUpsertWithoutLocationsInput
 }
 
-input UserUpdateWithoutDefault_carDataInput {
-  user_name: String
-  rating: Int
-  first_name: String
-  last_name: String
-  email: String
-  phone_number: String
-  password: String
-  locations: LocationUpdateManyWithoutUserInput
+input UserUpdateOneWithoutUser_carsInput {
+  create: UserCreateWithoutUser_carsInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutUser_carsDataInput
+  upsert: UserUpsertWithoutUser_carsInput
 }
 
 input UserUpdateWithoutLocationsDataInput {
@@ -2180,7 +2187,18 @@ input UserUpdateWithoutLocationsDataInput {
   email: String
   phone_number: String
   password: String
-  default_car: CarUpdateOneWithoutUserInput
+  user_cars: CarUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutUser_carsDataInput {
+  user_name: String
+  rating: Int
+  first_name: String
+  last_name: String
+  email: String
+  phone_number: String
+  password: String
+  locations: LocationUpdateManyWithoutUserInput
 }
 
 input UserUpsertNestedInput {
@@ -2188,14 +2206,14 @@ input UserUpsertNestedInput {
   create: UserCreateInput!
 }
 
-input UserUpsertWithoutDefault_carInput {
-  update: UserUpdateWithoutDefault_carDataInput!
-  create: UserCreateWithoutDefault_carInput!
-}
-
 input UserUpsertWithoutLocationsInput {
   update: UserUpdateWithoutLocationsDataInput!
   create: UserCreateWithoutLocationsInput!
+}
+
+input UserUpsertWithoutUser_carsInput {
+  update: UserUpdateWithoutUser_carsDataInput!
+  create: UserCreateWithoutUser_carsInput!
 }
 
 input UserWhereInput {
@@ -2509,10 +2527,12 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
-  default_car: CarWhereInput
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput
+  user_cars_every: CarWhereInput
+  user_cars_some: CarWhereInput
+  user_cars_none: CarWhereInput
 }
 
 input UserWhereUniqueInput {

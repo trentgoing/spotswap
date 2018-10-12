@@ -13,7 +13,8 @@ const signupQuery = gql`
     ) {
       token
     }
-  }`;
+  }
+`;
 
 const loginQuery = gql`
   mutation LoginMutation(
@@ -26,6 +27,41 @@ const loginQuery = gql`
     ) {
       token
     }
-  }`;
+  }
+`;
 
-export { signupQuery, loginQuery };
+const getUserQuery = gql`
+  query getUserQuery {
+    userInfo {
+      user_name
+      first_name
+      last_name
+      user_cars {
+        default_car
+        make
+        model
+        color
+      }
+    }
+  }
+`;
+
+const mutationUser = gql`
+  mutation(
+    $user_name: String,
+    $first_name: String,
+    $last_name: String
+  ) {
+    editUser(
+      user_name: $user_name
+      first_name: $first_name
+      last_name: $last_name
+    ){
+      user_name
+      first_name
+      last_name
+    }
+  }
+`;
+
+export { signupQuery, loginQuery, getUserQuery, mutationUser };
