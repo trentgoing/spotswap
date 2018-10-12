@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
 import { Query } from 'react-apollo';
+// import { reduceStore } from 'apollo-live-client';
 import Reserving from './HandshakeModals/Reserving';
 import Claimed from './HandshakeModals/Claimed';
 import Success from './HandshakeModals/Success';
@@ -19,15 +20,6 @@ class HandshakeLister extends Component {
     this.openModal = this.openModal.bind(this);
   };
 
-  _subscribeToUpdatedListings = subscribeToMore => {
-    subscribeToMore({
-      document: CHANGED_LISTINGS_SUBSCRIPTION,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev
-      }
-    })
-  }
-
   handleClose() {
     this.setState({
       modalShow: false
@@ -35,10 +27,38 @@ class HandshakeLister extends Component {
   }
 
   openModal() {
-    console.log('open the damn modal')
     this.setState({
       modalShow: true
     })
+  }
+
+  _subscribeToUpdatedListings = subscribeToMore => {
+    subscribeToMore({
+      document: CHANGED_LISTINGS_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        this.openModal();
+        const listingUpdate = subscriptionData.data.listingUpdate.node;
+        let newArray = [listingUpdate, ...prev.myListings];
+        newArray = this._removeDups(newArray);
+        var toReturn = Object.assign({}, prev, {
+          myListings: newArray,
+        })
+        return toReturn;
+      }
+    })
+  }
+
+  _removeDups = data => {
+    let obj = {};
+    data.forEach((item) => {
+      obj[item.id] = item;
+    })
+    let newArray = [];
+    for (let keys in obj) {
+      newArray.push(obj[keys]);
+    }
+    return newArray;
   }
 
   displayListingStatus(listing) {
@@ -61,28 +81,25 @@ class HandshakeLister extends Component {
           if (loading) return <div>Fetching</div>;
           if (error) return <div>Error</div>;
           this._subscribeToUpdatedListings(subscribeToMore);
-          if (data.myListings.length > 0) {
-            return (
-              <div className="modal-container">
-                <Modal show={this.state.modalShow} onHide={this.handleClose}>
-                  <Modal.Header>
-                    <Modal.Title>Current Swaps</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <div id="modal-content">
-                      
-                      {data.myListings.map((listing) => {
-                        return this.displayListingStatus(listing);
-                      })}
+
+          console.log(data)
+          return (
+            <div className="modal-container">
+              <Modal show={this.state.modalShow} onHide={this.handleClose}>
+                <Modal.Header>
+                  <Modal.Title>Current Swaps</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div id="modal-content">
+                    {data.myListings.map((listing) => {
+                      return this.displayListingStatus(listing);
+                    })}
                     
-                    </div>
-                  </Modal.Body>
-                </Modal>
-              </div>
-            );
-          } else {
-            return <React.Fragment></React.Fragment>
-          }
+                  </div>
+                </Modal.Body>
+              </Modal>
+            </div>
+          );
         }}
         </Query>
       </React.Fragment>

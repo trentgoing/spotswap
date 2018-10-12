@@ -79,6 +79,11 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
         spot{
           id
           end_time
+          start_time
+          street1
+          street2
+          state
+          city
         }
         claiming_user {
           user_name
@@ -86,6 +91,18 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
           default_car{
             model
             color
+            make
+            plate
+          }
+        }
+        listing_user {
+          user_name
+          id
+          default_car{
+            model
+            color
+            make
+            plate
           }
         }
       }

@@ -43,10 +43,10 @@ var Reserving = function({listing, handleClose}) {
   return (
     <div key={listing.id} style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id)), height: '70vh'}}>
       <h3>CLAIMED!</h3>
-      <p><b>{listing.claiming_user.user_name}</b> has claimed the spot!</p>
+      <p><b>{listing.claiming_user && listing.claiming_user.user_name}</b> has claimed the spot!</p>
       <p>{listing.spot.street1}, {listing.spot.street2} {listing.spot.city}</p>
-      {(listing.claiming_user.default_car)  && <p> Driving a {listing.claiming_user.default_car.color} {listing.claiming_user.default_car.make} {listing.claiming_user.default_car.model}</p>}
-      {(listing.claiming_user.default_car)  && <p> Plate: {listing.claiming_user.default_car.plate}</p>}
+      {(listing.claiming_user && listing.claiming_user.default_car)  && <p> Driving a {listing.claiming_user.default_car.color} {listing.claiming_user.default_car.make} {listing.claiming_user.default_car.model}</p>}
+      {(listing.claiming_user && listing.claiming_user.default_car)  && <p> Plate: {listing.claiming_user.default_car.plate}</p>}
       <img src="/sort.svg" width="60" height="60" alt="" />
       <p>To swap spots with <b>{listing.listing_user.user_name}</b></p>
       {(listing.listing_user.default_car)  && <p> Driving a {listing.listing_user.default_car.color} {listing.listing_user.default_car.make} {listing.listing_user.default_car.model}</p>}

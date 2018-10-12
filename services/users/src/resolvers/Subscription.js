@@ -16,7 +16,7 @@ function changedListingSubscribe (parent, args, context, info) {
   return context.db.subscription.listing(
     { 
       where: { 
-        mutation_in: 'UPDATED',
+        mutation_in: ['CREATED', 'UPDATED'],
         node: {
           OR: [{ listing_user: {id: userId} }, { claiming_user: {id: userId} }],
           type: 1
