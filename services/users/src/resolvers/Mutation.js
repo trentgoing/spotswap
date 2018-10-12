@@ -316,18 +316,41 @@ async function expireSpot (parent, args, context, info) {
   //check if worker process
   if (args.isWorker)
   {
-    return await context.db.mutation.updateManySpots({
+    // return await context.db.mutation.updateManySpots({
+    //   where: {
+    //     end_time_lte: args.date,
+    //     is_available: true
+    //   },
+    //   data: {
+    //       is_available: false
+    //   },
+    // }, info)
+
+    const spots = await context.db.query.spots({
       where: {
         end_time_lte: args.date,
         is_available: true
-      },
-      data: {
+      }
+    })
+
+    console.log(spots);
+
+    const expiredSpots = await spots.map((spot) => {
+      context.db.mutation.updateSpot({
+        where: {
+          id: spot.id
+        },
+        data: {
           is_available: false
-      },
-    }, info)
+        }
+      })  
+    })
+
+    return {
+      count : spots.length
+    }
   }
 };
-
 
 
 // async function signup (parent, args, context, info) {

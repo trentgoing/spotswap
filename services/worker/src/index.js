@@ -27,14 +27,15 @@ const mutationQuery = `($date: DateTime!, $isWorker: Boolean){
   }
 }`;
 
-const vars = {
-  date: moment().format(),
-  isWorker: true
-};
 
-var minutes = 1, the_interval = minutes * 60 * 1000;
+
+var minutes = 1, the_interval = minutes * 10 * 1000;
 setInterval(function() {
+  const vars = {
+    date: moment().toISOString(),
+    isWorker: true
+  };
   client.mutate(mutationQuery, vars).then(resp => {
-    console.log('Expired ' + resp.expireSpot.count + ' spots.');
+    console.log('Expired ' + resp.expireSpot.count + ' spots at ' + moment().toISOString() + '.');
   });
 }, the_interval);
