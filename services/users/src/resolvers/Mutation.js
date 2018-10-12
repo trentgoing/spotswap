@@ -118,7 +118,8 @@ function addCar (parent, args, context, info) { //Working
           connect: {
             id: userId
           }
-        }
+        },
+        default_car: args.default_car
       }
     },
     info
@@ -135,6 +136,7 @@ function editCar (parent, args, context, info) { //working
         color: args.color,
         plate: args.plate,
         state: args.state,
+        default_car: args.default_car
       },
       where: {id: args.id}
     },

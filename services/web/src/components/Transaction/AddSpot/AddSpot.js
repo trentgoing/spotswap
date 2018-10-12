@@ -88,7 +88,6 @@ class AddSpot extends Component {
 
   submitForm(event) {
     event.preventDefault();
-
     this.props.addSpotMutation({
       variables: {
         lng: (this.props.location.state.lng).toString(),

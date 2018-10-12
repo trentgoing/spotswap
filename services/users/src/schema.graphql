@@ -1,7 +1,7 @@
 # import Car, Spot, Location , Listing, SpotSubscriptionPayload, ListingSubscriptionPayload, BatchPayload from "./generated/prisma.graphql"
 
 type Query {
-  userInfo: User
+  userInfo : User
   location (id: ID!) : Location
   locations : [Location]
   car (id: ID!) : Car
@@ -21,8 +21,8 @@ type Mutation {
   addLocation (name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
   editLocation (id: ID!, name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
   deleteLocation (id: ID) : Location
-  addCar (size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
-  editCar (id: ID!, size: Int, make: String, model: String, color: String, plate: String, state: String) : Car
+  addCar (size: Int, make: String, model: String, color: String, plate: String, state: String, default_car: Boolean) : Car
+  editCar (id: ID!, size: Int, make: String, model: String, color: String, plate: String, state: String, default_car: Boolean) : Car
   deleteCar (id: ID) : Car
   addSpot (lat: String, lng: String, street1: String, street2: String, city: String, state: String, zip: Int, type: Int, start_time: DateTime, end_time: DateTime) : Spot
   editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
@@ -45,11 +45,11 @@ type AuthPayload {
 
 type User {
     id: ID!
-    default_car: Car
     user_name: String!
     rating: Int
     first_name: String
     last_name: String
     email: String!
     phone_number: String
+    user_cars: [Car!]!
 }
