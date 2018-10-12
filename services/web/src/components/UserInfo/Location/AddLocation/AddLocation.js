@@ -15,7 +15,7 @@ class AddLocation extends Component {
       street2: '',
       city: '',
       state: '',
-      zip: '',
+      zip: null,
       homeRedirect: false,
       modalShow: true,
     };

@@ -125,6 +125,7 @@ function addCar (parent, args, context, info) { //Working
     info
   )
 };
+
 function editCar (parent, args, context, info) { //working
   const userId = getUserId(context);
   return context.db.mutation.updateCar(

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Mutation, Query, compose, graphql } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
@@ -37,11 +37,10 @@ class ProfilePage extends Component {
   };
 
   changeDefaultCar(car) {
-    console.log('hitting')
     this.setState({
       default_car: car
     },
-    () => {console.log('ttate', this.state)}
+    () => {console.log('state in profile page for default car', this.state)}
     )
   };
 
@@ -97,6 +96,7 @@ class ProfilePage extends Component {
                 user_name: this.state.username,
                 first_name: this.state.firstName,
                 last_name: this.state.lastName
+                
               }}
             >
               {userEdit => 
@@ -113,12 +113,12 @@ class ProfilePage extends Component {
           <div>
             <Link to={'/addCar'}>Add your car</Link>
           </div>
-         <div>
-           <div>
-             <LocationList />
-           </div>
-          <Link to={'/addLocation'}>Add your location</Link>
-         </div>
+          <div>
+            <div>
+              <LocationList />
+            </div>
+            <Link to={'/addLocation'}>Add your location</Link>
+          </div>
           
           <Button onClick={() => {this.props.history.push(`/`)}}>Go To Map</Button> 
         </React.Fragment>
