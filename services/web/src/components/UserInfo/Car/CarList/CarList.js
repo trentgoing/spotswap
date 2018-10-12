@@ -26,7 +26,10 @@ class CarList extends Component {
           <div key={car.id}>
                 <Form.Check 
                   id={car.id}
-                  label={<Car car={car} deleteCar={this.deleteCar}/>}
+                  label={<Car car={car} deleteCar={this.deleteCar} />}
+                  onClick={() => {
+                    this.props.changeDefaultCar(car)
+                  }}
                 >
             </Form.Check>
           </div>

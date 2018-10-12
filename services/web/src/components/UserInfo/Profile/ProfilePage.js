@@ -16,11 +16,12 @@ class ProfilePage extends Component {
       username: '',
       firstName: '',
       lastName: '',
-      defaultCar: {},
+      default_car: {},
       rating: null
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getUserInfo = this.getUserInfo.bind(this);
+    this.changeDefaultCar = this.changeDefaultCar.bind(this);
   };
 
   getUserInfo(data) {
@@ -33,6 +34,15 @@ class ProfilePage extends Component {
       rating: data.userInfo.rating,
       empty: false
     })
+  };
+
+  changeDefaultCar(car) {
+    console.log('hitting')
+    this.setState({
+      default_car: car
+    },
+    () => {console.log('ttate', this.state)}
+    )
   };
 
   handleInputChange(evt) {
@@ -97,14 +107,17 @@ class ProfilePage extends Component {
               <Form.Label>Default Car: </Form.Label>
             </Form.Group>
             <Form.Group>
-              <CarList />
+              <CarList changeDefaultCar={this.changeDefaultCar}/>
             </Form.Group>
           </Form>
           <div>
-            <Link to={'/addCar'}>Add your cars</Link>
+            <Link to={'/addCar'}>Add your car</Link>
           </div>
          <div>
-          <Link to={'/addLocation'}>Add your locations</Link>
+           <div>
+             <LocationList />
+           </div>
+          <Link to={'/addLocation'}>Add your location</Link>
          </div>
           
           <Button onClick={() => {this.props.history.push(`/`)}}>Go To Map</Button> 

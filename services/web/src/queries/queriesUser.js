@@ -36,7 +36,11 @@ const getUserQuery = gql`
       user_name
       first_name
       last_name
-      user_cars {
+      user_cars (
+        where: {
+          default_car: true
+        }
+      ){
         default_car
         make
         model
