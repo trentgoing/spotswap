@@ -1,6 +1,5 @@
 type User {
   id: ID! @unique
-  default_car: Car
   user_name: String!
   rating: Int
   first_name: String
@@ -9,10 +8,12 @@ type User {
   phone_number: String
   password: String!
   locations: [Location!]!
+  user_cars: [Car!]!
 }
 
 type Car {
   id: ID! @unique
+  default_car: Boolean
   size: Int
   make: String
   model: String
