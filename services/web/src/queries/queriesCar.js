@@ -39,6 +39,24 @@ const addCarMutation = gql`
     ) {
       id
       make
+      model
+      color
+    }
+  }
+`;
+
+const editCarMutation = gql`
+  mutation(
+    $id: ID!
+    $default_car: Boolean
+  ) {
+    editCar(
+      id: $id
+      default_car: $default_car
+    ) {
+      color
+      make
+      model
     }
   }
 `;
@@ -56,4 +74,4 @@ const deleteCarMutation = gql`
 `;
 
 
-export { getCarsQuery, addCarMutation, deleteCarMutation };
+export { getCarsQuery, addCarMutation, editCarMutation, deleteCarMutation };

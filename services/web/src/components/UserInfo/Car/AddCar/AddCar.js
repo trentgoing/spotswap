@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
@@ -53,7 +53,7 @@ class AddCar extends Component {
               <Form>
                 <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label>Size: </Form.Label>
-                  <Form.Control as="select" name="size" value={size} onChange={(event) => this.handleInputChange(event)} value={this.state.size}>
+                  <Form.Control as="select" name="size" value={size} onChange={(event) => this.handleInputChange(event)}>
                     <option value="1">Small</option>
                     <option value="2">Medium</option>
                     <option value="3">Large</option>
