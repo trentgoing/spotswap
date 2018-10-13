@@ -12,6 +12,7 @@ type Query {
   listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing]!
   openSpot : [Spot]
   myListings : [Listing]
+  myListingsHistory : [Listing]
 }
 
 type Mutation {

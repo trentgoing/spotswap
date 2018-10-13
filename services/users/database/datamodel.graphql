@@ -8,7 +8,7 @@ type User {
   phone_number: String
   password: String!
   locations: [Location!]!
-  user_cars: [Car!]! @relation(name: "Anything")
+  user_cars: [Car!]! 
 }
 
 type Car {

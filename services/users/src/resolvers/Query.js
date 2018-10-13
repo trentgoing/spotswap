@@ -54,6 +54,11 @@ function myListings (parent, args, context, info) {
     }, info);
 }
 
+function myListingsHistory (parent, args, context, info) {
+  const userId = getUserId(context);
+  return context.db.query.listings({ where: {AND: [{ OR: [{listing_user: {id: userId} }, {claiming_user: {id: userId}}]} ]}}, info);
+}
+
 function openSpot (parent, args, context, info) {
   return context.db.query.spots({ where: {is_available: true} }, info);
 }
@@ -69,5 +74,6 @@ module.exports = {
   listing,
   listings,
   openSpot,
-  myListings
+  myListings,
+  myListingsHistory
 };
