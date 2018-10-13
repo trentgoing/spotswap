@@ -29,7 +29,7 @@ function spot (parent, args, context, info) {
 }
 
 function spots (parent, args, context, info) {
-  return context.db.query.spots({}, info);
+  return context.db.query.spots({}, info);  
 }
 
 function listing (parent, args, context, info) {
@@ -38,7 +38,7 @@ function listing (parent, args, context, info) {
 
 function listings (parent, args, context, info) {
   return context.db.query.listings({}, info);
-}
+} 
 
 function myListings (parent, args, context, info) {
   const userId = getUserId(context);

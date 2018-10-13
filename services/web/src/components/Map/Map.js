@@ -13,6 +13,9 @@ import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
 import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
 import { AUTH_TOKEN } from '../../constants';
 import { initializeMap } from '../../utilities/mapHelper';
+import { mutationUserCurrentLocation } from '../../queries/queriesUser';
+import { graphql, compose } from 'react-apollo';
+import ListingStatusPane from '../Transaction/ListingStatusPane';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 
@@ -69,6 +72,29 @@ class Map extends Component {
 
     this.setState({
       map: map
+    });
+
+    if ("geolocation" in navigator) {
+      /* geolocation is available */
+      console.log('Geo is available');
+      navigator.geolocation.watchPosition((position) => {
+        this.updateUserLocation(position);
+      }, (err) => {
+        console.log(err);
+      })
+    } else {
+      /* geolocation IS NOT available */
+    }
+    
+  };
+
+  updateUserLocation(position) {
+    this.props.userMutation({
+      variables: {
+        current_lng: (position.coords.longitude).toString(),
+        current_lat: (position.coords.latitude).toString()
+      },
+      // refetchQueries: [{query: getSpotsQuery, variables: {}}]
     });
   };
 
@@ -139,26 +165,19 @@ class Map extends Component {
     }
   };
 
-  _getLatLonToRender = (data) => {
-    // const isNewPage = this.props.location.pathname.includes('new')
-    // if (isNewPage) {
-    //   return data.feed.links
-    // }
-    // const rankedLinks = data.feed.links.slice()
-    // rankedLinks.sort((l1, l2) => l2.votes.length - l1.votes.length)
-    // return rankedLinks
-  };
-
   render() {
     return (
       <React.Fragment>
-      <div id="map">
-        <div ref={el => this.mapContainer = el} id="map-container" />
-        <div id="geocoder" className="geocoder"></div>
-        <div id="track-user" className="track-user"></div>
-        <NavBar map={this.state.map} loggedIn={this.state.loggedIn} changeLogin={this.changeLogin} toggleLogin={this.toggleLogin}/>
-        <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
-      </div>
+        <div id="map">
+          <div ref={el => this.mapContainer = el} id="map-container" />
+          <div id="geocoder" className="geocoder"></div>
+          <div id="track-user" className="track-user"></div>
+          <NavBar map={this.state.map} loggedIn={this.state.loggedIn} changeLogin={this.changeLogin} toggleLogin={this.toggleLogin}/>
+          <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
+        </div>
+        <div id="drawer">
+          <ListingStatusPane />
+        </div>
         <Switch>
           <Route exact path="/addSpot" component={AddSpot} />
           <Route exact path="/login" render={() => {
@@ -175,4 +194,6 @@ class Map extends Component {
   };
 };
 
-export default withRouter(Map);
+export default withRouter(compose(
+  graphql(mutationUserCurrentLocation, {name: "userMutation"})
+)(Map));
