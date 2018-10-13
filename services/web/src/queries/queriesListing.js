@@ -40,24 +40,29 @@ query{
     claiming_user{
       id
       user_name
-      default_car {
+      user_cars (where: {default_car: true }) {
+        id
+        color
+        default_car
         make
         model
-        color
         plate
       }
     }
     listing_user{
       id
       user_name
-      default_car {
+      user_cars (where: {default_car: true }) {
+        id
+        color
+        default_car
         make
         model
-        color
         plate
       }
     }
     spot {
+      is_available
       id
       start_time
       end_time
@@ -78,14 +83,36 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
         status
         spot{
           id
+          is_available
           end_time
+          start_time
+          street1
+          street2
+          state
+          city
         }
         claiming_user {
           user_name
           id
-          default_car{
-            model
+          user_cars (where: {default_car: true }) {
+            id
             color
+            default_car
+            make
+            model
+            plate
+          }
+        }
+        listing_user {
+          user_name
+          id
+          user_cars (where: {default_car: true }) {
+            id
+            color
+            default_car
+            make
+            model
+            plate
           }
         }
       }

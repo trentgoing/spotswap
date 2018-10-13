@@ -22,7 +22,7 @@ type Car {
   color: String
   plate: String
   state: String
-  user: User
+  user: User @relation(name: "Anything")
 }
 
 type Location {

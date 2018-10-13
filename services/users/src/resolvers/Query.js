@@ -41,9 +41,16 @@ function listings (parent, args, context, info) {
 
 function myListings (parent, args, context, info) {
   const userId = getUserId(context);
-  // return context.db.query.listings({ where: {listing_user: {id: userId}, type: 1, OR: [{ status: 1 }, { status: 2 }] } }, info);
-  // get listings that are in status 1 = open or status 2 = claimed and either user is lister or claimer and type = 1 (reserved)
-  return context.db.query.listings({ where: {AND: [{ OR: [{listing_user: {id: userId} }, {claiming_user: {id: userId}}]}, {type: 1}, {OR: [{ status: 1 }, { status: 2 }] } ]}}, info);
+  return context.db.query.listings(
+    { 
+      where: {
+        AND: [
+          { OR: [{listing_user: {id: userId} }, {claiming_user: {id: userId}}]}, 
+          {type: 1}, 
+          {OR: [{ status: 1 }, { status: 2 }] } 
+        ]
+      }
+    }, info);
 }
 
 function myListingsHistory (parent, args, context, info) {
