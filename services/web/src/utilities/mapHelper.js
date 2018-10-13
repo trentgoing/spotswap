@@ -17,19 +17,22 @@ const addSpot = function (spot, map, claimSpot) {
           }
       }]
     };
-    map.addSource(`${spot.id}`, {
-      "type": "geojson",
-      "data": geojson
-    });
-    map.addLayer({
-      "id": `${spot.id}`,
-      "type": "symbol",
-      "source": `${spot.id}`,
-      "layout": {
-        "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
-        "icon-size": 0.25,
-        "icon-allow-overlap": true
-    }
+    map.on('load', () => {
+      map.addSource(`${spot.id}`, {
+        "type": "geojson",
+        "data": geojson
+      });
+      map.addLayer({
+        "id": `${spot.id}`,
+        "type": "symbol",
+        "source": `${spot.id}`,
+        "layout": {
+          "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
+          "icon-size": 0.25,
+          "icon-allow-overlap": true
+      }
+      
+    })
       // "paint": {
       //     "circle-radius": 10,
       //     "circle-color": `${spot.type === 1 ? '#f4f142' : '#f44242'}`
