@@ -25,6 +25,7 @@ class ProfilePage extends Component {
   };
 
   getUserInfo(data) {
+    console.log('data', data);
     let defaultCar = data.userInfo.user_cars.default_car ? data.userInfo.user_cars.default_car : null
     this.setState({
       username: data.userInfo.user_name,
@@ -73,7 +74,7 @@ class ProfilePage extends Component {
           <Form>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label>Rating: </Form.Label>
-              <div></div>
+              <div>{this.state.rating}</div>
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label>Username: </Form.Label>
@@ -95,8 +96,7 @@ class ProfilePage extends Component {
               variables={{
                 user_name: this.state.username,
                 first_name: this.state.firstName,
-                last_name: this.state.lastName
-                
+                last_name: this.state.lastName      
               }}
             >
               {userEdit => 
