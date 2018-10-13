@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import './NavBar.css';
 import { Link } from 'react-router-dom';
 import { AUTH_TOKEN } from '../../../constants';
-import { Container, Navbar, Nav, NavDropdown, } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown, FormControl, Form } from 'react-bootstrap';
 
 class NavBar extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class NavBar extends Component {
         <Container>
           <Navbar bg="dark" variant="dark" expand="lg">
             <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt=""/></Navbar.Brand>
-            <div id='searchInput' className='geocoder'></div>
+            <div id="geocoder" className="geocoder"></div>
             <Nav className="mr-auto">
               <Nav.Link href="/profilePage">Profile</Nav.Link>
               <Nav.Link href="/historyPage">History</Nav.Link>
@@ -31,6 +31,7 @@ class NavBar extends Component {
                     this.props.toggleLogin();
                   }}
               >Logout</Nav.Link>
+
               {/* <NavDropdown title="menu" id="collasible-nav-dropdown"> 
                 <NavDropdown.Item componentClass={Link} href="/profilePage" to="/profilePage" active={
                   this.props.location.pathname === "/profilePage"}>
@@ -58,7 +59,7 @@ class NavBar extends Component {
         <Container>
           <Navbar bg="dark" variant="dark" expand="lg">
             <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt=""/></Navbar.Brand>
-            <div id="searchInput" className="geocoder"></div>
+            <div id="geocoder" className="geocoder"></div>
             <Nav className="mr-auto">
               <Nav.Link href="/login">Login</Nav.Link>
               {/* <NavDropdown title="menu" id="collasible-nav-dropdown">
