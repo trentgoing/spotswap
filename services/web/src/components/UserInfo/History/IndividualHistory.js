@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import { Mutation, Query } from 'react-apollo';
-import { withRouter } from 'react-router';
-import { Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
-
 
 class IndividualHistory extends Component {
   constructor(props) {
@@ -12,13 +7,11 @@ class IndividualHistory extends Component {
   };
 
   render() {
-    let { item } = this.props; 
+    const { item } = this.props; 
+    const green = {backgroundColor: '#b8f2b9'};
+    const blue = {backgroundColor: '#92bcef'}
     return (
-      // <div>
-      //   It's not working!!!
-      // </div>
-      <div>
-        <td>1</td>
+      <tr style={item.type === 1 ? blue : green}>
         <td>{item.spot.start_time}</td>
         <td>{item.spot.end_time}</td>
         <td>{item.type}</td>
@@ -27,7 +20,7 @@ class IndividualHistory extends Component {
         <td>{item.spot.street2}</td>
         <td>{item.spot.state}</td>
         <td>{item.spot.city}</td>
-      </div>
+      </tr>
     );
   };
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 import CarList from '../Car/CarList/CarList';
 import LocationList from '../Location/LocationList/LocationList';
@@ -39,9 +39,7 @@ class ProfilePage extends Component {
   changeDefaultCar(car) {
     this.setState({
       default_car: car
-    },
-    () => {console.log('state in profile page for default car', this.state)}
-    )
+    })
   };
 
   handleInputChange(evt) {
@@ -52,6 +50,8 @@ class ProfilePage extends Component {
   };
 
   render() {
+    console.log('props', this.props);
+
     if (this.state.empty) {
       return (
         <Query query={getUserQuery}>
@@ -120,7 +120,7 @@ class ProfilePage extends Component {
             <Link to={'/addLocation'}>Add your location</Link>
           </div>
           
-          <Button onClick={() => {this.props.history.push(`/`)}}>Go To Map</Button> 
+          <Button onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button> 
         </React.Fragment>
       );
     }

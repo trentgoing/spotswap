@@ -8,14 +8,14 @@ a.navbar-signin {
   color: white;
 }
 
-.form-control {
+/* .form-control {
   width: 80%;
 }
 
 .navbar-collapse {
   position: absolute;
   right: 20vw;
-}
+} */
 
 /* .searchbar {
   width: stretch;
@@ -30,7 +30,7 @@ a.navbar-signin {
 }
 
 .geocoder {
-  position:absolute;
+  position:inline;
   z-index:1;
   width:50%;
   left:50%;

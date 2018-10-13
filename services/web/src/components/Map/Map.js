@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Map.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import NavBar from './NavBar/NavBar.js';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import SpotsList from './SpotsList/SpotsList';
 import Login from '../Login/Login.js';
@@ -13,6 +12,7 @@ import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
 import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
 import { AUTH_TOKEN } from '../../constants';
 import { initializeMap } from '../../utilities/mapHelper';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 
@@ -32,8 +32,8 @@ class Map extends Component {
       listingId: '',
       spotStartTime: '',
       spotEndTime: '',
-      map: {},
-      loggedIn: false
+      loggedIn: false,
+      map: {}
     };
     this.claimSpot = this.claimSpot.bind(this);
     this.changeLogin = this.changeLogin.bind(this);
@@ -70,6 +70,8 @@ class Map extends Component {
     this.setState({
       map: map
     });
+
+    this.changeLogin();
   };
 
   moveHandler(lng, lat, zoom) {
@@ -150,28 +152,64 @@ class Map extends Component {
   };
 
   render() {
-    return (
-      <React.Fragment>
-      <div id="map">
-        <div ref={el => this.mapContainer = el} id="map-container" />
-        <div id="geocoder" className="geocoder"></div>
-        <div id="track-user" className="track-user"></div>
-        <NavBar map={this.state.map} loggedIn={this.state.loggedIn} changeLogin={this.changeLogin} toggleLogin={this.toggleLogin}/>
-        <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
-      </div>
+    if (this.state.loggedIn) {
+      return (
+        <React.Fragment>
+        <div id="map">
+          <div ref={el => this.mapContainer = el} id="map-container" />
+          <div id="track-user" className="track-user"></div>
+          <Container>
+          <Navbar bg="dark" variant="dark" expand="xs">
+            <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt="swapspot"/></Navbar.Brand>
+            <div id="geocoder" className="geocoder"></div>
+            <Nav.Link href="/profilePage">Profile</Nav.Link>
+              <Nav.Link href="/historyPage">History</Nav.Link>
+              <Nav.Link onClick={() => {
+                    localStorage.removeItem(AUTH_TOKEN);
+                    this.toggleLogin();
+                  }}
+              >Logout</Nav.Link>
+          </Navbar>
+          </Container>
+          <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
+        </div>
         <Switch>
-          <Route exact path="/addSpot" component={AddSpot} />
-          <Route exact path="/login" render={() => {
-            return <Login toggleLogin={this.toggleLogin}/>
-          }}/>
-          <Route exact path="/spots" component={SpotsList} />
-          <Route exact path="/locations" component={LocationList} />
-          <Route exact path="/cars" component={CarList} />
-          <Route exact path="/claimSpotted" component={ClaimSpotted} />
-          <Route exact path="/claimReserved" component={ClaimReserved} />
-        </Switch>
+            <Route exact path="/addSpot" component={AddSpot} />
+            <Route exact path="/login" render={() => {
+              return <Login toggleLogin={this.toggleLogin}/>
+            }}/>
+            <Route exact path="/spots" component={SpotsList} />
+            <Route exact path="/locations" component={LocationList} />
+            <Route exact path="/cars" component={CarList} />
+            <Route exact path="/claimSpotted" component={ClaimSpotted} />
+            <Route exact path="/claimReserved" component={ClaimReserved} />
+          </Switch>
       </React.Fragment>
-    ); 
+      )
+    }
+    else {
+      return (
+      <React.Fragment>
+        <div id="map">
+          <div ref={el => this.mapContainer = el} id="map-container" />
+          <div id="track-user" className="track-user"></div>
+          <Container>
+            <Navbar bg="dark" variant="dark" expand="xs">
+              <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt=""/></Navbar.Brand>
+              <div id="geocoder" className="geocoder"></div>
+              <Nav.Link href="/login">Login</Nav.Link>
+            </Navbar>
+          </Container>
+          <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
+        </div>
+        <Switch>
+            <Route exact path="/login" render={() => {
+              return <Login toggleLogin={this.toggleLogin}/>
+            }}/>
+          </Switch>
+        </React.Fragment>
+      )
+    }
   };
 };
 

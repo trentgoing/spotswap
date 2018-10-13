@@ -79,7 +79,7 @@ class AddLocation extends Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Zip: </Form.Label>
-                  <Form.Control type="text" placeholder="Zip" name="zip" value={zip}
+                  <Form.Control type="number" placeholder="Zip" name="zip" value={zip}
                     onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
                 </Form.Group>
                 <Mutation
