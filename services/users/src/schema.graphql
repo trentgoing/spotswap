@@ -1,4 +1,4 @@
-# import Car, Spot, Location , Listing, SpotSubscriptionPayload, ListingSubscriptionPayload, BatchPayload from "./generated/prisma.graphql"
+# import LocationWhereInput, LocationOrderByInput, CarWhereInput, CarOrderByInput, Car, Spot, Location , Listing, SpotSubscriptionPayload, ListingSubscriptionPayload, BatchPayload, ListingWhereInput from "./generated/prisma.graphql"
 
 type Query {
   userInfo : User
@@ -9,7 +9,7 @@ type Query {
   spot (id: ID!) : Spot
   spots : [Spot]
   listing (id: ID!, listing_user_id: ID, claiming_user_id: ID, spot_id:ID) : Listing
-  listings (listing_user_id: ID, claiming_user_id: ID, type: Int, status: Int) : [Listing]
+  listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing]!
   openSpot : [Spot]
   myListings : [Listing]
 }
@@ -51,5 +51,6 @@ type User {
     last_name: String
     email: String!
     phone_number: String
-    user_cars: [Car!]!
+    locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+    user_cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
 }

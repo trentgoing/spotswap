@@ -2,6 +2,7 @@ const Lokka = require('lokka').Lokka;
 const Transport = require('lokka-transport-http').Transport;
 // const JWTAuthTransport = require('lokka-transport-jwt-auth');
 const moment = require('moment');
+const ranking = require('./ranking');
 
 
 // function refresh() {
