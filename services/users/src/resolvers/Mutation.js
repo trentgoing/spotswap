@@ -290,6 +290,7 @@ function editListing (parent, args, context, info) { //working until I try to ch
   }
 };
 
+
 function editSpotListing (parent, args, context, info) { //working
   const userId = getUserId(context);
   return context.db.mutation.updateSpot(
@@ -313,31 +314,17 @@ function editSpotListing (parent, args, context, info) { //working
   })
 };
 
-
 async function expireSpot (parent, args, context, info) {
   const userId = await getUserId(context);
   //check if worker process
   if (args.isWorker)
   {
-    // return await context.db.mutation.updateManySpots({
-    //   where: {
-    //     end_time_lte: args.date,
-    //     is_available: true
-    //   },
-    //   data: {
-    //       is_available: false
-    //   },
-    // }, info)
-
     const spots = await context.db.query.spots({
       where: {
         end_time_lte: args.date,
         is_available: true
       }
-    })
-
-    console.log(spots);
-
+    });
     const expiredSpots = await spots.map((spot) => {
       context.db.mutation.updateSpot({
         where: {
@@ -347,28 +334,30 @@ async function expireSpot (parent, args, context, info) {
           is_available: false
         }
       })  
-    })
-
+    });
     return {
       count : spots.length
     }
   }
 };
 
+async function updateUserRanking (parent, args, context, info) {
+  const userId = await getUserId(context);
+  //check if worker process
+  if (args.isWorker)
+  {
+    return context.db.mutation.updateUser (
+    {
+      data: {
+        rating : args.rating
+      },
+      where: {id: args.userid}
+    },
+    info
+    )
+  }
+}
 
-// async function signup (parent, args, context, info) {
-//   const password = await bcrypt.hash(args.password, 10)
-//   const user = await context.db.mutation.createUser({
-//     data: { ...args, password },
-//   }, `{ id }`)
-
-//   const token = jwt.sign({ userId: user.id }, APP_SECRET)
-
-//   return {
-//     token,
-//     user,
-//   }
-// };
 
 module.exports = {
   signup,
@@ -386,5 +375,6 @@ module.exports = {
   addListing,
   editListing,
   editSpotListing,
-  expireSpot
+  expireSpot,
+  updateUserRanking
 };
