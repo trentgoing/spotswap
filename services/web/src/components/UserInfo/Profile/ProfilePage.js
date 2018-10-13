@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Mutation, Query, compose, graphql } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
@@ -16,11 +16,12 @@ class ProfilePage extends Component {
       username: '',
       firstName: '',
       lastName: '',
-      defaultCar: {},
+      default_car: {},
       rating: null
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getUserInfo = this.getUserInfo.bind(this);
+    this.changeDefaultCar = this.changeDefaultCar.bind(this);
   };
 
   getUserInfo(data) {
@@ -33,6 +34,14 @@ class ProfilePage extends Component {
       rating: data.userInfo.rating,
       empty: false
     })
+  };
+
+  changeDefaultCar(car) {
+    this.setState({
+      default_car: car
+    },
+    () => {console.log('state in profile page for default car', this.state)}
+    )
   };
 
   handleInputChange(evt) {
@@ -87,6 +96,7 @@ class ProfilePage extends Component {
                 user_name: this.state.username,
                 first_name: this.state.firstName,
                 last_name: this.state.lastName
+                
               }}
             >
               {userEdit => 
@@ -97,15 +107,18 @@ class ProfilePage extends Component {
               <Form.Label>Default Car: </Form.Label>
             </Form.Group>
             <Form.Group>
-              <CarList />
+              <CarList changeDefaultCar={this.changeDefaultCar}/>
             </Form.Group>
           </Form>
           <div>
-            <Link to={'/addCar'}>Add your cars</Link>
+            <Link to={'/addCar'}>Add your car</Link>
           </div>
-         <div>
-          <Link to={'/addLocation'}>Add your locations</Link>
-         </div>
+          <div>
+            <div>
+              <LocationList />
+            </div>
+            <Link to={'/addLocation'}>Add your location</Link>
+          </div>
           
           <Button onClick={() => {this.props.history.push(`/`)}}>Go To Map</Button> 
         </React.Fragment>

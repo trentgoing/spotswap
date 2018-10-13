@@ -9,7 +9,8 @@ type User {
   password: String!
   locations: [Location!]!
   user_cars: [Car!]!
-  listings : [Listing!]!
+  claim_listings : [Listing!]! @relation(name: "Claimer")
+  list_listings : [Listing!]! @relation(name: "Lister")
 }
 
 type Car {

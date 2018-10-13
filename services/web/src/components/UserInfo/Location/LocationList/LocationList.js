@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
+import { Button, Modal, Form } from 'react-bootstrap';
 import './LocationList.css';
 import { getLocationsQuery } from '../../../../queries/queriesLocation';
 import Location from '../Location/Location.js';
@@ -16,21 +17,6 @@ class LocationList extends Component {
   };
 
   displayLocations() {
-    // var data = this.props.data;
-    // if (data.loading || data.locations === undefined) {
-    //   return (
-    //     <div> Loading... </div>
-    //   )
-    // } else {
-    //   return data.locations.map((location) => {
-    //     return (
-    //       <div key={location.id}>
-    //         <Location location={location} deleteLocation={this.deleteLocation}/>
-    //       </div>
-    //     );
-    //   })
-    // }
-
     return (
       <Query query={getLocationsQuery} >
         {({ loading, error, data, subscribeToMore }) => {
@@ -40,7 +26,10 @@ class LocationList extends Component {
               data.locations.map((location) => {
                return (
                 <div key={location.id}>
-                  <Location location={location} deleteLocation={this.deleteLocation}/>
+                  <Form.Control>
+                    <Location location={location} deleteLocation={this.deleteLocation}/>
+                    
+                  </Form.Control>
                 </div>
                )}));
         }}
@@ -49,29 +38,18 @@ class LocationList extends Component {
   };
   
   displayLocationList() {
-    const {user_id} = this.props
-    if (user_id) {
-      return (
-        <div>
-          {this.displayLocations()}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          Add a Location!
-        </div>
-      )
-    }
+    return (
+      <Form>
+      {this.displayLocations()}
+      </Form>
+    );
   };
 
   deleteLocation(locationId) {
     this.props.deleteLocationMutation({
       variables: {
-        user_id: this.props.user_id,
         id: locationId
-      },
-      refetchQueries: [{query: getLocationsQuery, variables: {user_id: this.props.user_id}}]
+      }
     })
     .then(() => {
       console.log('Location deleted!');
@@ -82,30 +60,14 @@ class LocationList extends Component {
   };
 
   render() {
-    console.log('props in LocationList', this.props);
     return (
       <div className="Locations">
         <header className="Login-header">
-          <h1 className="Locations-title">Your Locations</h1>
         </header>
-        <AddLocation user_id={this.props.user_id}/>
         {this.displayLocations()}
       </div>
     );
   };
 };
-
-// export default compose(
-//   graphql(getLocationsQuery, {
-//     options: (props) => {
-//       return {
-//         variables: {
-//           user_id: props.user_id
-//         }
-//       }
-//     }
-//   }),
-//   graphql(deleteLocationMutation, {name: "deleteLocationMutation"})
-// )(LocationList);
 
 export default LocationList;
