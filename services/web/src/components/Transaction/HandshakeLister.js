@@ -7,6 +7,7 @@ import Reserving from './HandshakeModals/Reserving';
 import Claimed from './HandshakeModals/Claimed';
 import Success from './HandshakeModals/Success';
 import Failed from './HandshakeModals/Failed';
+import Expired from './HandshakeModals/Expired';
 import './HandshakeLister.css';
 
 class HandshakeLister extends Component {
@@ -62,15 +63,22 @@ class HandshakeLister extends Component {
   }
 
   displayListingStatus(listing) {
-    if (listing.status === 1) {
+    console.log(listing.spot.is_available)
+    if (listing.status === 1 && listing.spot.is_available) {
       return <Reserving listing={listing} handleClose={this.handleClose} key={listing.id}/>
+    } else if (listing.status === 1 && !listing.spot.is_available) {
+      return <Expired listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 2) {
       return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 8) {
       return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
-    } else  {
+    } else if (listing.status > 3) {
       return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
-    } 
+    } else {
+      if (this.state.modalShow) {
+        this.handleClose();
+      }
+    }
   }
 
   render() {
@@ -85,16 +93,15 @@ class HandshakeLister extends Component {
           console.log(data)
           return (
             <div className="modal-container">
-              <Modal show={this.state.modalShow} onHide={this.handleClose}>
+              <Modal show={data.myListings.length > 0 && this.state.modalShow} onHide={this.handleClose}>
                 <Modal.Header>
                   <Modal.Title>Current Swaps</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <div id="modal-content">
-                    {data.myListings.map((listing) => {
-                      return this.displayListingStatus(listing);
-                    })}
-                    
+                    {
+                      (data.myListings[0]) && this.displayListingStatus(data.myListings[0])
+                    }
                   </div>
                 </Modal.Body>
               </Modal>
