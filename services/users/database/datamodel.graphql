@@ -9,6 +9,7 @@ type User {
   password: String!
   locations: [Location!]!
   user_cars: [Car!]!
+  listings : [Listing!]!
 }
 
 type Car {
