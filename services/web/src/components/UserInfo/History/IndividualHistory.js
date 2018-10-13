@@ -14,20 +14,20 @@ class IndividualHistory extends Component {
   render() {
     let { item } = this.props; 
     return (
-      <div>
-        It's not working!!!
-      </div>
       // <div>
-      //   <td>1</td>
-      //   <td>{item.start_time}</td>
-      //   <td>{item.end_time}</td>
-      //   <td>{item.type}</td>
-      //   <td>{item.status}</td>
-      //   <td>{item.street1}</td>
-      //   <td>{item.street2}</td>
-      //   <td>{item.state}</td>
-      //   <td>{item.city}</td>
+      //   It's not working!!!
       // </div>
+      <div>
+        <td>1</td>
+        <td>{item.spot.start_time}</td>
+        <td>{item.spot.end_time}</td>
+        <td>{item.type}</td>
+        <td>{item.status}</td>
+        <td>{item.spot.street1}</td>
+        <td>{item.spot.street2}</td>
+        <td>{item.spot.state}</td>
+        <td>{item.spot.city}</td>
+      </div>
     );
   };
 };
