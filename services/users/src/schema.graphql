@@ -13,7 +13,7 @@ type Query {
   openSpot : [Spot]
   myListings : [Listing]
   myListingsHistory : [Listing]
-  getRankingInfo : UserRankingInfo
+  getRankingInfo : [UserRankingInfo]
 }
 
 type Mutation {
@@ -33,13 +33,14 @@ type Mutation {
   editListing (id: ID, status: Int, time_complete: DateTime, spot_id: ID, claimer: Boolean) : Listing
   editSpotListing (spot_id: ID, listing_id: ID, status: Int, claimer: Boolean) : Spot
   expireSpot (date: DateTime, isWorker: Boolean ): BatchPayload
+  updateUserRanking (rating: String, userid: String, isWorker: Boolean ): User
 }
 
 type UserRankingInfo {
- user_id: String
- successCount : Int
- cancelCount : Int
- noShowCount : Int
+  user_id: String
+  successCount : Int
+  cancelCount : Int
+  noShowCount : Int
 }
 
 type Subscription {

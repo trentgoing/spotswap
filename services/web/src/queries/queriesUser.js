@@ -36,6 +36,7 @@ const getUserQuery = gql`
       user_name
       first_name
       last_name
+      rating
       user_cars (
         where: { default_car: true }
       ){

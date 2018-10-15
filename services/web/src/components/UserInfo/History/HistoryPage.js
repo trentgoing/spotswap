@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Mutation, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { Button, Modal, Form, InputGroup, FormControl, Table } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import { Button, Table, ButtonToolbar } from 'react-bootstrap';
 import { getHistoryListings } from '../../../queries/queriesHistory';
 import IndividualHistory from './IndividualHistory';
 
@@ -27,32 +26,36 @@ class HistoryPage extends Component {
               )
             }
             if (data) { 
+              let rows = data.myListingsHistory.map(item => {
+                return <IndividualHistory key={item.id} item={item} />
+              })
+              
               return (
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Start Time</th>
-                      <th>End Time</th>
-                      <th>Type</th>
-                      <th>Status</th>
-                      <th>Street1</th>
-                      <th>Street2</th>
-                      <th>State</th>
-                      <th>City</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.myListingsHistory.map(item => {
-                      return (
-                        <tr key={item.id}>
-                          <IndividualHistory item={item}/>
-                        </tr>
-                      )
-                    })}
-                    <IndividualHistory />
-                  </tbody>
-                </Table>
+                <div>
+                  <ButtonToolbar>
+                    <Button variant="outline-secondary" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+                  </ButtonToolbar>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Street1</th>
+                        <th>Street2</th>
+                        <th>State</th>
+                        <th>City</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      { rows }
+                    </tbody>
+                  </Table>
+                  <ButtonToolbar>
+                    <Button variant="outline-secondary" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+                  </ButtonToolbar>
+                </div>
               )
             };
           }}

@@ -19,9 +19,17 @@ class ListingStatusDrawer extends Component {
     };
     this.handleClose = this.handleClose.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
+    this.handleCloseAndRemove = this.handleCloseAndRemove.bind(this);
   };
 
   handleClose() {
+    this.setState({
+      drawerShow: false
+    })
+  }
+
+  handleCloseAndRemove() {
+
     this.setState({
       drawerShow: false
     })
@@ -71,7 +79,7 @@ class ListingStatusDrawer extends Component {
     } else if (listing.status === 2) {
       return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 8) {
-      return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
+      return <Success listing={listing} handleCloseAndRemove={this.handleCloseAndRemove}  key={listing.id}/>;
     } else if (listing.status > 3) {
       return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } else {
