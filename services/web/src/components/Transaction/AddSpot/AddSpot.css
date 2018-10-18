@@ -1,0 +1,60 @@
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+
+.addSpot .row {
+  padding-top: 5px;
+}
+
+.center {
+  text-align: center;
+}
+
+.modelHeader {
+  background-color: #343a40;
+}
+
+.modelTitle {
+  color: white
+}
+
+#noticeBtn {
+  background-color: #a2cc2e;
+  border: none;
+}
+
+#holdingBtn {
+  background-color: #46b2d6;
+  border: none;
+}
+
+#listBtn {
+  background-color: #343a40;
+  border: none;
+  outline: none;
+}
+
+.close {
+  color: #fff; 
+  opacity: 1;
+}
+
+.close:hover {
+  color: #fff; 
+}

@@ -1,0 +1,97 @@
+#map-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 95vh;
+  width: 100%;
+  z-index: 0;
+}
+
+.navbar {
+  top: 10px;
+}
+
+#drawer{
+  bottom: 0;
+  position: absolute;
+  width: 100vw;
+  background-color: white;
+}
+
+#location-describe {
+  background: grey;
+  color: white; 
+  border: round;
+  font-style: bold;
+}
+
+#map {
+  text-align: initial;
+}
+
+.geocoder {
+  width:100vw;
+  margin-right: 16px;
+}
+.mapboxgl-ctrl-geocoder { min-width:100%; }
+
+#track-user {
+  position: absolute;
+  right: 7px;
+  bottom: 65px;
+}
+
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
+  width: 40px;
+  height: 40px;
+}
+
+#attribution {
+  display:none;
+}
+
+.dropdown-menu{
+  left: -100px;
+}
+
+.search .mapboxgl-ctrl-geocoder input {
+  font-size: inherit;
+}
+
+@media (max-width: 600px) {
+  .NavContainer {
+    padding: 0;
+  }
+  .navbar {
+    top: 0;
+  }
+  .search {
+    padding: 0;
+    margin-right: .5rem;
+  }
+  .search .mapboxgl-ctrl-geocoder input {
+    font-size: 12px;
+  }
+}
+
+#loginBtn {
+  background-color: #a2cc2e;
+  color: white;
+  border: none;
+  outline: none;
+}
+
+#loginBtn:hover {
+  border: none;
+  outline: none;
+}
+
+#loginBtn:focus {
+  border: none;
+  outline: none;
+}
+
+.dropdown-item:active {
+  background-color: #a2cc2e;
+}

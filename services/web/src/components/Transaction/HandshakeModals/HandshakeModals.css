@@ -1,0 +1,53 @@
+button.btn-danger {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.background {
+  color: white;
+}
+
+.plate {
+  background-image: url("/plate.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height:70px;
+  width:120px;
+  margin: auto;
+  background-color:rgb(237, 237, 237, .7);
+  border-radius: 10px;
+}
+
+.license {
+  padding-top: 23px;
+}
+
+.reservingCard {
+  border: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btn-link {
+  text-decoration: underline;
+  background-color: none;
+  color: white;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+  background-color: none;
+  color: white;
+}
+
+.confirmSwapBtn {
+  background-color: white;
+  border: none;
+}
+
+.confirmSwapBtn:hover {
+  color: white;
+  background-color: black;
+  border: none;
+}

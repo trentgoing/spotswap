@@ -1,18 +1,31 @@
-const express = require('express');
-const graphqlHTTP = require('express-graphql');
-const schema = require('./schema/schema');
+const { GraphQLServer } = require('graphql-yoga');
+const { Prisma } = require('prisma-binding');
 
-const app = express();
+const Query = require('./resolvers/Query');
+const Mutation = require('./resolvers/Mutation');
+const AuthPayload = require('./resolvers/AuthPayload');
+const Subscription = require('./resolvers/Subscription');
 
-// app.use('/graphql', graphqlHTTP({
-//   schema,
-//   graphiql: true
-// }));
+const resolvers = {
+  Query,
+  Mutation,
+  Subscription
+};
 
-app.get('/', (req, res) => res.send('Hello World!'));
 
-var port = process.env.PORT;
-
-app.listen(port, function() {
-  console.log(`spot server listening on port ${port}!`);
+const server = new GraphQLServer({
+  typeDefs : './src/schema.graphql',
+  resolvers,
+  context: req => ({
+    ...req,
+    db: new Prisma({
+      typeDefs: 'src/generated/prisma.graphql',
+      endpoint: process.env.PRISMA_ENDPOINT,
+      secret: process.env.PRISMA_SECRET,
+      debug: true,
+    })
+  })
 });
+
+server.start(() => console.log(`Server is running on http://localhost:4000`));
+
