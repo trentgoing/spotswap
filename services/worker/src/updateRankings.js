@@ -23,7 +23,8 @@ function updateRankings(client) {
 
   var rankings = Object.freeze({'red' : 1, 'yellow' : 2, 'green' : 3});
 
-  client.query(queryRankings, queryVars).then(userRankings => {
+  client.query(queryRankings, queryVars)
+    .then(userRankings => {
     
     userRankings.getRankingInfo.map(userRanking => {
 
@@ -55,6 +56,9 @@ function updateRankings(client) {
         console.log('Rank updated to : ' + userRank + ' for ' + resp.updateUserRanking.user_name + '.');
       });
     });
-  });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 module.exports = { updateRankings };
