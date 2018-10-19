@@ -14,17 +14,17 @@ const updateRankings = require('./updateRankings').updateRankings;
 // ex: tr.send(`{ latestPosts { title } }`).then(console.log);
 
 const headers = {
-  'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjam14bWU2NGxmamVnMGI0OHRlb29vZzBvIiwiaWF0IjoxNTM4ODYwNTc5fQ.2xuCNR-DwyzKzvRHqDxgNXqp8aep0gbgT6nsVjBcthA'
+  'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjam5mNjZkMHMwMDJiMDg2MXY1amI3Y3VxIiwiaWF0IjoxNTM5OTA4MDk3fQ.JpOaWP9gmkLJ8Fng_qGL3OnfHtXNhS25Q6do9TY5wCo'
 };
 
 const client = new Lokka({
-  transport: new Transport('http://localhost:4000', {
+  transport: new Transport('http://159.65.235.20:4000', {
     headers
   })
 });
 
-var the_expire_interval = 60 * 1000; // 1min;
-var the_ranking_interval =  60 * 1000; // 10 min
+var the_expire_interval = 10 * 1000; // 1min;
+var the_ranking_interval =  10 * 1000; // 10 min
 
 setInterval(async function() {
   await expireSpot(client);

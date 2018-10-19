@@ -4,7 +4,9 @@ function newSpotSubscribe (parent, args, context, info) {
   return context.db.subscription.spot(
     { where: { mutation_in: ['CREATED', 'UPDATED', 'DELETED'] } },
     info,
-  );
+  ).catch(err => {
+    console.log('new spots sub ',err);
+  });
 }
 
 const newSpot = {
@@ -25,7 +27,9 @@ function changedListingSubscribe (parent, args, context, info) {
       }
     },
     info, 
-  );
+  ).catch(err => {
+    console.log('listing sub: ',err);
+  });
   // return context.db.subscription.listing(
   //   { where: { mutation_in: 'UPDATED' } },
   //   info,

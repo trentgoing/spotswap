@@ -28,6 +28,7 @@ const server = new GraphQLServer({
 });
 
 const opts = {
+  port: 80,
   cors: {
     credentials: true,
     origin: [process.env.REACT_APP]
