@@ -67,7 +67,9 @@ class Map extends Component {
         trackUserLocation: true
       });
 
-      trackUser.trigger();
+      setTimeout(() => {
+        trackUser.trigger();
+      }, 0);
 
       var geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
@@ -78,13 +80,11 @@ class Map extends Component {
       document.getElementById('track-user').appendChild(trackUser.onAdd(map));
     });
 
-    
-
     this.setState({
       map: map
     });
 
-    if ("geolocation" in navigator && this.state.loggedIn) {
+    if ("geolocation" in navigator && localStorage.getItem(AUTH_TOKEN)) {
       /* geolocation is available */
       navigator.geolocation.watchPosition((position) => {
         this.updateUserLocation(position);
@@ -177,7 +177,6 @@ class Map extends Component {
       return;
     }
     if (spot.type === 1) {
-      console.log('here');
       this.props.history.push({
         pathname: '/claimReserved',
         state: { 
