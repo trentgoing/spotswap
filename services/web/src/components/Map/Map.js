@@ -57,24 +57,28 @@ class Map extends Component {
     const { lng, lat, zoom } = this.state;
     let map = initializeMap(lat, lng, zoom, this.mapContainer, this.moveHandler, this.clickHandler);
     
-    var trackUser = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    });
+    
 
     map.on('load', () => {
-      trackUser.trigger();
-    });
-    document.getElementById('track-user').appendChild(trackUser.onAdd(map));
+      var trackUser = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true
+      });
 
-    var geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      country: 'us',
-      bbox: [-74.2299, 40.6778, -73.6806, 40.8789]
+      trackUser.trigger();
+
+      var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        country: 'us',
+        bbox: [-74.2299, 40.6778, -73.6806, 40.8789]
+      });
+      document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+      document.getElementById('track-user').appendChild(trackUser.onAdd(map));
     });
-    document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+    
 
     this.setState({
       map: map
