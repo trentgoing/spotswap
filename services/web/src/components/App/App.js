@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Subscription } from 'react-apollo';
 import { Switch, Route } from 'react-router-dom';
 import MapComp from '../Map/Map';
 import ProfilePage from '../UserInfo/Profile/ProfilePage';
@@ -17,13 +17,48 @@ import './App.css';
 class App extends Component {
 
   state = {
-    spotChange: {}
+    spotChange: {},
+    subbedListings: {}
   }
+
+  _subscribeToBoth = subscribeToMore => {
+    subscribeToMore({
+      document: CHANGED_LISTINGS_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        console.log(subscriptionData);
+        console.log(prev);
+        if (!subscriptionData.data) return prev;
+        const listingUpdate = subscriptionData.data.listingUpdate.node;
+        let newArray = [listingUpdate, ...prev.myListings];
+        newArray = this._removeDups(newArray);
+        var toReturn = Object.assign({}, prev, {
+          myListings: newArray,
+        })
+        this.setState({
+          subbedListings: toReturn
+        });
+      }
+    });
+    subscribeToMore({
+      document: NEW_SPOTS_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        console.log(subscriptionData);
+        console.log(prev);
+        if (!subscriptionData.data) return prev
+        const newSpot = subscriptionData.data.newSpot.node;
+        this.setState({
+          spotChange: newSpot
+        });
+      }
+    });
+    
+  };
 
   _subscribeToNewSpots = subscribeToMore => {
     subscribeToMore({
       document: NEW_SPOTS_SUBSCRIPTION,
       updateQuery: (prev, { subscriptionData }) => {
+        console.log(subscriptionData);
         if (!subscriptionData.data) return prev
         const newSpot = subscriptionData.data.newSpot.node;
         this.setState({
@@ -37,6 +72,7 @@ class App extends Component {
     subscribeToMore({
       document: CHANGED_LISTINGS_SUBSCRIPTION,
       updateQuery: (prev, { subscriptionData }) => {
+        console.log(subscriptionData);
         if (!subscriptionData.data) return prev;
         const listingUpdate = subscriptionData.data.listingUpdate.node;
         let newArray = [listingUpdate, ...prev.myListings];
@@ -74,9 +110,10 @@ class App extends Component {
             return <div>Error</div>;
           }
           this._subscribeToNewSpots(subscribeToMore);
+          console
           return (
             <div className="App">
-              <MapComp listings={maplistings} spots={data.openSpot} spotChange={this.state.spotChange} userInfo={userInfo}/>
+              <MapComp listings={this.state.subbedListings} spots={data.openSpot} spotChange={this.state.spotChange} userInfo={userInfo}/>
             </div>
           );
         }}
@@ -110,12 +147,77 @@ class App extends Component {
                         console.log(error)
                         return <div>Error</div>;
                       }
-                      
-                      this._subscribeToUpdatedListings(subscribeToMore);
+                      console.log(data);
+                      // this._subscribeToUpdatedListings(subscribeToMore);
                       let listings = data.myListings
+                      let maplistings = listings || [];
+                      if (maplistings && this.state.subbedListings && maplistings.length > 0 && this.state.subbedListings > 0 && maplistings[0].id !== this.state.subbedListings[0].id) {
+                        this.setState({
+                          subbedListings: data.maplistings
+                        });
+                      }
                       return (
-                        this.renderMap(listings, userInfo)
-                      );
+                        <React.Fragment>
+                          <Subscription
+                            subscription={ NEW_SPOTS_SUBSCRIPTION }
+                          >
+                            {({ data, loading }) => {
+                              console.log(data);
+                              if (data && data.newSpot) {
+                                if (data.newSpot.node.id !== this.state.spotChange.id) {
+                                  this.setState({
+                                    spotChange: data.newSpot.node
+                                  });
+                                }
+                                return (
+                                  <h4>New comment: {data.newSpot.id}</h4>
+                                );
+
+                              } else {
+                                return null; //<div>Nothing</div>
+                              }
+                            }}
+                          </Subscription>
+                          <Subscription
+                            subscription={ CHANGED_LISTINGS_SUBSCRIPTION }
+                          >
+                            {({ data, loading }) => {
+                              console.log(data);
+                              if (data && data.myListings) {
+                                if (data.myListings.node.id !== this.state.subbedListings.id) {
+                                  this.setState({
+                                    subbedListings: [data.myListings.node]
+                                  });
+                                }
+                                return (
+                                  <h4>New comment: {data.newSpot.id}</h4>
+                                );
+
+                              } else {
+                                return null; //<div>Nothing</div>
+                              }
+                            }}
+                          </Subscription>
+                          <Query query={getSpotsQuery}>
+                            {({ loading, error, data, subscribeToMore }) => {
+                              if (loading) return <Loader></Loader>;
+                              if (error) {
+                                console.log(error)
+                                return <div>Error</div>;
+                              }
+                              // this._subscribeToNewSpots(subscribeToMore);
+                              // this._subscribeToBoth(subscribeToMore);
+                              // console.log(data);
+                              // console.log(maplistings);
+                              return (
+                                <div className="App">
+                                  <MapComp listings={this.state.subbedListings} spots={data.openSpot} spotChange={this.state.spotChange} userInfo={userInfo}/>
+                                </div>
+                              );
+                            }}
+                          </Query>
+                        </React.Fragment>
+                      )
                     }}
                   </Query>
                 );
