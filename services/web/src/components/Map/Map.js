@@ -66,8 +66,10 @@ class Map extends Component {
         },
         trackUserLocation: true
       });
-
-      trackUser.trigger();
+      
+      setTimeout(() => {
+        trackUser.trigger();
+      }, 0);
 
       var geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,

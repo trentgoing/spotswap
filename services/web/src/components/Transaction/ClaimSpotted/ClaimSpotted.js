@@ -58,7 +58,7 @@ class ClaimSpotted extends Component {
                   {editSpotListing => <Button variant="success" id="noticeBtn" onClick={() => {
                     editSpotListing();
                     this.changeClicked();
-                    this.handleClose();
+                    // this.handleClose();
                   }}>I Parked Here</Button>}
                 </Mutation>
                 <br/>
@@ -74,7 +74,7 @@ class ClaimSpotted extends Component {
                   {editSpotListing => <Button variant="outline-secondary"  onClick={() => {
                     editSpotListing();
                     this.changeClicked();
-                    this.handleClose();
+                    // this.handleClose();
                   }}>Spot No Longer Available</Button>}
                 </Mutation>
               </div>
