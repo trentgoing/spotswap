@@ -2,7 +2,7 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import { editListingMutation } from '../../../queries/queriesListing';
 import moment from 'moment';
-import { Button, Container, Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import './HandshakeModals.css';
 
 var Reserving = function({listing, handleClose}) {

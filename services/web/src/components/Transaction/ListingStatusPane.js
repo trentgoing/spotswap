@@ -56,7 +56,7 @@ class ListingStatusDrawer extends Component {
   };
 
   displayIt = () => {
-    if (this.props.myListings && this.props.myListings.length > 0) {
+    if (this.props.myListings && this.props.myListings.length > 0 && this.props.myListings[0].time_complete === null) {
       return (
         <div id="drawer-content">
           {

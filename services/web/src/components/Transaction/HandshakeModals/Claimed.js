@@ -169,8 +169,6 @@ var Reserving = function({listing, handleClose, userInfo}) {
           </Card.Body>
         </Card>
       </div>
-    );
-  };
-};
+    )}};
 
 export default Reserving;
