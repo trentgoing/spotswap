@@ -40,7 +40,6 @@ class Login extends Component {
       if (this.state.email !== '' && this.state.password !== '') {
         mutation()
           .then((response) => {
-            console.log(response)
           })
           .catch((err) => {
             console.log('error', err);
@@ -67,7 +66,6 @@ class Login extends Component {
       if (this.state.email !== '' && this.state.password !== '' && this.state.user_name !== '') {
         mutation()
         .then((response) => {
-          console.log(response);
         })
         .catch((err) => {
           console.log('error', err);

@@ -38,7 +38,6 @@ class Map extends Component {
   componentDidUpdate = (prevProps) => {
     let {spotChange, listings, userInfo} = this.props;
     if (spotChange !== prevProps.spotChange) {
-      console.log(this.props);
       if (spotChange.is_available) {
         addSpot(spotChange, this.state.map, this.claimSpot, (listings.length > 0));
       } else {
@@ -251,7 +250,6 @@ class Map extends Component {
             {({ data }) => {
               if (data && data.listingUpdate) {
                 let listing = data.listingUpdate.node;
-                console.log(listing);
                 let lister = listing.listing_user && listing.listing_user.id === this.props.userInfo.id;
                 if (listing.time_complete === null) {
                   toggleToReserved(this.state.map, listing, lister);

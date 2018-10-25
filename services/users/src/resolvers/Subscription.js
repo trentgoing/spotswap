@@ -13,7 +13,6 @@ const newSpot = {
 
 function changedListingSubscribe (parent, args, context, info) {
   const userId = getUserIdForSockets(context);
-  console.log(userId);
   return context.db.subscription.listing(
     { 
       where: { 
