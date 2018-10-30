@@ -228,7 +228,6 @@ const toggleToReserved = function(map, listing, lister) {
     });
   }
   if(!(map.getSource(`otherUser`))) {
-    console.log(lister);
     let coords = [];
     if (!lister && listing.listing_user) {
       coords = [listing.listing_user.current_lng, listing.listing_user.current_lat];

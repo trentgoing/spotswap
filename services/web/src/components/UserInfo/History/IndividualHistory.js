@@ -37,6 +37,9 @@ class IndividualHistory extends Component {
         case 9:
           status = "Successful Swap";
           break;
+        default:
+          status = "Successful Swap";
+          break;
       }
     }
   
@@ -62,9 +65,7 @@ class IndividualHistory extends Component {
           <td>{item.spot.street2}</td>
           <td>{item.spot.city}</td>
         </tr>
-      );
-    };
-  };
+      )}};
 };
 
 export default IndividualHistory;

@@ -1,6 +1,6 @@
 import React,  { Component } from 'react';
 import { injectStripe, CardElement } from 'react-stripe-elements';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 class CardDetail extends Component {
   handleSubmit = (evt) => {

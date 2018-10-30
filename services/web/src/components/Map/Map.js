@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
-import { Container, Navbar, Nav, Dropdown,DropdownButton,Button } from 'react-bootstrap';
+import { Container, Navbar, Dropdown,DropdownButton,Button } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import mapboxgl from 'mapbox-gl';
@@ -16,6 +16,9 @@ import ListingStatusPane from '../Transaction/ListingStatusPane';
 import { mutationUserCurrentLocation } from '../../queries/queriesUser';
 import { addSpot, removeSpot, initializeMap,toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
 import { AUTH_TOKEN } from '../../constants';
+import { CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
+import { NEW_SPOTS_SUBSCRIPTION } from '../../queries/queriesSpot';
+import { Subscription } from 'react-apollo';
 
 import './Map.css';
 
@@ -42,7 +45,7 @@ class Map extends Component {
       }
     }
     if (listings && listings !== prevProps.listings) {
-      if (listings.length > 0) {
+      if (listings.length > 0 && listings[0].time_complete === null) {
         let lister = listings[0].listing_user && listings[0].listing_user.id === userInfo.id;
         toggleToReserved(this.state.map, listings[0], lister);
       } else {
@@ -57,8 +60,6 @@ class Map extends Component {
     const { lng, lat, zoom } = this.state;
     let map = initializeMap(lat, lng, zoom, this.mapContainer, this.moveHandler, this.clickHandler);
     
-    
-
     map.on('load', () => {
       var trackUser = new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -244,9 +245,48 @@ class Map extends Component {
             {this.renderMap()}
             {this.renderNavBar()}
           </div>
-          <div id="drawer">
-            <ListingStatusPane map={this.state.map} myListings={this.props.listings} userInfo={this.props.userInfo}/>
-          </div>
+         
+          <Subscription subscription={ CHANGED_LISTINGS_SUBSCRIPTION } >
+            {({ data }) => {
+              if (data && data.listingUpdate) {
+                let listing = data.listingUpdate.node;
+                let lister = listing.listing_user && listing.listing_user.id === this.props.userInfo.id;
+                if (listing.time_complete === null) {
+                  toggleToReserved(this.state.map, listing, lister);
+                } else {
+                  toggleToLooking(this.state.map);
+                }
+                return (
+                  <div id="drawer">
+                    <ListingStatusPane map={this.state.map} myListings={[listing]} userInfo={this.props.userInfo}/>
+                  </div>
+                );
+              } else {
+                return (
+                  <div id="drawer">
+                    <ListingStatusPane map={this.state.map} myListings={this.props.listings} userInfo={this.props.userInfo}/>
+                  </div>
+                );
+              }
+            }}
+          </Subscription>
+          <Subscription subscription={ NEW_SPOTS_SUBSCRIPTION } >
+            {({ data }) => {
+              if (data && data.newSpot) {
+                let spotChange = data.newSpot.node;
+                if (spotChange.is_available) {
+                  addSpot(spotChange, this.state.map, this.claimSpot, (this.props.listings.length > 0));
+                } else {
+                  removeSpot(spotChange, this.state.map);
+                }
+                return (
+                  <React.Fragment></React.Fragment>
+                );
+              } else {
+                return null; //<div>Nothing</div>
+              }
+            }}
+          </Subscription>
           <Switch>
             <Route exact path="/login" render={() => {
               return <Login toggleLogin={this.toggleLogin} />

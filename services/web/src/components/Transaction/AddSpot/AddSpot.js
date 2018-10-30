@@ -97,9 +97,6 @@ class AddSpot extends Component {
     }
     // run addSpot to add Spot
     addSpot()
-      .then((response) => {
-        console.log(response);
-      })
       .catch((err) => {
         console.log('error', err);
         this.setState({
