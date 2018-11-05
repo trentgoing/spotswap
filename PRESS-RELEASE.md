@@ -30,7 +30,9 @@ Spot Swap now scales the act of following the shopper to parking lots and city s
 
 ## Spot Swap Testimonials ##
   > "Driving in the city is hard enough without having to circle streets near my destination looking for a spot. Spot Swap leading me straight to a spot saved for me is a huge burden off my shoulders.  I no longer dread driving into the city."
+  
   > "I love the city, but with Spot Swap I love it even more!"
+
   > "I used to think to myself, 'My parking spot is so good, someone should *pay me* to leave it!'  Now with Spot Swap they can!"
 
 ## Spot Swap is super easy to use. We encourage you to create an account and try out the beta features so that you to can see how easy it is to find parking spots. ##
