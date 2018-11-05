@@ -16,7 +16,7 @@ Use **Spot Swap** to look for parking spots that are about to open up, or to exc
 Find us at **[spotswap.io](http://www.spotswap.io)**!
 
 1. **Create a personal account to swap spots** - Log in and create an account to exchange spots with other users  
-![](demo/login.gif)
+![](demo/logIn.gif)
 1. **List a spot that you are about to leave for a price** - If you are about to leave a parking spot, post it on the app and save it until another Spot Swapper comes to claim it.  Pick a price for which you will trade the spot, and designate how long you are willing to hold the spot.  
 ![](demo/addReserved.gif)
 1. **Search for spots near your destination** - Use the location tracking or search features to find spots listed near your destination.  
@@ -63,7 +63,6 @@ From within the server directory:
 ```
 npm install
 npm start
-
 ```
 
 From within the worker directory:
@@ -71,7 +70,6 @@ From within the worker directory:
 ```
 npm install
 npm start
-
 ```
 
 From within the web directory:
@@ -79,7 +77,6 @@ From within the web directory:
 ```
 npm install
 npm start
-
 ```
 ### Docker Containers
 | Name             | Service | Container | Tech                 |
