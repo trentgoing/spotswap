@@ -28,7 +28,7 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.6.0",
     "eslint-watch": "^4.0.2",
-    "jest": "^23.6.0",
+    "jest": "^29.3.1",
     "nodemon": "^1.18.4",
     "supertest": "^3.3.0",
     "npm-run-all": "^4.1.2"
